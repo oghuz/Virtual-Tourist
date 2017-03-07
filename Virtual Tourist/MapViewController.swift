@@ -13,6 +13,7 @@ class MapViewController: UIViewController {
     
     var didTapped = Bool() // set value for this bool by tapping edit button, for toggle editting mode
     let longPressGeusture = UILongPressGestureRecognizer()
+    let reachability = Reachability()
     
     @IBOutlet weak var mapView: MKMapView! {
         didSet {
@@ -46,15 +47,22 @@ class MapViewController: UIViewController {
     @objc private func addPinByLongPress() {
         
         if longPressGeusture.state == .began {
-        
-        let points = longPressGeusture.location(in: mapView)
-        let coordination = mapView.convert(points, toCoordinateFrom: mapView)
-        let pin = MKPointAnnotation()
-        let span = MKCoordinateSpanMake(0.2, 0.2)
-        let region = MKCoordinateRegionMake(coordination, span)
-        pin.coordinate = coordination
-        mapView.setRegion(region, animated: true)
-        mapView.addAnnotation(pin)
+            if (reachability?.isReachable)! {
+                
+                let points = longPressGeusture.location(in: mapView)
+                let coordination = mapView.convert(points, toCoordinateFrom: mapView)
+                let pin = MKPointAnnotation()
+                let span = MKCoordinateSpanMake(0.2, 0.2)
+                let region = MKCoordinateRegionMake(coordination, span)
+                pin.coordinate = coordination
+                mapView.setRegion(region, animated: true)
+                mapView.addAnnotation(pin)
+                
+            }
+                // if there is no internet connection show an alert, can not add pin
+            else{
+                Alert.shared.alert(self, title: "No Internet Connection", message: "Please check your internet connection, disable airplane mode, activate WIFI", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
+            }
             
         }
         
