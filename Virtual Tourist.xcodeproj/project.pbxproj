@@ -74,6 +74,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D6D2613C1E6E29C30059FD40 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D6DBB3581E6DE6AB00FB21E1 /* AppDelegate.swift */,
+				D6DBB3641E6DE6AB00FB21E1 /* Info.plist */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		D6D2613D1E6E29CF0059FD40 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D6DBB35A1E6DE6AB00FB21E1 /* MapViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		D6D2613E1E6E29D80059FD40 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		D6D2613F1E6E2A000059FD40 /* StoryBoards_Assets */ = {
+			isa = PBXGroup;
+			children = (
+				D6DBB35C1E6DE6AB00FB21E1 /* Main.storyboard */,
+				D6DBB35F1E6DE6AB00FB21E1 /* Assets.xcassets */,
+				D6DBB3611E6DE6AB00FB21E1 /* LaunchScreen.storyboard */,
+			);
+			name = StoryBoards_Assets;
+			sourceTree = "<group>";
+		};
 		D6DBB34C1E6DE6AA00FB21E1 = {
 			isa = PBXGroup;
 			children = (
@@ -97,12 +131,10 @@
 		D6DBB3571E6DE6AB00FB21E1 /* Virtual Tourist */ = {
 			isa = PBXGroup;
 			children = (
-				D6DBB3581E6DE6AB00FB21E1 /* AppDelegate.swift */,
-				D6DBB35A1E6DE6AB00FB21E1 /* MapViewController.swift */,
-				D6DBB35C1E6DE6AB00FB21E1 /* Main.storyboard */,
-				D6DBB35F1E6DE6AB00FB21E1 /* Assets.xcassets */,
-				D6DBB3611E6DE6AB00FB21E1 /* LaunchScreen.storyboard */,
-				D6DBB3641E6DE6AB00FB21E1 /* Info.plist */,
+				D6D2613C1E6E29C30059FD40 /* Models */,
+				D6D2613E1E6E29D80059FD40 /* Views */,
+				D6D2613D1E6E29CF0059FD40 /* Controllers */,
+				D6D2613F1E6E2A000059FD40 /* StoryBoards_Assets */,
 			);
 			path = "Virtual Tourist";
 			sourceTree = "<group>";
@@ -514,6 +546,7 @@
 				D6DBB37F1E6DE6AB00FB21E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D6DBB3801E6DE6AB00FB21E1 /* Build configuration list for PBXNativeTarget "Virtual TouristTests" */ = {
 			isa = XCConfigurationList;
@@ -522,6 +555,7 @@
 				D6DBB3821E6DE6AB00FB21E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D6DBB3831E6DE6AB00FB21E1 /* Build configuration list for PBXNativeTarget "Virtual TouristUITests" */ = {
 			isa = XCConfigurationList;
@@ -530,6 +564,7 @@
 				D6DBB3851E6DE6AB00FB21E1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

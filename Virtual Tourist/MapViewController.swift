@@ -12,8 +12,16 @@ import MapKit
 class MapViewController: UIViewController {
     
     var didTapped = Bool()
+    let longPressGeusture = UILongPressGestureRecognizer()
     
-    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var mapView: MKMapView! {
+        didSet {
+            longPressGeusture.minimumPressDuration = 0.5
+            longPressGeusture.numberOfTouchesRequired = 1
+            longPressGeusture.addTarget(self, action: #selector(addPinByLongPress))
+            mapView.addGestureRecognizer(longPressGeusture)
+        }
+    }
     
     @IBOutlet weak var editButton: UIBarButtonItem! {
         didSet {
@@ -30,6 +38,25 @@ class MapViewController: UIViewController {
     @IBAction func editPinActionButton(_ sender: UIBarButtonItem) {
         didTapped = !didTapped
         inEditMode(tapped: didTapped)
+    }
+    
+    @objc private func addPinByLongPress() {
+        
+        if longPressGeusture.state == .began {
+        
+        let points = longPressGeusture.location(in: mapView)
+        let coordination = mapView.convert(points, toCoordinateFrom: mapView)
+        let pin = MKPointAnnotation()
+        let span = MKCoordinateSpanMake(0.2, 0.2)
+        let region = MKCoordinateRegionMake(coordination, span)
+        pin.coordinate = coordination
+        mapView.setRegion(region, animated: true)
+        mapView.addAnnotation(pin)
+        print("Coordinates \(coordination.latitude), \(coordination.longitude)")
+        print("Long pressed the screen")
+            
+        }
+        
     }
     
     private func inEditMode(tapped buttonTapped: Bool) {
