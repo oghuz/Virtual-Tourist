@@ -11,7 +11,7 @@ import MapKit
 
 class MapViewController: UIViewController {
     
-    var didTapped = Bool()
+    var didTapped = Bool() // set value for this bool by tapping edit button, for toggle editting mode
     let longPressGeusture = UILongPressGestureRecognizer()
     
     @IBOutlet weak var mapView: MKMapView! {
@@ -35,11 +35,14 @@ class MapViewController: UIViewController {
         }
     }
     
+    // action that make window enter editing mode, in editing mode user can delete pins on map
     @IBAction func editPinActionButton(_ sender: UIBarButtonItem) {
         didTapped = !didTapped
         inEditMode(tapped: didTapped)
     }
     
+    
+    //add pin to map by long press
     @objc private func addPinByLongPress() {
         
         if longPressGeusture.state == .began {
@@ -52,13 +55,12 @@ class MapViewController: UIViewController {
         pin.coordinate = coordination
         mapView.setRegion(region, animated: true)
         mapView.addAnnotation(pin)
-        print("Coordinates \(coordination.latitude), \(coordination.longitude)")
-        print("Long pressed the screen")
             
         }
         
     }
     
+    // toggle changes for button title, color and button label's alpha based on button tap
     private func inEditMode(tapped buttonTapped: Bool) {
         if buttonTapped {
             editButton.tintColor = .red
@@ -73,18 +75,14 @@ class MapViewController: UIViewController {
             tapToDeleteLabel.alpha = 0.0
         }
     }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         
         
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     
 }
 
