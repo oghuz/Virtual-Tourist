@@ -40,6 +40,7 @@ struct Constants {
         static let radius = "radius"
         static let perPage = "per_page"
         static let page = "page"
+        static let ApplicationJson = "application/json"
     }
     
     
@@ -47,6 +48,18 @@ struct Constants {
     struct APIparameterValue {
         static let searchMethod = "flickr.photos.search"
         static let apiKeyValue = "30eebc54834e0fcaeb75afe09afd991c"
+        static let ContentType = "Content-Type"
+        static let Accept = "Accept"
+        
+    }
+    
+    //url response constants
+    struct URLResponseKey {
+        static let statusKey = "stat"
+    }
+    
+    struct URLResponseValue {
+        static let statusValue = "ok"
     }
     
     

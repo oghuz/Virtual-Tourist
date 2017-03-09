@@ -12,8 +12,74 @@ import Foundation
 //all the networking code goes in this file
 class Networking {
 
-    //#MARK: Get Request
+    //#MARK: Get Request task
+    func getURLRequestTask(method apiMethod: String? ,parameters: [String: AnyObject]?, complitionHandlerForGet: @escaping(_ result: AnyObject?, _ error: Error? )->Void)-> URLSessionDataTask {
+        
+        let parameters = parameters
+        
+        let url = urlFromComponents(parameters, withPathExtension: apiMethod)
     
+        let request = NSMutableURLRequest(url: url)
+        request.addValue(Constants.APIparameterKey.ApplicationJson, forHTTPHeaderField: Constants.APIparameterValue.Accept)
+        request.addValue(Constants.APIparameterKey.ApplicationJson, forHTTPHeaderField: Constants.APIparameterValue.ContentType)
+        
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            //error handling
+            
+            func sendError(_ error: String) {
+                print("error: \(error)")
+                let userInfo = [NSLocalizedDescriptionKey: error]
+                complitionHandlerForGet(nil, NSError(domain: "getURLRequestTask", code: 0, userInfo: userInfo))
+            }
+            
+            // checking for error
+            guard (error == nil) else {
+                sendError("\(error)")
+                return
+            }
+            
+            // checking for status code
+            guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
+                sendError(" status code not in range \(error)")
+                return
+            }
+            
+            if let data = data  {
+                //calling parse data method
+                self.parseJsonDataWithComplitionHandler(data, complitionhandlerForParseData: complitionHandlerForGet)
+            }
+            else {
+                sendError("No data returned \(error)")
+            }
+            
+        }
+    
+        
+        
+        task.resume()
+        return task
+    }
+    
+    //#MARK: json parser method
+    
+    // take data from url request and closure that is passing bay get method and parse data, give result back into closue
+    func parseJsonDataWithComplitionHandler(_ data: Data, complitionhandlerForParseData: (_ result: AnyObject?, _ error: Error?)->Void) {
+    
+        var parsedData: AnyObject? = nil
+        
+        do {
+           parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
+        } catch {
+            let userInfo = [NSLocalizedDescriptionKey: error]
+            complitionhandlerForParseData(nil, NSError(domain: "parseJsonDataWithComplitionHandler", code: 1, userInfo: userInfo))
+        }
+        
+        complitionhandlerForParseData(parsedData, nil)
+    
+    }
     
     
     //#MARK: URL from components
@@ -31,20 +97,12 @@ class Networking {
             for (key, value) in parameters {
                 let queryItem = URLQueryItem(name: key, value: "\(value)")
                 components.queryItems?.append(queryItem)
-            
             }
-        
         }
         
         return components.url!
-        
-    
     
     }
-    
-    
-    //#MARK: json parser method
-    
     
     
     //#MARK: Get photo url from components
