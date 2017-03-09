@@ -63,9 +63,7 @@ class MapViewController: UIViewController {
             else{
                 Alert.shared.alert(self, title: "No Internet Connection", message: "Please check your internet connection, disable airplane mode, activate WIFI", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
             }
-            
         }
-        
     }
     
     // toggle changes for button title, color and button label's alpha based on button tap
