@@ -39,7 +39,7 @@ class MapViewController: UIViewController {
     // action that make window enter editing mode, in editing mode user can delete pins on map
     @IBAction func editPinActionButton(_ sender: UIBarButtonItem) {
         didTapped = !didTapped
-        inEditMode(tapped: didTapped)
+        Helper.shared.inEditMode(tapped: didTapped, view: self, barButton: editButton, statusLabel: tapToDeleteLabel)
     }
     
     
@@ -51,37 +51,15 @@ class MapViewController: UIViewController {
                 
                 let points = longPressGeusture.location(in: mapView)
                 let coordination = mapView.convert(points, toCoordinateFrom: mapView)
-                let pin = MKPointAnnotation()
-                let span = MKCoordinateSpanMake(0.2, 0.2)
-                let region = MKCoordinateRegionMake(coordination, span)
-                pin.coordinate = coordination
-                mapView.setRegion(region, animated: true)
-                mapView.addAnnotation(pin)
+                Helper.shared.addPinForCoordination(mapView, coordination: coordination)
                 
             }
                 // if there is no internet connection show an alert, can not add pin
             else{
-                Alert.shared.alert(self, title: "No Internet Connection", message: "Please check your internet connection, disable airplane mode, activate WIFI", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
+                Helper.shared.alert(self, title: "No Internet Connection", message: "Please check your internet connection, disable airplane mode, activate WIFI", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
             }
         }
     }
-    
-    // toggle changes for button title, color and button label's alpha based on button tap
-    private func inEditMode(tapped buttonTapped: Bool) {
-        if buttonTapped {
-            editButton.tintColor = .red
-            editButton.title = "Done"
-            navigationItem.rightBarButtonItem = editButton
-            tapToDeleteLabel.alpha = 1.0
-        }
-        if !buttonTapped {
-            editButton.tintColor = .blue
-            editButton.title = "Edit"
-            navigationItem.rightBarButtonItem = editButton
-            tapToDeleteLabel.alpha = 0.0
-        }
-    }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

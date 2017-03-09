@@ -8,8 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		D6D261411E6F1ED50059FD40 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D261401E6F1ED50059FD40 /* Reachability.swift */; };
-		D6D261431E6F1F9A0059FD40 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D261421E6F1F9A0059FD40 /* AlertViewController.swift */; };
+		D6D261431E6F1F9A0059FD40 /* HelperMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D261421E6F1F9A0059FD40 /* HelperMethods.swift */; };
 		D6D261451E7076EE0059FD40 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D261441E7076EE0059FD40 /* Constants.swift */; };
+		D6D261471E71CF230059FD40 /* PhotoCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D261461E71CF230059FD40 /* PhotoCollectionController.swift */; };
 		D6DBB3591E6DE6AB00FB21E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6DBB3581E6DE6AB00FB21E1 /* AppDelegate.swift */; };
 		D6DBB35B1E6DE6AB00FB21E1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6DBB35A1E6DE6AB00FB21E1 /* MapViewController.swift */; };
 		D6DBB35E1E6DE6AB00FB21E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6DBB35C1E6DE6AB00FB21E1 /* Main.storyboard */; };
@@ -38,8 +39,9 @@
 
 /* Begin PBXFileReference section */
 		D6D261401E6F1ED50059FD40 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
-		D6D261421E6F1F9A0059FD40 /* AlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		D6D261421E6F1F9A0059FD40 /* HelperMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperMethods.swift; sourceTree = "<group>"; };
 		D6D261441E7076EE0059FD40 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		D6D261461E71CF230059FD40 /* PhotoCollectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionController.swift; sourceTree = "<group>"; };
 		D6DBB3551E6DE6AB00FB21E1 /* Virtual Tourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6DBB3581E6DE6AB00FB21E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D6DBB35A1E6DE6AB00FB21E1 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -95,7 +97,8 @@
 			isa = PBXGroup;
 			children = (
 				D6DBB35A1E6DE6AB00FB21E1 /* MapViewController.swift */,
-				D6D261421E6F1F9A0059FD40 /* AlertViewController.swift */,
+				D6D261461E71CF230059FD40 /* PhotoCollectionController.swift */,
+				D6D261421E6F1F9A0059FD40 /* HelperMethods.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -307,7 +310,8 @@
 				D6DBB35B1E6DE6AB00FB21E1 /* MapViewController.swift in Sources */,
 				D6DBB3591E6DE6AB00FB21E1 /* AppDelegate.swift in Sources */,
 				D6D261411E6F1ED50059FD40 /* Reachability.swift in Sources */,
-				D6D261431E6F1F9A0059FD40 /* AlertViewController.swift in Sources */,
+				D6D261431E6F1F9A0059FD40 /* HelperMethods.swift in Sources */,
+				D6D261471E71CF230059FD40 /* PhotoCollectionController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
