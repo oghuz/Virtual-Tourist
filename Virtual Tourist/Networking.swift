@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MapKit
 
 
 //all the networking code goes in this file
@@ -106,11 +107,22 @@ class Networking {
     
     
     //#MARK: Get photo url from components
+    // https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
+    //contructs photo from standard photo response
+    func constructPhotoWithResponse(farmID: String, serverID: String, PhotoID: String, photoSecrete: String)->URL {
     
+        let photoURL = URL(string: "https://farm\(farmID).staticflickr.com/\(serverID)/\(PhotoID)_\(photoSecrete).jpg")
+        return photoURL!
+    }
     
     
     //#MARK: Get photo method
 
+    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D, complitionHandlerForgetPhoto: @escaping(_ photos: AnyObject?, _ error: Error)->Void) {
+    
+    
+    
+    }
     
 
 
