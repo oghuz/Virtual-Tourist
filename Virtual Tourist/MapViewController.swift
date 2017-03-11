@@ -61,7 +61,7 @@ class MapViewController: UIViewController {
                     }
                     
                     if let results = result {
-                        print(results)
+                        print("there is data \(results.count)")
                     }
                 })
                 

@@ -15,12 +15,11 @@ struct Constants {
     //constants for constructing url
     struct URLConstants {
         static let scheme = "https"
-        static let hostName = "api.flickr.com/"
-        static let path = "services/rest/"
+        static let hostName = "api.flickr.com"
+        static let path = "/services/rest/"
         static let apiSecret = "c19eaf503b79abb9"
         static let pages = "pages"
-        static let searchMethod = "flickr.photos.search"
-    }
+            }
     
     
     //value from json parsing, used for making photo url
@@ -43,6 +42,8 @@ struct Constants {
         static let perPage = "per_page"
         static let page = "page"
         static let ApplicationJson = "application/json"
+        static let format = "format"
+        static let jsonCallBack = "nojsoncallback"
     }
     
     
@@ -53,12 +54,18 @@ struct Constants {
         static let ContentType = "Content-Type"
         static let Accept = "Accept"
         static let extras = "m_url"
-        
+        static let json = "json"
+        static let searchMethod = "flickr.photos.search"
+        static let noJsonCallBack = "1"
     }
     
     //url response constants
     struct URLResponseKey {
         static let statusKey = "stat"
+        static let Photos = "photos"
+        static let Photo = "photo"
+        static let Page = "page"
+        static let Pages = "pages"
     }
     
     struct URLResponseValue {

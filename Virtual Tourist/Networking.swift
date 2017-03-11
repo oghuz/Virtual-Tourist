@@ -17,11 +17,11 @@ class Networking {
     static let shared = Networking()
     
     //#MARK: Get Request task
-    func getRequestTask(method apiMethod: String? ,parameters: [String: AnyObject]?, complitionHandlerForGet: @escaping(_ result: AnyObject?, _ error: Error? )->Void)-> URLSessionDataTask {
+    func getRequestTask(parameters: [String: AnyObject], complitionHandlerForGet: @escaping(_ result: AnyObject?, _ error: Error? )->Void)-> URLSessionDataTask {
         
         let parameters = parameters
         
-        let url = urlFromComponents(parameters, withPathExtension: apiMethod)
+        let url = urlFromComponents(parameters)
         
         let request = NSMutableURLRequest(url: url)
         request.addValue(Constants.APIparameterKey.ApplicationJson, forHTTPHeaderField: Constants.APIparameterValue.Accept)
@@ -90,21 +90,20 @@ class Networking {
     
     //#MARK: URL from components
     
-    func urlFromComponents(_ parameters: [String: AnyObject]?, withPathExtension: String?) -> URL {
+    func urlFromComponents(_ parameters: [String: AnyObject]) -> URL {
         
         var components = URLComponents()
         components.host = Constants.URLConstants.hostName
         components.scheme = Constants.URLConstants.scheme
-        components.path = Constants.URLConstants.path + (withPathExtension ?? "")
+        components.path = Constants.URLConstants.path
         components.queryItems = [URLQueryItem]()
         
-        if let parameters = parameters {
-            
-            for (key, value) in parameters {
-                let queryItem = URLQueryItem(name: key, value: "\(value)")
-                components.queryItems?.append(queryItem)
-            }
+        
+        for (key, value) in parameters {
+            let queryItem = URLQueryItem(name: key, value: "\(value)")
+            components.queryItems?.append(queryItem)
         }
+        
         
         return components.url!
         
@@ -125,7 +124,7 @@ class Networking {
     
     //#MARK: Get photo method
     
-    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, complitionHandlerForgetPhoto: @escaping(_ photos: AnyObject?, _ error: Error?)->Void) {
+    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, complitionHandlerForgetPhoto: @escaping(_ photos: [[String: AnyObject]]?, _ error: Error?)->Void) {
         
         // lat, lon for photo search
         let latitude = coordination?.latitude
@@ -137,11 +136,14 @@ class Networking {
                           Constants.APIparameterKey.latitude: latitude as AnyObject,
                           Constants.APIparameterKey.longitude: longitude as AnyObject,
                           Constants.APIparameterKey.radius: 5 as AnyObject,
+                          Constants.APIparameterKey.method: Constants.APIparameterValue.searchMethod as AnyObject,
+                          Constants.APIparameterKey.format: Constants.APIparameterValue.json as AnyObject,
+                          Constants.APIparameterKey.jsonCallBack: Constants.APIparameterValue.noJsonCallBack as AnyObject,
                           Constants.APIparameterKey.extras: Constants.APIparameterValue.extras as AnyObject] as [String : AnyObject]
         
         //call get method
         
-        let _ = getRequestTask(method: Constants.URLConstants.searchMethod, parameters: parameters) { (results, error) in
+        let _ = getRequestTask(parameters: parameters) { (results, error) in
             
             // error checking
             guard (error == nil) else {
@@ -151,16 +153,10 @@ class Networking {
             }
             
             // taking data
-            if let data = results {
-                print(data)
+            if let data = results, let photosDictionary = data[Constants.URLResponseKey.Photos] as? [String: AnyObject], let photoDicArray = photosDictionary[Constants.URLResponseKey.Photo] as? [[String: AnyObject]] {
+                
+                complitionHandlerForgetPhoto(photoDicArray, nil)
             }
-            
         }
-        
-        
     }
-    
-    
-    
-    
 }
