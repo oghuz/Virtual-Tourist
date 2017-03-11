@@ -53,6 +53,18 @@ class MapViewController: UIViewController {
                 let coordination = mapView.convert(points, toCoordinateFrom: mapView)
                 Helper.shared.addPinForCoordination(mapView, coordination: coordination)
                 
+                // calling get photo with coordination method
+                Networking.shared.getPhotoWithCoordination(coordination: coordination, complitionHandlerForgetPhoto: { (result, error) in
+                    guard (error == nil) else {
+                        Helper.shared.alert(self, title: "Error", message: "No data found", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
+                        return
+                    }
+                    
+                    if let results = result {
+                        print(results)
+                    }
+                })
+                
             }
                 // if there is no internet connection show an alert, can not add pin
             else{

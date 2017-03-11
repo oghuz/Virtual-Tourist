@@ -19,6 +19,7 @@ struct Constants {
         static let path = "services/rest/"
         static let apiSecret = "c19eaf503b79abb9"
         static let pages = "pages"
+        static let searchMethod = "flickr.photos.search"
     }
     
     
@@ -38,6 +39,7 @@ struct Constants {
         static let latitude = "lat"
         static let longitude = "lon"
         static let radius = "radius"
+        static let extras = "extras"
         static let perPage = "per_page"
         static let page = "page"
         static let ApplicationJson = "application/json"
@@ -46,10 +48,11 @@ struct Constants {
     
     // PAI parameter value
     struct APIparameterValue {
-        static let searchMethod = "flickr.photos.search"
+        
         static let apiKeyValue = "30eebc54834e0fcaeb75afe09afd991c"
         static let ContentType = "Content-Type"
         static let Accept = "Accept"
+        static let extras = "m_url"
         
     }
     

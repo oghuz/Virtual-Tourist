@@ -12,14 +12,17 @@ import MapKit
 
 //all the networking code goes in this file
 class Networking {
-
+    
+    // creating a singleton object for convinience
+    static let shared = Networking()
+    
     //#MARK: Get Request task
-    func getURLRequestTask(method apiMethod: String? ,parameters: [String: AnyObject]?, complitionHandlerForGet: @escaping(_ result: AnyObject?, _ error: Error? )->Void)-> URLSessionDataTask {
+    func getRequestTask(method apiMethod: String? ,parameters: [String: AnyObject]?, complitionHandlerForGet: @escaping(_ result: AnyObject?, _ error: Error? )->Void)-> URLSessionDataTask {
         
         let parameters = parameters
         
         let url = urlFromComponents(parameters, withPathExtension: apiMethod)
-    
+        
         let request = NSMutableURLRequest(url: url)
         request.addValue(Constants.APIparameterKey.ApplicationJson, forHTTPHeaderField: Constants.APIparameterValue.Accept)
         request.addValue(Constants.APIparameterKey.ApplicationJson, forHTTPHeaderField: Constants.APIparameterValue.ContentType)
@@ -27,6 +30,8 @@ class Networking {
         let session = URLSession.shared
         
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
+            
+            print("url : \(request.url)")
             
             //error handling
             
@@ -57,7 +62,7 @@ class Networking {
             }
             
         }
-    
+        
         
         
         task.resume()
@@ -68,25 +73,25 @@ class Networking {
     
     // take data from url request and closure that is passing bay get method and parse data, give result back into closue
     func parseJsonDataWithComplitionHandler(_ data: Data, complitionhandlerForParseData: (_ result: AnyObject?, _ error: Error?)->Void) {
-    
+        
         var parsedData: AnyObject? = nil
         
         do {
-           parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
+            parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
         } catch {
             let userInfo = [NSLocalizedDescriptionKey: error]
             complitionhandlerForParseData(nil, NSError(domain: "parseJsonDataWithComplitionHandler", code: 1, userInfo: userInfo))
         }
         
         complitionhandlerForParseData(parsedData, nil)
-    
+        
     }
     
     
     //#MARK: URL from components
     
-    func urlFromComponents(_ parameters: [String: AnyObject]?, withPathExtension: String?)-> URL {
-    
+    func urlFromComponents(_ parameters: [String: AnyObject]?, withPathExtension: String?) -> URL {
+        
         var components = URLComponents()
         components.host = Constants.URLConstants.hostName
         components.scheme = Constants.URLConstants.scheme
@@ -94,7 +99,7 @@ class Networking {
         components.queryItems = [URLQueryItem]()
         
         if let parameters = parameters {
-        
+            
             for (key, value) in parameters {
                 let queryItem = URLQueryItem(name: key, value: "\(value)")
                 components.queryItems?.append(queryItem)
@@ -102,29 +107,60 @@ class Networking {
         }
         
         return components.url!
-    
+        
+        
     }
+    
     
     
     //#MARK: Get photo url from components
     // https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
     //contructs photo from standard photo response
     func constructPhotoWithResponse(farmID: String, serverID: String, PhotoID: String, photoSecrete: String)->URL {
-    
+        
         let photoURL = URL(string: "https://farm\(farmID).staticflickr.com/\(serverID)/\(PhotoID)_\(photoSecrete).jpg")
         return photoURL!
     }
     
     
     //#MARK: Get photo method
-
-    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D, complitionHandlerForgetPhoto: @escaping(_ photos: AnyObject?, _ error: Error)->Void) {
     
-    
-    
+    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, complitionHandlerForgetPhoto: @escaping(_ photos: AnyObject?, _ error: Error?)->Void) {
+        
+        // lat, lon for photo search
+        let latitude = coordination?.latitude
+        let longitude = coordination?.longitude
+        
+        
+        // parameters for url
+        let parameters = [Constants.APIparameterKey.apiKey: Constants.APIparameterValue.apiKeyValue as AnyObject,
+                          Constants.APIparameterKey.latitude: latitude as AnyObject,
+                          Constants.APIparameterKey.longitude: longitude as AnyObject,
+                          Constants.APIparameterKey.radius: 5 as AnyObject,
+                          Constants.APIparameterKey.extras: Constants.APIparameterValue.extras as AnyObject] as [String : AnyObject]
+        
+        //call get method
+        
+        let _ = getRequestTask(method: Constants.URLConstants.searchMethod, parameters: parameters) { (results, error) in
+            
+            // error checking
+            guard (error == nil) else {
+                let userInfo = [NSLocalizedDescriptionKey: error]
+                complitionHandlerForgetPhoto(nil, NSError(domain: "getPhotoWithCoordination", code: 2, userInfo: userInfo))
+                return
+            }
+            
+            // taking data
+            if let data = results {
+                print(data)
+            }
+            
+        }
+        
+        
     }
     
-
-
-
+    
+    
+    
 }
