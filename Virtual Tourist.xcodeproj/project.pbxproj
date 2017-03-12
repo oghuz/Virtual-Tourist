@@ -12,6 +12,7 @@
 		D6016E5A1E76171300D2A8F6 /* Photos+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6016E561E76171300D2A8F6 /* Photos+CoreDataProperties.swift */; };
 		D6016E5B1E76171300D2A8F6 /* Coordination+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6016E571E76171300D2A8F6 /* Coordination+CoreDataClass.swift */; };
 		D6016E5C1E76171300D2A8F6 /* Coordination+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6016E581E76171300D2A8F6 /* Coordination+CoreDataProperties.swift */; };
+		D6016E5E1E7617C300D2A8F6 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6016E5D1E7617C300D2A8F6 /* CoreDataStack.swift */; };
 		D6D261411E6F1ED50059FD40 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D261401E6F1ED50059FD40 /* Reachability.swift */; };
 		D6D261431E6F1F9A0059FD40 /* HelperMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D261421E6F1F9A0059FD40 /* HelperMethods.swift */; };
 		D6D261451E7076EE0059FD40 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D261441E7076EE0059FD40 /* Constants.swift */; };
@@ -49,6 +50,7 @@
 		D6016E561E76171300D2A8F6 /* Photos+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photos+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D6016E571E76171300D2A8F6 /* Coordination+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Coordination+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D6016E581E76171300D2A8F6 /* Coordination+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Coordination+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D6016E5D1E7617C300D2A8F6 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		D6D261401E6F1ED50059FD40 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		D6D261421E6F1F9A0059FD40 /* HelperMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperMethods.swift; sourceTree = "<group>"; };
 		D6D261441E7076EE0059FD40 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				D6D261481E7200200059FD40 /* Networking.swift */,
 				D6DBB3641E6DE6AB00FB21E1 /* Info.plist */,
 				D6016E4A1E74FAA600D2A8F6 /* DataModel.xcdatamodeld */,
+				D6016E5D1E7617C300D2A8F6 /* CoreDataStack.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				D6DBB3591E6DE6AB00FB21E1 /* AppDelegate.swift in Sources */,
 				D6016E5C1E76171300D2A8F6 /* Coordination+CoreDataProperties.swift in Sources */,
 				D6D261411E6F1ED50059FD40 /* Reachability.swift in Sources */,
+				D6016E5E1E7617C300D2A8F6 /* CoreDataStack.swift in Sources */,
 				D6D261431E6F1F9A0059FD40 /* HelperMethods.swift in Sources */,
 				D6016E5A1E76171300D2A8F6 /* Photos+CoreDataProperties.swift in Sources */,
 				D6016E5B1E76171300D2A8F6 /* Coordination+CoreDataClass.swift in Sources */,
