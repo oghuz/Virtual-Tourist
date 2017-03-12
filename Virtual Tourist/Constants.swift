@@ -10,8 +10,7 @@ import Foundation
 
 // all needed constants goes into this file
 struct Constants {
-    
-    
+        
     //constants for constructing url
     struct URLConstants {
         static let scheme = "https"
@@ -45,7 +44,6 @@ struct Constants {
         static let format = "format"
         static let jsonCallBack = "nojsoncallback"
     }
-    
     
     // PAI parameter value
     struct APIparameterValue {

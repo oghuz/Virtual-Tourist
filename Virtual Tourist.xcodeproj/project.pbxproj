@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D6016E4C1E74FAA600D2A8F6 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D6016E4A1E74FAA600D2A8F6 /* DataModel.xcdatamodeld */; };
 		D6D261411E6F1ED50059FD40 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D261401E6F1ED50059FD40 /* Reachability.swift */; };
 		D6D261431E6F1F9A0059FD40 /* HelperMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D261421E6F1F9A0059FD40 /* HelperMethods.swift */; };
 		D6D261451E7076EE0059FD40 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D261441E7076EE0059FD40 /* Constants.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D6016E4B1E74FAA600D2A8F6 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		D6D261401E6F1ED50059FD40 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		D6D261421E6F1F9A0059FD40 /* HelperMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperMethods.swift; sourceTree = "<group>"; };
 		D6D261441E7076EE0059FD40 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				D6D261441E7076EE0059FD40 /* Constants.swift */,
 				D6D261481E7200200059FD40 /* Networking.swift */,
 				D6DBB3641E6DE6AB00FB21E1 /* Info.plist */,
+				D6016E4A1E74FAA600D2A8F6 /* DataModel.xcdatamodeld */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6D261451E7076EE0059FD40 /* Constants.swift in Sources */,
+				D6016E4C1E74FAA600D2A8F6 /* DataModel.xcdatamodeld in Sources */,
 				D6DBB35B1E6DE6AB00FB21E1 /* MapViewController.swift in Sources */,
 				D6DBB3591E6DE6AB00FB21E1 /* AppDelegate.swift in Sources */,
 				D6D261411E6F1ED50059FD40 /* Reachability.swift in Sources */,
@@ -587,6 +591,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D6016E4A1E74FAA600D2A8F6 /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D6016E4B1E74FAA600D2A8F6 /* DataModel.xcdatamodel */,
+			);
+			currentVersion = D6016E4B1E74FAA600D2A8F6 /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D6DBB34D1E6DE6AA00FB21E1 /* Project object */;
 }

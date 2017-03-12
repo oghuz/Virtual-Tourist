@@ -61,7 +61,7 @@ class MapViewController: UIViewController {
                     }
                     
                     if let results = result {
-                        print("there is data \(results.count)")
+                        print("total photos \(results.count)")
                     }
                 })
                 

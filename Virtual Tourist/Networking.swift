@@ -9,7 +9,6 @@
 import Foundation
 import MapKit
 
-
 //all the networking code goes in this file
 class Networking {
     
@@ -31,10 +30,7 @@ class Networking {
         
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
-            print("url : \(request.url)")
-            
-            //error handling
-            
+            //error handling            
             func sendError(_ error: String) {
                 print("error: \(error)")
                 let userInfo = [NSLocalizedDescriptionKey: error]
@@ -59,11 +55,8 @@ class Networking {
             }
             else {
                 sendError("No data returned \(error)")
-            }
-            
+            }            
         }
-        
-        
         
         task.resume()
         return task
@@ -82,11 +75,8 @@ class Networking {
             let userInfo = [NSLocalizedDescriptionKey: error]
             complitionhandlerForParseData(nil, NSError(domain: "parseJsonDataWithComplitionHandler", code: 1, userInfo: userInfo))
         }
-        
         complitionhandlerForParseData(parsedData, nil)
-        
     }
-    
     
     //#MARK: URL from components
     
@@ -98,19 +88,14 @@ class Networking {
         components.path = Constants.URLConstants.path
         components.queryItems = [URLQueryItem]()
         
-        
         for (key, value) in parameters {
             let queryItem = URLQueryItem(name: key, value: "\(value)")
             components.queryItems?.append(queryItem)
         }
         
-        
         return components.url!
         
-        
     }
-    
-    
     
     //#MARK: Get photo url from components
     // https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
@@ -121,7 +106,6 @@ class Networking {
         return photoURL!
     }
     
-    
     //#MARK: Get photo method
     
     func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, complitionHandlerForgetPhoto: @escaping(_ photos: [[String: AnyObject]]?, _ error: Error?)->Void) {
@@ -129,7 +113,6 @@ class Networking {
         // lat, lon for photo search
         let latitude = coordination?.latitude
         let longitude = coordination?.longitude
-        
         
         // parameters for url
         let parameters = [Constants.APIparameterKey.apiKey: Constants.APIparameterValue.apiKeyValue as AnyObject,
@@ -142,7 +125,6 @@ class Networking {
                           Constants.APIparameterKey.extras: Constants.APIparameterValue.extras as AnyObject] as [String : AnyObject]
         
         //call get method
-        
         let _ = getRequestTask(parameters: parameters) { (results, error) in
             
             // error checking
@@ -154,7 +136,6 @@ class Networking {
             
             // taking data
             if let data = results, let photosDictionary = data[Constants.URLResponseKey.Photos] as? [String: AnyObject], let photoDicArray = photosDictionary[Constants.URLResponseKey.Photo] as? [[String: AnyObject]] {
-                
                 complitionHandlerForgetPhoto(photoDicArray, nil)
             }
         }
