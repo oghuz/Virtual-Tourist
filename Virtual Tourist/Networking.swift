@@ -16,7 +16,7 @@ class Networking {
     static let shared = Networking()
     
     //#MARK: Get Request task
-    func getRequestTask(parameters: [String: AnyObject], complitionHandlerForGet: @escaping(_ result: AnyObject?, _ error: Error? )->Void)-> URLSessionDataTask {
+    func getRequestTask(parameters: [String: AnyObject], complitionHandlerForGet: @escaping(_ result: AnyObject?, _ error: Error? ) -> Void ) -> URLSessionDataTask {
         
         let parameters = parameters
         
@@ -31,9 +31,9 @@ class Networking {
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
             //error handling            
-            func sendError(_ error: String) {
-                print("error: \(error)")
-                let userInfo = [NSLocalizedDescriptionKey: error]
+            func sendError(_ errorr: String) {
+                print("error: \(errorr)")
+                let userInfo = [NSLocalizedDescriptionKey: errorr]
                 complitionHandlerForGet(nil, NSError(domain: "getURLRequestTask", code: 0, userInfo: userInfo))
             }
             
@@ -72,8 +72,8 @@ class Networking {
         do {
             parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
         } catch {
-            let userInfo = [NSLocalizedDescriptionKey: error]
-            complitionhandlerForParseData(nil, NSError(domain: "parseJsonDataWithComplitionHandler", code: 1, userInfo: userInfo))
+            
+            complitionhandlerForParseData(nil, error)
         }
         complitionhandlerForParseData(parsedData, nil)
     }
@@ -98,9 +98,8 @@ class Networking {
     }
     
     //#MARK: Get photo url from components
-    // https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
     //contructs photo from standard photo response
-    func constructPhotoWithResponse(farmID: String, serverID: String, PhotoID: String, photoSecrete: String)->URL {
+    func constructPhotoWithResponse(farmID: String, serverID: String, PhotoID: String, photoSecrete: String ) -> URL {
         
         let photoURL = URL(string: "https://farm\(farmID).staticflickr.com/\(serverID)/\(PhotoID)_\(photoSecrete).jpg")
         return photoURL!
@@ -108,7 +107,7 @@ class Networking {
     
     //#MARK: Get photo method
     
-    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, complitionHandlerForgetPhoto: @escaping(_ photos: [[String: AnyObject]]?, _ error: Error?)->Void) {
+    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, complitionHandlerForgetPhoto: @escaping(_ photos: [[String: AnyObject]]?, _ error: Error? ) -> Void ) {
         
         // lat, lon for photo search
         let latitude = coordination?.latitude
@@ -129,8 +128,8 @@ class Networking {
             
             // error checking
             guard (error == nil) else {
-                let userInfo = [NSLocalizedDescriptionKey: error]
-                complitionHandlerForgetPhoto(nil, NSError(domain: "getPhotoWithCoordination", code: 2, userInfo: userInfo))
+                
+                complitionHandlerForgetPhoto(nil, error)
                 return
             }
             
