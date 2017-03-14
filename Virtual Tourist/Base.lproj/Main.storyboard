@@ -60,7 +60,7 @@
                         <outlet property="editButton" destination="SFG-8Y-SPL" id="jnL-gW-tCQ"/>
                         <outlet property="mapView" destination="xoN-IN-lDN" id="LKI-lE-Gre"/>
                         <outlet property="tapToDeleteLabel" destination="pTY-6X-d2O" id="Ed4-EP-ZdC"/>
-                        <segue destination="Sjx-Jx-qPi" kind="show" identifier="goToCollection" id="4Oz-np-FK8"/>
+                        <segue destination="jCB-AZ-MlT" kind="show" identifier="goToCollection" id="LAb-P4-mmc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6oc-bB-C0j" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -70,7 +70,7 @@
         <!--Photo Collection Controller-->
         <scene sceneID="afg-I6-RHZ">
             <objects>
-                <viewController id="jCB-AZ-MlT" customClass="PhotoCollectionController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="collectionVC" id="jCB-AZ-MlT" customClass="PhotoCollectionController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fqe-2e-Hlu"/>
                         <viewControllerLayoutGuide type="bottom" id="jrl-Zt-2TR"/>
@@ -89,17 +89,17 @@
                                 <rect key="frame" x="0.0" y="227" width="414" height="509"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="T8l-Xf-Qda">
-                                    <size key="itemSize" width="85" height="81"/>
+                                    <size key="itemSize" width="108" height="100"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collection" id="BAD-Y9-z3X">
-                                        <rect key="frame" x="0.0" y="0.0" width="85" height="81"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="108" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="85" height="81"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="108" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </view>
                                         <color key="backgroundColor" red="0.52131233809999999" green="0.50099118499999995" blue="0.46871441400000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -120,18 +120,18 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="O06-zp-wvx">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="x68-12-WcV"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" style="done" id="x68-12-WcV"/>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="qL2-au-OuQ" id="n0X-5G-Xms"/>
                         <outlet property="editButton" destination="x68-12-WcV" id="4gE-2x-cgR"/>
                         <outlet property="editButtonAction" destination="x68-12-WcV" id="0uc-VS-M8u"/>
-                        <outlet property="maoView" destination="I58-6V-Lxr" id="Dke-2y-L3C"/>
+                        <outlet property="mapView" destination="I58-6V-Lxr" id="C8r-5e-AJw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t8N-kx-P7R" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2983" y="730"/>
+            <point key="canvasLocation" x="2343" y="730"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="pSu-Mu-mjA">
@@ -150,24 +150,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M6i-8l-7ep" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="816.79999999999995" y="731.78410794602701"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Kca-JB-zZw">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Sjx-Jx-qPi" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="oTL-jl-sb6">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="jCB-AZ-MlT" kind="relationship" relationship="rootViewController" id="XBW-Jq-Uye"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jEe-9h-Zq6" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2271" y="730"/>
         </scene>
     </scenes>
 </document>

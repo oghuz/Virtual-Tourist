@@ -103,7 +103,6 @@
 				D6016E561E76171300D2A8F6 /* Photos+CoreDataProperties.swift */,
 				D6016E571E76171300D2A8F6 /* Coordination+CoreDataClass.swift */,
 				D6016E581E76171300D2A8F6 /* Coordination+CoreDataProperties.swift */,
-				D6016E5D1E7617C300D2A8F6 /* CoreDataStack.swift */,
 			);
 			name = DataModels;
 			sourceTree = "<group>";
@@ -112,11 +111,10 @@
 			isa = PBXGroup;
 			children = (
 				D6016E5F1E76184000D2A8F6 /* DataModels */,
-				D6DBB3581E6DE6AB00FB21E1 /* AppDelegate.swift */,
+				D6016E5D1E7617C300D2A8F6 /* CoreDataStack.swift */,
 				D6D261401E6F1ED50059FD40 /* Reachability.swift */,
 				D6D261441E7076EE0059FD40 /* Constants.swift */,
 				D6D261481E7200200059FD40 /* Networking.swift */,
-				D6DBB3641E6DE6AB00FB21E1 /* Info.plist */,
 				D6016E4A1E74FAA600D2A8F6 /* DataModel.xcdatamodeld */,
 			);
 			name = Models;
@@ -172,6 +170,8 @@
 		D6DBB3571E6DE6AB00FB21E1 /* Virtual Tourist */ = {
 			isa = PBXGroup;
 			children = (
+				D6DBB3581E6DE6AB00FB21E1 /* AppDelegate.swift */,
+				D6DBB3641E6DE6AB00FB21E1 /* Info.plist */,
 				D6D2613C1E6E29C30059FD40 /* Models */,
 				D6D2613E1E6E29D80059FD40 /* Views */,
 				D6D2613D1E6E29CF0059FD40 /* Controllers */,

@@ -13,7 +13,8 @@ class MapViewController: UIViewController {
     
     var didTapped = Bool() // set value for this bool by tapping edit button, for toggle editting mode
     let longPressGeusture = UILongPressGestureRecognizer()
-    let reachability = Reachability()
+    var reachability = Reachability()
+    var coordination = CLLocationCoordinate2D()
     
     @IBOutlet weak var mapView: MKMapView! {
         didSet {
@@ -42,6 +43,12 @@ class MapViewController: UIViewController {
         Helper.shared.inEditMode(tapped: didTapped, view: self, barButton: editButton, statusLabel: tapToDeleteLabel)
     }
     
+    //app life cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        mapView.delegate = self
+    }
+    
     
     //add pin to map by long press
     @objc private func addPinByLongPress() {
@@ -50,7 +57,7 @@ class MapViewController: UIViewController {
             if (reachability?.isReachable)! {
                 
                 let points = longPressGeusture.location(in: mapView)
-                let coordination = mapView.convert(points, toCoordinateFrom: mapView)
+                coordination = mapView.convert(points, toCoordinateFrom: mapView)
                 Helper.shared.addPinForCoordination(mapView, coordination: coordination)
                 
                 // calling get photo with coordination method
@@ -73,12 +80,28 @@ class MapViewController: UIViewController {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+}
+
+extension MapViewController: MKMapViewDelegate {
+
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
-        
+        // perform segue to collection view controller
+        performSegue(withIdentifier: "goToCollection", sender: MKAnnotationView())
         
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        //sending coordination to collection view controller
+        if segue.identifier == "goToCollection" {
+        let collectionVC = segue.destination as? PhotoCollectionController
+        
+        collectionVC?.coordination = self.coordination
+        
+        }
+    }
+
+
 }
 
