@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Coordination" representedClassName=".Coordination" syncable="YES">
-        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" indexed="YES" syncable="YES"/>
         <relationship name="toPhotos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photos" inverseName="toCoordination" inverseEntity="Photos" syncable="YES"/>
     </entity>
     <entity name="Photos" representedClassName=".Photos" syncable="YES">
-        <attribute name="photo" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="photo" optional="YES" attributeType="Binary" indexed="YES" syncable="YES"/>
         <relationship name="toCoordination" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Coordination" inverseName="toPhotos" inverseEntity="Coordination" syncable="YES"/>
     </entity>
     <elements>
