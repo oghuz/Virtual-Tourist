@@ -100,6 +100,8 @@ class Networking {
     //#MARK: Get photo url from components
     //contructs photo from standard photo response
     func constructPhotoWithResponse(farmID: String, serverID: String, PhotoID: String, photoSecrete: String ) -> URL {
+        //calling getPhotowith coordinate method
+        
         
         let photoURL = URL(string: "https://farm\(farmID).staticflickr.com/\(serverID)/\(PhotoID)_\(photoSecrete).jpg")
         return photoURL!

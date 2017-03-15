@@ -83,7 +83,7 @@ class MapViewController: UIViewController {
 }
 
 extension MapViewController: MKMapViewDelegate {
-
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
         // perform segue to collection view controller
@@ -95,13 +95,13 @@ extension MapViewController: MKMapViewDelegate {
         
         //sending coordination to collection view controller
         if segue.identifier == "goToCollection" {
-        let collectionVC = segue.destination as? PhotoCollectionController
-        
-        collectionVC?.coordination = self.coordination
-        
+            
+            let collectionVC = segue.destination as? PhotoCollectionController            
+            collectionVC?.coordination = self.coordination
+            
         }
     }
-
-
+    
+    
 }
 
