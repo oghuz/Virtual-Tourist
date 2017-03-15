@@ -13,7 +13,7 @@ import CoreData
 public class Coordination: NSManagedObject {
     
     //initializing the entity with properties
-    convenience init(_ latitude: Double, longitude: Double, context: NSManagedObjectContext) {
+    convenience init(_ latitude: Double, _ longitude: Double, context: NSManagedObjectContext) {
         if let ent = NSEntityDescription.entity(forEntityName: "Coordination", in: context) {
             self.init(entity: ent, insertInto: context)
             self.latitude = latitude

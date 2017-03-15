@@ -16,8 +16,10 @@ class MapViewController: UIViewController {
     var reachability = Reachability()
     var coordination = CLLocationCoordinate2D()
     
+    
     @IBOutlet weak var mapView: MKMapView! {
         didSet {
+            mapView.delegate = self
             longPressGeusture.minimumPressDuration = 0.5
             longPressGeusture.numberOfTouchesRequired = 1
             longPressGeusture.addTarget(self, action: #selector(addPinByLongPress))
@@ -46,18 +48,25 @@ class MapViewController: UIViewController {
     //app life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        mapView.delegate = self
+        
     }
     
     
     //add pin to map by long press
     @objc private func addPinByLongPress() {
+        //referencing core data stack
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let stack = delegate.stack
+
         
         if longPressGeusture.state == .began {
             if (reachability?.isReachable)! {
                 
                 let points = longPressGeusture.location(in: mapView)
                 coordination = mapView.convert(points, toCoordinateFrom: mapView)
+                
+                //adding coordination to core data
+                _ = Coordination(coordination.latitude, coordination.longitude, context: (stack?.context)!)
                 Helper.shared.addPinForCoordination(mapView, coordination: coordination)
                 
                 // calling get photo with coordination method
@@ -101,7 +110,6 @@ extension MapViewController: MKMapViewDelegate {
             
         }
     }
-    
-    
+        
 }
 

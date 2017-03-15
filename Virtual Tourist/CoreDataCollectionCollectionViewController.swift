@@ -9,11 +9,10 @@
 import UIKit
 import CoreData
 
-private let reuseIdentifier = "Cell"
 
 class CoreDataCollectionCollectionViewController: UICollectionViewController {
 
-    //#MARK: Initialization
+    
     
     //creating fechedrequestcontroller
     var fetchResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
@@ -24,7 +23,7 @@ class CoreDataCollectionCollectionViewController: UICollectionViewController {
         }
     }
     
-    //initializing
+    //#MARK: Initialization
     init(fetchResultsController fc: NSFetchedResultsController<NSFetchRequestResult>, collectionViewLayout layout: UICollectionViewLayout) {
         self.fetchResultsController = fc
         super.init(collectionViewLayout: layout)
