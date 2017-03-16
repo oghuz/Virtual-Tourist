@@ -22,7 +22,7 @@ struct Constants {
     
     
     //value from json parsing, used for making photo url
-    struct PhoroParameterKeys {
+    struct PhotoParameterKeys {
         static let photoID = "id"
         static let secret = "secret"
         static let server = "server"

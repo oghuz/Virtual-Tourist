@@ -30,7 +30,7 @@ class Networking {
         
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
-            //error handling            
+            //error handling
             func sendError(_ errorr: String) {
                 print("error: \(errorr)")
                 let userInfo = [NSLocalizedDescriptionKey: errorr]
@@ -55,7 +55,7 @@ class Networking {
             }
             else {
                 sendError("No data returned \(error)")
-            }            
+            }
         }
         
         task.resume()
@@ -97,19 +97,10 @@ class Networking {
         
     }
     
-    //#MARK: Get photo url from components
-    //contructs photo from standard photo response
-    func constructPhotoWithResponse(farmID: String, serverID: String, PhotoID: String, photoSecrete: String ) -> URL {
-        //calling getPhotowith coordinate method
-        
-        
-        let photoURL = URL(string: "https://farm\(farmID).staticflickr.com/\(serverID)/\(PhotoID)_\(photoSecrete).jpg")
-        return photoURL!
-    }
     
     //#MARK: Get photo method
     
-    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, complitionHandlerForgetPhoto: @escaping(_ photos: [[String: AnyObject]]?, _ error: Error? ) -> Void ) {
+    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, complitionHandlerForgetPhoto: @escaping(_ photos: [UIImage]?, _ error: Error? ) -> Void ) {
         
         // lat, lon for photo search
         let latitude = coordination?.latitude
@@ -135,10 +126,70 @@ class Networking {
                 return
             }
             
+            // creating a image array
+            var dataArray: [UIImage] = []
+            
             // taking data
             if let data = results, let photosDictionary = data[Constants.URLResponseKey.Photos] as? [String: AnyObject], let photoDicArray = photosDictionary[Constants.URLResponseKey.Photo] as? [[String: AnyObject]] {
-                complitionHandlerForgetPhoto(photoDicArray, nil)
+                
+                for array in photoDicArray {
+                    if let image = self.photoFromDataArray(array) {
+                        dataArray.append(image)
+                    }
+                }
+                print("number of data array :\(dataArray.count)")
+                print("number of photoDicArray :\(photoDicArray.count)")
+                complitionHandlerForgetPhoto(dataArray, nil)
             }
         }
     }
+    
+    //#MARK: Get photo url from components
+    
+    //take dictionary array as parameter, return image as anyobject
+    func photoFromDataArray(_ array: [String: AnyObject]) -> UIImage? {
+        
+        var photoURLString = String()
+        //unwrapping photo parameters
+        guard let farmID = array[Constants.PhotoParameterKeys.farm] as? String, let serverID = array[Constants.PhotoParameterKeys.server] as? String, let photoID = array[Constants.PhotoParameterKeys.photoID] as? String, let secret = array[Constants.PhotoParameterKeys.secret] as? String else {
+            
+            print("-------------------- url is nil")
+            return nil
+        }
+        
+        print("can not get image from data, error :\(farmID)")
+        
+        photoURLString =  constructPhotoWithResponse(farmID: farmID, serverID: serverID, PhotoID: photoID, photoSecrete: secret )
+        
+        let photoURL = URL(string: photoURLString)
+        print("photoFromDataArray, photoURL :\(photoURL)")
+        print("array :\(array.count)")
+        
+        var photoData = Data()
+        do {
+            if let url = photoURL {
+                photoData = try Data(contentsOf: url)
+            }
+        } catch let e as NSError {
+            print("can not get image from data, error :\(e)")
+        }
+        
+        
+        let photo = UIImage(data: photoData)
+        
+        return photo
+    }
+    
+    //contructs photo from standard photo response
+    func constructPhotoWithResponse(farmID: String, serverID: String, PhotoID: String, photoSecrete: String ) -> String {
+        //calling getPhotowith coordinate method
+        
+        
+        let photoURL = "https://farm\(farmID).staticflickr.com/\(serverID)/\(PhotoID)_\(photoSecrete).jpg"
+        print("photo URL :\(photoURL)")
+        return photoURL
+    }
+    
+    
+    
 }
