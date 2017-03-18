@@ -137,8 +137,6 @@ class Networking {
                         dataArray.append(image)
                     }
                 }
-                print("number of data array :\(dataArray.count)")
-                print("number of photoDicArray :\(photoDicArray.count)")
                 complitionHandlerForgetPhoto(dataArray, nil)
             }
         }
@@ -151,19 +149,17 @@ class Networking {
         
         var photoURLString = String()
         //unwrapping photo parameters
-        guard let farmID = array[Constants.PhotoParameterKeys.farm] as? String, let serverID = array[Constants.PhotoParameterKeys.server] as? String, let photoID = array[Constants.PhotoParameterKeys.photoID] as? String, let secret = array[Constants.PhotoParameterKeys.secret] as? String else {
+        guard let farmID = array[Constants.PhotoParameterKeys.farm] as? Int, let serverID = array[Constants.PhotoParameterKeys.server] as? String, let photoID = array[Constants.PhotoParameterKeys.photoID] as? String, let secret = array[Constants.PhotoParameterKeys.secret] as? String else {
             
-            print("-------------------- url is nil")
+            print("-------------------- farmID is nil")
+            
             return nil
         }
         
-        print("can not get image from data, error :\(farmID)")
-        
+
         photoURLString =  constructPhotoWithResponse(farmID: farmID, serverID: serverID, PhotoID: photoID, photoSecrete: secret )
         
         let photoURL = URL(string: photoURLString)
-        print("photoFromDataArray, photoURL :\(photoURL)")
-        print("array :\(array.count)")
         
         var photoData = Data()
         do {
@@ -181,7 +177,7 @@ class Networking {
     }
     
     //contructs photo from standard photo response
-    func constructPhotoWithResponse(farmID: String, serverID: String, PhotoID: String, photoSecrete: String ) -> String {
+    func constructPhotoWithResponse(farmID: Int, serverID: String, PhotoID: String, photoSecrete: String ) -> String {
         //calling getPhotowith coordinate method
         
         
