@@ -106,7 +106,7 @@ extension MapViewController: MKMapViewDelegate {
         
         // perform segue to collection view controller
         performSegue(withIdentifier: "goToCollection", sender: MKAnnotationView())
-        
+        mapView.deselectAnnotation(view.annotation, animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -114,7 +114,7 @@ extension MapViewController: MKMapViewDelegate {
         //sending coordination to collection view controller
         if segue.identifier == "goToCollection" {
             
-            let collectionVC = segue.destination as? PhotoCollectionController            
+            let collectionVC = segue.destination as? PhotoCollectionViewController            
             collectionVC?.coordination = self.coordination
             
         }

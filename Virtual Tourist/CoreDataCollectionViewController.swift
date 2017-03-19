@@ -10,9 +10,8 @@ import UIKit
 import CoreData
 
 
-class CoreDataCollectionCollectionViewController: UICollectionViewController {
+class CoreDataCollectionViewController: UICollectionViewController {
 
-    
     
     //creating fechedrequestcontroller
     var fetchResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
@@ -37,7 +36,7 @@ class CoreDataCollectionCollectionViewController: UICollectionViewController {
     
 }
 
-extension CoreDataCollectionCollectionViewController {
+extension CoreDataCollectionViewController {
 
     //execute search
     func executeSearch() {
@@ -53,7 +52,7 @@ extension CoreDataCollectionCollectionViewController {
 
 }
 
-extension CoreDataCollectionCollectionViewController: NSFetchedResultsControllerDelegate {
+extension CoreDataCollectionViewController: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         collectionView?.reloadData()
@@ -92,7 +91,7 @@ extension CoreDataCollectionCollectionViewController: NSFetchedResultsController
 
 
 // MARK: UICollectionViewDataSource
-extension CoreDataCollectionCollectionViewController {
+extension CoreDataCollectionViewController {
     
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
