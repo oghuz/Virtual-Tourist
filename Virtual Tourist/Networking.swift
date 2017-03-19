@@ -182,7 +182,7 @@ class Networking {
         
         
         let photoURL = "https://farm\(farmID).staticflickr.com/\(serverID)/\(PhotoID)_\(photoSecrete).jpg"
-        print("photo URL :\(photoURL)")
+        
         return photoURL
     }
     

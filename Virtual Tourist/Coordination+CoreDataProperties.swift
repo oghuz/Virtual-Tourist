@@ -26,15 +26,15 @@ extension Coordination {
 extension Coordination {
 
     @objc(addToPhotosObject:)
-    @NSManaged public func addToToPhotos(_ value: Photos)
+    @NSManaged public func addToPhotos(_ value: Photos)
 
     @objc(removeToPhotosObject:)
-    @NSManaged public func removeFromToPhotos(_ value: Photos)
+    @NSManaged public func removeFromPhotos(_ value: Photos)
 
     @objc(addToPhotos:)
-    @NSManaged public func addToToPhotos(_ values: NSSet)
+    @NSManaged public func addToPhotos(_ values: NSSet)
 
     @objc(removeToPhotos:)
-    @NSManaged public func removeFromToPhotos(_ values: NSSet)
+    @NSManaged public func removeFromPhotos(_ values: NSSet)
 
 }

@@ -41,9 +41,9 @@ extension CoreDataCollectionCollectionViewController {
 
     //execute search
     func executeSearch() {
-        if let fr = fetchResultsController {
+        if let fc = fetchResultsController {
             do {
-                try fr.performFetch()
+                try fc.performFetch()
             }
             catch let error as NSError {
                 print("error while searching\(fetchResultsController), error: \(error)")

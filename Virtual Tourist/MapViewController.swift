@@ -66,7 +66,7 @@ class MapViewController: UIViewController {
                 coordination = mapView.convert(points, toCoordinateFrom: mapView)
                 
                 //adding coordination to core data
-                _ = Coordination(coordination.latitude, coordination.longitude, context: (stack?.context)!)
+                let coordinate = Coordination(coordination.latitude, coordination.longitude, context: (stack?.context)!)
                 Helper.shared.addPinForCoordination(mapView, coordination: coordination)
                 
                 // calling get photo with coordination method
@@ -77,6 +77,15 @@ class MapViewController: UIViewController {
                     }
                     
                     if let results = result {
+                        stack?.performBatchOperation({ (workerContext) in
+                            for photo in results {
+                                //saving photos to core data as NSData
+                                let photo = Photos(NSData(data: UIImageJPEGRepresentation(photo, 1.0)!), context: (stack?.context)!)
+                                coordinate.addToPhotos(photo)
+                                photo.toCoordination = coordinate
+                            }
+                        })
+                        
                         print("total photos \(results.count)")
                     }
                 })
