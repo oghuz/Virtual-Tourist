@@ -17,13 +17,14 @@ class PhotoCollectionController: UIViewController {
     //coordination for pin also for lat, lon of flickr search string
     var coordination = CLLocationCoordinate2D()
 
+    @IBOutlet weak var collectionView: CollectionView!
     @IBOutlet weak var mapView: MKMapView! {
         didSet {
             Helper.shared.addPinForCoordination(mapView, coordination: coordination)
         }
     }
     
-    @IBOutlet weak var collectionView: UICollectionView!
+    
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet weak var editButtonAction: UIBarButtonItem!
     
@@ -34,3 +35,6 @@ class PhotoCollectionController: UIViewController {
     }
 }
 
+extension PhotoCollectionController {
+
+}
