@@ -67,7 +67,7 @@ class MapViewController: UIViewController {
                 Helper.shared.addPinForCoordination(mapView, coordination: coordination)
                 
                 //adding photo ad url to data base
-                Helper.shared.savePhotoAndURLToDataBase(forCoordination: coordination, inView: self)
+                Helper.shared.savePhotoAndURLToDataBase(forCoordination: coordination, withPageNumber:1 ,inView: self)
             }
                 // if there is no internet connection show an alert, can not add pin
             else{

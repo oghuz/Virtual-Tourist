@@ -18,7 +18,8 @@ struct Constants {
         static let path = "/services/rest/"
         static let apiSecret = "c19eaf503b79abb9"
         static let pages = "pages"
-            }
+        static let perPage = "per_page"        
+        }
     
     
     //value from json parsing, used for making photo url

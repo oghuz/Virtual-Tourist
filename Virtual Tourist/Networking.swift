@@ -30,6 +30,7 @@ class Networking {
         
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
+            print("The Url is: \(request.url)")
             //error handling
             func sendError(_ errorr: String) {
                 print("error: \(errorr)")
@@ -100,7 +101,7 @@ class Networking {
     
     //#MARK: Get photo method
     
-    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, complitionHandlerForgetPhoto: @escaping(_ photos: [UIImage]?, _ photoURL: [URL]?, _ error: Error? ) -> Void ) {
+    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, page: Int? ,complitionHandlerForgetPhoto: @escaping(_ photos: [UIImage]?, _ photoURL: [URL]?, _ error: Error? ) -> Void ) {
         
         // lat, lon for photo search
         let latitude = coordination?.latitude
@@ -114,6 +115,8 @@ class Networking {
                           Constants.APIparameterKey.method: Constants.APIparameterValue.searchMethod as AnyObject,
                           Constants.APIparameterKey.format: Constants.APIparameterValue.json as AnyObject,
                           Constants.APIparameterKey.jsonCallBack: Constants.APIparameterValue.noJsonCallBack as AnyObject,
+                          Constants.APIparameterKey.page: page as AnyObject,
+                          Constants.APIparameterKey.perPage: 100 as AnyObject,
                           Constants.APIparameterKey.extras: Constants.APIparameterValue.extras as AnyObject] as [String : AnyObject]
         
         //call get method
@@ -159,7 +162,6 @@ class Networking {
             return (nil, nil)
         }
         
-
         photoURLString =  constructPhotoWithResponse(farmID: farmID, serverID: serverID, PhotoID: photoID, photoSecrete: secret )
         
         let photoURL = URL(string: photoURLString)
@@ -173,7 +175,6 @@ class Networking {
             print("can not get image from data, error :\(e)")
         }
         
-        
         let photo = UIImage(data: photoData)
         
         return (photo, photoURL)
@@ -182,10 +183,7 @@ class Networking {
     //contructs photo from standard photo response
     func constructPhotoWithResponse(farmID: Int, serverID: String, PhotoID: String, photoSecrete: String ) -> String {
         //calling getPhotowith coordinate method
-        
-        
         let photoURL = "https://farm\(farmID).staticflickr.com/\(serverID)/\(PhotoID)_\(photoSecrete).jpg"
-        
         return photoURL
     }
     

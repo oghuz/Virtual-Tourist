@@ -69,7 +69,7 @@ class Helper {
     }
     
     //#MARK: Save Photo, ULR To CoreData
-    func savePhotoAndURLToDataBase(forCoordination coordination: CLLocationCoordinate2D, inView: UIViewController) {
+    func savePhotoAndURLToDataBase(forCoordination coordination: CLLocationCoordinate2D, withPageNumber page: Int ,inView: UIViewController) {
         // core data stack
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let stack = delegate.stack
@@ -78,7 +78,7 @@ class Helper {
         let coordinate = Coordination(coordination.latitude, coordination.longitude, context: (stack?.context)!)
         
         // calling get photo with coordination method
-        Networking.shared.getPhotoWithCoordination(coordination: coordination, complitionHandlerForgetPhoto: { (result, urlStrings, error) in
+        Networking.shared.getPhotoWithCoordination(coordination: coordination, page: page, complitionHandlerForgetPhoto: { (result, urlStrings, error) in
             
             
             guard (error == nil) else {
@@ -96,26 +96,25 @@ class Helper {
                 return
             }
             
-            //taking out UiImages
-            if let results = result, let uRls = urlStrings {
-                print("total photos \(results.count)")
-                
-                for photo in results {
-                    //saving photos to core data as NSData
-                    for url in uRls {
-                        stack?.performBatchOperation({ (workerContext) in
-                            let photo = Photos(NSData(data: UIImageJPEGRepresentation(photo, 1.0)!), context: (stack?.context)!)
-                            coordinate.addToPhotos(photo)
-                            photo.toCoordination = coordinate
-                            photo.url = String(describing: url)
-                            
-                        })
-                    }
+            guard let results = result, let uRls = urlStrings else {
+                print("No photo or url fiund")
+                return
+            }
+            
+            print("total photos \(uRls.count)")
+            
+            for photo in results {
+                //saving photos to core data as NSData
+                for url in uRls {
+                    stack?.performBatchOperation({ (workerContext) in
+                        let photo = Photos(NSData(data: UIImageJPEGRepresentation(photo, 1.0)!), context: (stack?.context)!)
+                        coordinate.addToPhotos(photo)
+                        photo.toCoordination = coordinate
+                        photo.url = String(describing: url)
+                    })
                 }
             }
         })
-        
-        
     }
     
     
