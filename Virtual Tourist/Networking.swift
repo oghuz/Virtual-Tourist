@@ -100,7 +100,7 @@ class Networking {
     
     //#MARK: Get photo method
     
-    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, complitionHandlerForgetPhoto: @escaping(_ photos: [UIImage]?, _ error: Error? ) -> Void ) {
+    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, complitionHandlerForgetPhoto: @escaping(_ photos: [UIImage]?, _ photoURL: [URL]?, _ error: Error? ) -> Void ) {
         
         // lat, lon for photo search
         let latitude = coordination?.latitude
@@ -122,22 +122,27 @@ class Networking {
             // error checking
             guard (error == nil) else {
                 
-                complitionHandlerForgetPhoto(nil, error)
+                complitionHandlerForgetPhoto(nil, nil, error)
                 return
             }
             
             // creating a image array
             var dataArray: [UIImage] = []
+            var urlArray: [URL] = []
             
             // taking data
             if let data = results, let photosDictionary = data[Constants.URLResponseKey.Photos] as? [String: AnyObject], let photoDicArray = photosDictionary[Constants.URLResponseKey.Photo] as? [[String: AnyObject]] {
                 
                 for array in photoDicArray {
-                    if let image = self.photoFromDataArray(array) {
+                    if let image = self.photoFromDataArray(array).0 {
                         dataArray.append(image)
                     }
+                    
+                    if let photoUrl = self.photoFromDataArray(array).1 {
+                        urlArray.append(photoUrl)
+                    }
                 }
-                complitionHandlerForgetPhoto(dataArray, nil)
+                complitionHandlerForgetPhoto(dataArray, urlArray, nil)
             }
         }
     }
@@ -145,15 +150,13 @@ class Networking {
     //#MARK: Get photo url from components
     
     //take dictionary array as parameter, return image as anyobject
-    func photoFromDataArray(_ array: [String: AnyObject]) -> UIImage? {
+    func photoFromDataArray(_ array: [String: AnyObject]) -> (UIImage?, URL?) {
         
         var photoURLString = String()
         //unwrapping photo parameters
         guard let farmID = array[Constants.PhotoParameterKeys.farm] as? Int, let serverID = array[Constants.PhotoParameterKeys.server] as? String, let photoID = array[Constants.PhotoParameterKeys.photoID] as? String, let secret = array[Constants.PhotoParameterKeys.secret] as? String else {
             
-            print("-------------------- farmID is nil")
-            
-            return nil
+            return (nil, nil)
         }
         
 
@@ -173,7 +176,7 @@ class Networking {
         
         let photo = UIImage(data: photoData)
         
-        return photo
+        return (photo, photoURL)
     }
     
     //contructs photo from standard photo response

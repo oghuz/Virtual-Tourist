@@ -2,7 +2,7 @@
 //  Coordination+CoreDataProperties.swift
 //  Virtual Tourist
 //
-//  Created by osmanjan omar on 3/12/17.
+//  Created by osmanjan omar on 3/20/17.
 //  Copyright © 2017 osmanjan omar. All rights reserved.
 //
 
@@ -29,12 +29,12 @@ extension Coordination {
     @NSManaged public func addToPhotos(_ value: Photos)
 
     @objc(removeToPhotosObject:)
-    @NSManaged public func removeFromPhotos(_ value: Photos)
+    @NSManaged public func removeFromToPhotos(_ value: Photos)
 
     @objc(addToPhotos:)
     @NSManaged public func addToPhotos(_ values: NSSet)
 
     @objc(removeToPhotos:)
-    @NSManaged public func removeFromPhotos(_ values: NSSet)
+    @NSManaged public func removeFromToPhotos(_ values: NSSet)
 
 }

@@ -54,13 +54,8 @@ class MapViewController: UIViewController {
         
     }
     
-    
     //add pin to map by long press
     @objc private func addPinByLongPress() {
-        //referencing core data stack
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let stack = delegate.stack
-        
         
         if longPressGeusture.state == .began {
             if (reachability?.isReachable)! {
@@ -68,41 +63,11 @@ class MapViewController: UIViewController {
                 let points = longPressGeusture.location(in: mapView)
                 coordination = mapView.convert(points, toCoordinateFrom: mapView)
                 
-                //adding coordination to core data
-                let coordinate = Coordination(coordination.latitude, coordination.longitude, context: (stack?.context)!)
+                //add pin on mapview
                 Helper.shared.addPinForCoordination(mapView, coordination: coordination)
                 
-                // calling get photo with coordination method
-                Networking.shared.getPhotoWithCoordination(coordination: coordination, complitionHandlerForgetPhoto: { (result, error) in
-                    guard (error == nil) else {
-                        Helper.shared.alert(self, title: "Error", message: "No data found", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
-                        return
-                    }
-                    
-                    guard ((result?.count)! > 0) else {
-                        
-                        performUpdateOnMain({
-                            Helper.shared.alert(self, title: "No Photo", message: "No Photo Found On This Location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
-                            
-                        })
-                        return
-                        
-                    }
-                    
-                    if let results = result {
-                        stack?.performBatchOperation({ (workerContext) in
-                            for photo in results {
-                                //saving photos to core data as NSData
-                                let photo = Photos(NSData(data: UIImageJPEGRepresentation(photo, 1.0)!), context: (stack?.context)!)
-                                coordinate.addToPhotos(photo)
-                                photo.toCoordination = coordinate
-                            }
-                        })
-                        
-                        print("total photos \(results.count)")
-                    }
-                })
-                
+                //adding photo ad url to data base
+                Helper.shared.savePhotoAndURLToDataBase(forCoordination: coordination, inView: self)
             }
                 // if there is no internet connection show an alert, can not add pin
             else{
@@ -113,7 +78,6 @@ class MapViewController: UIViewController {
             }
         }
     }
-    
 }
 
 extension MapViewController: MKMapViewDelegate {

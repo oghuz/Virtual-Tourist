@@ -2,7 +2,7 @@
 //  Photos+CoreDataClass.swift
 //  Virtual Tourist
 //
-//  Created by osmanjan omar on 3/12/17.
+//  Created by osmanjan omar on 3/20/17.
 //  Copyright © 2017 osmanjan omar. All rights reserved.
 //
 
@@ -11,7 +11,7 @@ import CoreData
 
 
 public class Photos: NSManagedObject {
-    
+
     //initializing the entity with property
     convenience init(_ photo: NSData, context: NSManagedObjectContext ) {
         if let ent = NSEntityDescription.entity(forEntityName: "Photos", in: context) {
@@ -22,5 +22,5 @@ public class Photos: NSManagedObject {
             fatalError("can not initialize Photos entity")
         }
     }
-    
+
 }

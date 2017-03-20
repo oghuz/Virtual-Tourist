@@ -14,8 +14,8 @@ class Helper {
     
     static let shared = Helper()
     
-    
-    
+    //#MARK: AlertViewController
+    //Reusable method for AlertViewController
     func alert(_ view: UIViewController, title: String?, message: String?, preferredStyle: UIAlertControllerStyle, okActionTitle: String?, okActionStyle: UIAlertActionStyle?, okActionHandler: ((UIAlertAction) -> Void)?, cancelActionTitle: String?, cancelActionStyle: UIAlertActionStyle?, cancelActionHandler: ((UIAlertAction) -> Void)?) {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
@@ -32,9 +32,8 @@ class Helper {
         
     }
     
-    
+    //#MARK: Add Pin
     // add map pin on mapview by coordination
-    
     func addPinForCoordination(_ mapView: MKMapView ,coordination: CLLocationCoordinate2D?) {
         
         
@@ -50,10 +49,10 @@ class Helper {
     }
     
     
-    // enters edit mode if edit button tapped
+    //#MARK: Edit mode Toggle
     // this method is for left leftBarButtonItem only so far, can be added extra code for both sides
     func inEditMode(tapped buttonTapped: Bool, view: UIViewController, barButton: UIBarButtonItem, statusLabel: UILabel?) {
-       
+        
         if buttonTapped {
             barButton.tintColor = .red
             barButton.title = "Done"
@@ -68,7 +67,57 @@ class Helper {
         }
         
     }
-
+    
+    //#MARK: Save Photo, ULR To CoreData
+    func savePhotoAndURLToDataBase(forCoordination coordination: CLLocationCoordinate2D, inView: UIViewController) {
+        // core data stack
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let stack = delegate.stack
+        
+        // adding coordinate to data base
+        let coordinate = Coordination(coordination.latitude, coordination.longitude, context: (stack?.context)!)
+        
+        // calling get photo with coordination method
+        Networking.shared.getPhotoWithCoordination(coordination: coordination, complitionHandlerForgetPhoto: { (result, urlStrings, error) in
+            
+            
+            guard (error == nil) else {
+                Helper.shared.alert(inView, title: "Error", message: "No data found", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
+                return
+            }
+            
+            
+            guard ((result?.count)! > 0) else {
+                
+                performUpdateOnMain({
+                    Helper.shared.alert(inView, title: "No Photo", message: "No Photo Found On This Location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
+                    
+                })
+                return
+            }
+            
+            //taking out UiImages
+            if let results = result, let uRls = urlStrings {
+                print("total photos \(results.count)")
+                
+                for photo in results {
+                    //saving photos to core data as NSData
+                    for url in uRls {
+                        stack?.performBatchOperation({ (workerContext) in
+                            let photo = Photos(NSData(data: UIImageJPEGRepresentation(photo, 1.0)!), context: (stack?.context)!)
+                            coordinate.addToPhotos(photo)
+                            photo.toCoordination = coordinate
+                            photo.url = String(describing: url)
+                            
+                        })
+                    }
+                }
+            }
+        })
+        
+        
+    }
+    
     
     
     
