@@ -17,7 +17,15 @@ class PhotoCollectionViewController: UIViewController {
     //coordination for pin also for lat, lon of flickr search string
     var coordination = CLLocationCoordinate2D()
     
-    // @IBOutlet weak var collectionView: CollectionView!
+    @IBOutlet weak var collectionView: UICollectionView! {
+        didSet {
+            collectionView.delegate = self
+            collectionView.dataSource = self
+        }
+    }
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    
+
     @IBOutlet weak var mapView: MKMapView! {
         didSet {
             Helper.shared.addPinForCoordination(mapView, coordination: coordination)
@@ -28,30 +36,82 @@ class PhotoCollectionViewController: UIViewController {
     @IBOutlet weak var editButton: UIBarButtonItem!
     
     @IBAction func editButtonAction(_ sender: UIBarButtonItem) {
+        didTapped = !didTapped
+        Helper.shared.inEditMode(tapped: didTapped, view: self, barButton: editButton, statusLabel: nil)
+
     }
     
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
+    
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
+}
+
+extension PhotoCollectionViewController {
+    // setting up collection view items spacing and size with different orientation
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        if UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation) {
+            self.flowlayOut(spacee: 10, numberOfItems: 3)
+        }
+        else
+        {
+            self.flowlayOut(spacee: 10, numberOfItems: 5)
+            
+        }
+    }
+    
+    
+    // reusable func for configuring collection item
+    func flowlayOut(spacee:CGFloat, numberOfItems:CGFloat){
+        
+        let space : CGFloat = spacee
+        let numberOfItem : CGFloat = numberOfItems
+        let itemDimention = (self.view.frame.size.width - ( (numberOfItem - 1) * space )) / numberOfItem
+        
+        flowLayout.minimumLineSpacing = space
+        flowLayout.minimumInteritemSpacing = space
+        flowLayout.itemSize = CGSize(width: itemDimention, height: itemDimention)
+        
+    }
+
+
+
+}
+
+extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let reuseID = "Cell"
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseID, for: indexPath)
+        
+        return cell
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
+
+
+
+
+

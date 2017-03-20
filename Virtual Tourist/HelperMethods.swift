@@ -14,6 +14,8 @@ class Helper {
     
     static let shared = Helper()
     
+    
+    
     func alert(_ view: UIViewController, title: String?, message: String?, preferredStyle: UIAlertControllerStyle, okActionTitle: String?, okActionStyle: UIAlertActionStyle?, okActionHandler: ((UIAlertAction) -> Void)?, cancelActionTitle: String?, cancelActionStyle: UIAlertActionStyle?, cancelActionHandler: ((UIAlertAction) -> Void)?) {
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)

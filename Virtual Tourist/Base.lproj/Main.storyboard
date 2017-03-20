@@ -95,14 +95,28 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="H3e-1i-yNI">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="H3e-1i-yNI" customClass="CollectionViewCell" customModule="Virtual_Tourist" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="132" height="125"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="132" height="125"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FMS-OH-WIm">
+                                                    <rect key="frame" x="0.0" y="0.0" width="132" height="125"/>
+                                                </imageView>
+                                            </subviews>
                                         </view>
                                         <color key="backgroundColor" red="0.52131233809999999" green="0.50099118499999995" blue="0.46871441400000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="FMS-OH-WIm" firstAttribute="top" secondItem="H3e-1i-yNI" secondAttribute="top" id="Dbk-u6-ba6"/>
+                                            <constraint firstAttribute="bottom" secondItem="FMS-OH-WIm" secondAttribute="bottom" id="NxD-G5-Pqj"/>
+                                            <constraint firstAttribute="trailing" secondItem="FMS-OH-WIm" secondAttribute="trailing" id="nEn-Bt-8tl"/>
+                                            <constraint firstItem="FMS-OH-WIm" firstAttribute="leading" secondItem="H3e-1i-yNI" secondAttribute="leading" id="nvu-HP-QoQ"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="imageView" destination="FMS-OH-WIm" id="uQS-gh-8d1"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -127,7 +141,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="collectionView" destination="Bvp-XN-jZj" id="C7w-Ma-Li8"/>
                         <outlet property="editButton" destination="sLx-RA-BLw" id="VaM-sg-YLl"/>
+                        <outlet property="flowLayout" destination="nKy-pF-pqA" id="kFK-fh-8r0"/>
                         <outlet property="mapView" destination="oIL-7s-wH4" id="ARL-5e-met"/>
                     </connections>
                 </viewController>
