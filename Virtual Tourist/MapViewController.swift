@@ -45,8 +45,6 @@ class MapViewController: UIViewController {
         didTapped = !didTapped
         Helper.shared.inEditMode(tapped: didTapped, view: self, barButton: editButton, statusLabel: tapToDeleteLabel)
         inEditMode = !inEditMode
-        
-        
     }
     
     
