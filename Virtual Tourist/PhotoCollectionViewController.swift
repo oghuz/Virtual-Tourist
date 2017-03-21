@@ -52,7 +52,8 @@ class PhotoCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
+    
+        
     }
     
 }
@@ -84,7 +85,6 @@ extension PhotoCollectionViewController {
         else
         {
             self.flowlayOut(spacee: 10, numberOfItems: 5)
-            
         }
     }
     
@@ -98,7 +98,6 @@ extension PhotoCollectionViewController {
         flowLayout.minimumLineSpacing = space
         flowLayout.minimumInteritemSpacing = space
         flowLayout.itemSize = CGSize(width: itemDimention, height: itemDimention)
-        
     }
     
 }

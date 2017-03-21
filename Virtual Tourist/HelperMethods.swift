@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import MapKit
+import CoreData
 
 class Helper {
     
@@ -36,7 +37,6 @@ class Helper {
     // add map pin on mapview by coordination
     func addPinForCoordination(_ mapView: MKMapView ,coordination: CLLocationCoordinate2D?) {
         
-        
         if let coordination = coordination {
             let pin = MKPointAnnotation()
             let span = MKCoordinateSpanMake(0.2, 0.2)
@@ -45,7 +45,6 @@ class Helper {
             mapView.setRegion(region, animated: true)
             mapView.addAnnotation(pin)
         }
-        
     }
     
     
@@ -65,7 +64,17 @@ class Helper {
             view.navigationItem.rightBarButtonItem = barButton
             statusLabel?.alpha = 0.0
         }
+    }
+    
+    //get NSManagedObjectContext
+    func stackManagedObjectContext() -> NSManagedObjectContext {
+    
+        // core data stack
+        let delegate = UIApplication.shared.delegate as! AppDelegate
+        let stack = delegate.stack
         
+        return (stack?.context)!
+
     }
     
     //#MARK: Save Photo, ULR To CoreData
@@ -75,23 +84,26 @@ class Helper {
         let stack = delegate.stack
         
         // adding coordinate to data base
-        let coordinate = Coordination(coordination.latitude, coordination.longitude, context: (stack?.context)!)
+        let coordinate = Coordination(coordination.latitude, coordination.longitude, context: stackManagedObjectContext())
+        stackManagedObjectContext().perform {
+            (UIApplication.shared.delegate as! AppDelegate).stack?.save()
+        }
+        if let coordin = try? stackManagedObjectContext().count(for: Coordination.fetchRequest()) {
+            print("\(coordin) Coordinates are here")
+        }
         
         // calling get photo with coordination method
         Networking.shared.getPhotoWithCoordination(coordination: coordination, page: page, complitionHandlerForgetPhoto: { (result, urlStrings, error) in
-            
             
             guard (error == nil) else {
                 Helper.shared.alert(inView, title: "Error", message: "No data found", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
                 return
             }
             
-            
             guard ((result?.count)! > 0) else {
                 
                 performUpdateOnMain({
                     Helper.shared.alert(inView, title: "No Photo", message: "No Photo Found On This Location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
-                    
                 })
                 return
             }
@@ -107,7 +119,7 @@ class Helper {
                 //saving photos to core data as NSData
                 for url in uRls {
                     stack?.performBatchOperation({ (workerContext) in
-                        let photo = Photos(NSData(data: UIImageJPEGRepresentation(photo, 1.0)!), context: (stack?.context)!)
+                        let photo = Photos(NSData(data: UIImageJPEGRepresentation(photo, 1.0)!), context: self.stackManagedObjectContext())
                         coordinate.addToPhotos(photo)
                         photo.toCoordination = coordinate
                         photo.url = String(describing: url)
@@ -117,6 +129,29 @@ class Helper {
         })
     }
     
+    
+    //loading coordination from core data
+    func getCoordinationFromCoreData() throws -> [CLLocationCoordinate2D] {
+    
+        let request: NSFetchRequest<Coordination> = Coordination.fetchRequest()
+        var coordinations: [Coordination] = []
+        var coordinate: [CLLocationCoordinate2D] = []
+        do {
+        let pins = try stackManagedObjectContext().fetch(request)
+            if pins.count > 0 {
+                coordinations = pins
+                for item in coordinations {
+                let latlon = CLLocationCoordinate2D(latitude: item.latitude, longitude: item.longitude)
+                    coordinate.append(latlon)
+                }
+            }
+        } catch {
+            throw error
+        }
+        
+        return coordinate
+    
+    }
     
     
     

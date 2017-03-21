@@ -104,7 +104,6 @@ extension CoreDataStack {
                 fatalError("can not save to background context")
             }
         }
-        
     }
     
     //saving

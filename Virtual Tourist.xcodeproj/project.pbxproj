@@ -115,13 +115,13 @@
 		D6D2613C1E6E29C30059FD40 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				D6016E5F1E76184000D2A8F6 /* DataModels */,
 				D6016E5D1E7617C300D2A8F6 /* CoreDataStack.swift */,
 				D6D261401E6F1ED50059FD40 /* Reachability.swift */,
 				D6D261441E7076EE0059FD40 /* Constants.swift */,
 				D6D261481E7200200059FD40 /* Networking.swift */,
 				D6D261421E6F1F9A0059FD40 /* HelperMethods.swift */,
 				D69C3F2E1E7F4CB000CE08F9 /* UIUpdateOnMainQueue.swift */,
+				D6016E5F1E76184000D2A8F6 /* DataModels */,
 				D6016E4A1E74FAA600D2A8F6 /* DataModel.xcdatamodeld */,
 			);
 			name = Models;
