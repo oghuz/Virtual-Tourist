@@ -66,7 +66,7 @@ class Helper {
         }
     }
     
-    //get NSManagedObjectContext
+    //#MARK: get NSManagedObjectContext
     func stackManagedObjectContext() -> NSManagedObjectContext {
     
         // core data stack
@@ -93,13 +93,13 @@ class Helper {
         }
         
         // calling get photo with coordination method
-        Networking.shared.getPhotoWithCoordination(coordination: coordination, page: page, complitionHandlerForgetPhoto: { (result, urlStrings, error) in
+        Networking.shared.getPhotoWithCoordination(coordination: coordination, withPageNumber: page, complitionHandlerForgetPhoto: { (result, urlStrings, totalPage ,error) in
             
             guard (error == nil) else {
                 Helper.shared.alert(inView, title: "Error", message: "No data found", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
                 return
             }
-            
+                       
             guard ((result?.count)! > 0) else {
                 
                 performUpdateOnMain({
@@ -112,6 +112,7 @@ class Helper {
                 print("No photo or url fiund")
                 return
             }
+            
             
             print("total photos \(uRls.count)")
             
@@ -130,7 +131,8 @@ class Helper {
     }
     
     
-    //loading coordination from core data
+    //#MARK: loading coordination from core data
+    
     func getCoordinationFromCoreData() throws -> [CLLocationCoordinate2D] {
     
         let request: NSFetchRequest<Coordination> = Coordination.fetchRequest()

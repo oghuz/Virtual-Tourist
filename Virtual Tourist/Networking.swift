@@ -30,7 +30,6 @@ class Networking {
         
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
-            print("The Url is: \(request.url)")
             //error handling
             func sendError(_ errorr: String) {
                 print("error: \(errorr)")
@@ -101,7 +100,7 @@ class Networking {
     
     //#MARK: Get photo method
     
-    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, page: Int? ,complitionHandlerForgetPhoto: @escaping(_ photos: [UIImage]?, _ photoURL: [URL]?, _ error: Error? ) -> Void ) {
+    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, withPageNumber page: Int? ,complitionHandlerForgetPhoto: @escaping(_ photos: [UIImage]?, _ photoURL: [URL]?, _ totalPage: Int? ,_ error: Error? ) -> Void ) {
         
         // lat, lon for photo search
         let latitude = coordination?.latitude
@@ -125,17 +124,20 @@ class Networking {
             // error checking
             guard (error == nil) else {
                 
-                complitionHandlerForgetPhoto(nil, nil, error)
+                complitionHandlerForgetPhoto(nil, nil, nil, error)
                 return
             }
             
             // creating a image array
             var dataArray: [UIImage] = []
             var urlArray: [URL] = []
+            var totalPage = Int()
             
             // taking data
-            if let data = results, let photosDictionary = data[Constants.URLResponseKey.Photos] as? [String: AnyObject], let photoDicArray = photosDictionary[Constants.URLResponseKey.Photo] as? [[String: AnyObject]] {
+            if let data = results, let photosDictionary = data[Constants.URLResponseKey.Photos] as? [String: AnyObject], let pages = photosDictionary[Constants.URLConstants.totalPage] as? Int ,let photoDicArray = photosDictionary[Constants.URLResponseKey.Photo] as? [[String: AnyObject]] {
                 
+                //assign total page
+                totalPage = pages
                 for array in photoDicArray {
                     if let image = self.photoFromDataArray(array).0 {
                         dataArray.append(image)
@@ -145,7 +147,7 @@ class Networking {
                         urlArray.append(photoUrl)
                     }
                 }
-                complitionHandlerForgetPhoto(dataArray, urlArray, nil)
+                complitionHandlerForgetPhoto(dataArray, urlArray, totalPage, nil)
             }
         }
     }

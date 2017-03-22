@@ -55,10 +55,8 @@ class MapViewController: UIViewController {
         let coordinations = try? Helper.shared.getCoordinationFromCoreData()
         
         if let coordinates = coordinations {
-            print("There is data \(coordinates.count)")
             for item in coordinates {
-            print("There is data \(item)")
-            Helper.shared.addPinForCoordination(mapView, coordination: item)
+                Helper.shared.addPinForCoordination(mapView, coordination: item)
             }
         }
         
