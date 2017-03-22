@@ -13,10 +13,11 @@ import CoreData
 public class Photos: NSManagedObject {
 
     //initializing the entity with property
-    convenience init(_ photo: NSData, context: NSManagedObjectContext ) {
+    convenience init(_ photo: NSData, withURL urlString: String, context: NSManagedObjectContext ) {
         if let ent = NSEntityDescription.entity(forEntityName: "Photos", in: context) {
             self.init(entity: ent, insertInto: context)
             self.photo = photo
+            self.url = urlString
         }
         else {
             fatalError("can not initialize Photos entity")

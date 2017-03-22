@@ -62,8 +62,19 @@ class MapViewController: UIViewController {
                 Helper.shared.addPinForCoordination(mapView, coordination: item)
             }
         }
+
+        
+    }
+    
+    //view will load
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         
         
+        if let photoCount = (try? Helper.shared.stackManagedObjectContext().fetch(Photos.fetchRequest()))?.count {
+            print("\(photoCount) photos")
+        }
+
     }
     
     //add pin to map by long press

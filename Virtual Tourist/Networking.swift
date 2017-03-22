@@ -100,7 +100,7 @@ class Networking {
     
     //#MARK: Get photo method
     
-    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, withPageNumber page: Int? ,complitionHandlerForgetPhoto: @escaping(_ photos: [UIImage]?, _ photoURL: [URL]?, _ totalPage: Int? ,_ error: Error? ) -> Void ) {
+    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, withPageNumber page: Int? ,complitionHandlerForgetPhoto: @escaping(_ photos: [UIImage]?, _ photoURL: [String]?, _ totalPage: Int? ,_ error: Error? ) -> Void ) {
         
         // lat, lon for photo search
         let latitude = coordination?.latitude
@@ -130,7 +130,7 @@ class Networking {
             
             // creating a image array
             var dataArray: [UIImage] = []
-            var urlArray: [URL] = []
+            var urlStringArray: [String] = []
             var totalPage = Int()
             
             // taking data
@@ -144,10 +144,10 @@ class Networking {
                     }
                     
                     if let photoUrl = self.photoFromDataArray(array).1 {
-                        urlArray.append(photoUrl)
+                        urlStringArray.append(photoUrl)
                     }
                 }
-                complitionHandlerForgetPhoto(dataArray, urlArray, totalPage, nil)
+                complitionHandlerForgetPhoto(dataArray, urlStringArray, totalPage, nil)
             }
         }
     }
@@ -155,7 +155,7 @@ class Networking {
     //#MARK: Get photo url from components
     
     //take dictionary array as parameter, return image as anyobject
-    func photoFromDataArray(_ array: [String: AnyObject]) -> (UIImage?, URL?) {
+    func photoFromDataArray(_ array: [String: AnyObject]) -> (UIImage?, String?) {
         
         var photoURLString = String()
         //unwrapping photo parameters
@@ -179,7 +179,7 @@ class Networking {
         
         let photo = UIImage(data: photoData)
         
-        return (photo, photoURL)
+        return (photo, photoURLString)
     }
     
     //contructs photo from standard photo response

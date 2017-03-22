@@ -52,7 +52,8 @@ class PhotoCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
+    let images = try? Helper.shared.getPhotoFromCoreData(withCoordination: coordination)
+        print("number of images :\(images?.count)")
         
     }
     

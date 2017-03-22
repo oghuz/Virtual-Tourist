@@ -120,10 +120,11 @@ class Helper {
                 //saving photos to core data as NSData
                 for url in uRls {
                     stack?.performBatchOperation({ (workerContext) in
-                        let photo = Photos(NSData(data: UIImageJPEGRepresentation(photo, 1.0)!), context: self.stackManagedObjectContext())
+                        let photo = Photos(NSData(data: UIImageJPEGRepresentation(photo, 1.0)!), withURL: url, context: self.stackManagedObjectContext())
                         coordinate.addToPhotos(photo)
-                        photo.toCoordination = coordinate
-                        photo.url = String(describing: url)
+                        photo.toCoordination?.latitude = coordinate.latitude
+                        photo.toCoordination?.longitude = coordinate.longitude
+                        photo.url = url
                     })
                 }
             }
@@ -158,14 +159,16 @@ class Helper {
     func getPhotoFromCoreData(withCoordination coordination: CLLocationCoordinate2D) throws -> [UIImage] {
         
         let request: NSFetchRequest<Photos> = Photos.fetchRequest()        
-        request.predicate = NSPredicate(format: "toCoordination.latitude = %@ and toCoordination.longitude = %@", coordination.latitude, coordination.longitude)
+        request.predicate = NSPredicate(format: "toCoordination.latitude = %@ and toCoordination.longitude = %@", Double(coordination.latitude), Double(coordination.longitude))
         
         //array will be populate from fetch result
         var imageArray: [UIImage] = []
         
         do {
             let photoData = try stackManagedObjectContext().fetch(request)
+            print("Number of image data :\(photoData.count)")
             if photoData.count > 0 {
+                print("Number of image data :\(photoData.count)")
                 for item in photoData {
                     if let image = UIImage(data: item.photo as! Data) {
                         imageArray.append(image)
