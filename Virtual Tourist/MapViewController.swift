@@ -18,6 +18,9 @@ class MapViewController: UIViewController {
     var reachability = Reachability()
     var coordination = CLLocationCoordinate2D()
     
+    //selected pin coordination
+    var Selectedcoordination = CLLocationCoordinate2D()
+    
     
     @IBOutlet weak var mapView: MKMapView! {
         didSet {
@@ -94,8 +97,10 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
         // perform segue to collection view controller
+        Selectedcoordination = (view.annotation?.coordinate)!
         performSegue(withIdentifier: "goToCollection", sender: MKAnnotationView())
         mapView.deselectAnnotation(view.annotation, animated: true)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -104,7 +109,7 @@ extension MapViewController: MKMapViewDelegate {
         if segue.identifier == "goToCollection" {
             
             let collectionVC = segue.destination as? PhotoCollectionViewController
-            collectionVC?.coordination = self.coordination
+            collectionVC?.coordination = self.Selectedcoordination
             
         }
     }

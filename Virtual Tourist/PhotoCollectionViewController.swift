@@ -18,7 +18,7 @@ class PhotoCollectionViewController: UIViewController {
     var coordination = CLLocationCoordinate2D()
     
     //creating fechedrequestcontroller
-    var fetchResultsController: NSFetchedResultsController<NSFetchRequestResult>? {
+    var fetchResultsController: NSFetchedResultsController<Photos>? {
         didSet {
             fetchResultsController?.delegate = self
             collectionView?.reloadData()
