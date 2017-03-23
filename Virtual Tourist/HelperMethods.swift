@@ -158,8 +158,13 @@ class Helper {
     
     func getPhotoFromCoreData(withCoordination coordination: CLLocationCoordinate2D) throws -> [UIImage] {
         
-        let request: NSFetchRequest<Photos> = Photos.fetchRequest()        
-        request.predicate = NSPredicate(format: "toCoordination.latitude = %@ and toCoordination.longitude = %@", Double(coordination.latitude), Double(coordination.longitude))
+        //getting coordinates from core data for use predicate in photo
+        let pinRequest: NSFetchRequest<Coordination> = Coordination.fetchRequest()
+        pinRequest.predicate = NSPredicate(format: "latitude = %@ and longitude = %@", argumentArray: [coordination.latitude, coordination.longitude])
+        let coord = try? stackManagedObjectContext().fetch(pinRequest)
+        
+        let request: NSFetchRequest<Photos> = Photos.fetchRequest()
+        request.predicate = NSPredicate(format: "toCoordination = %@", argumentArray: [coord!.first!])
         
         //array will be populate from fetch result
         var imageArray: [UIImage] = []

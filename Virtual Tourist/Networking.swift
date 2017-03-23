@@ -134,10 +134,13 @@ class Networking {
             var totalPage = Int()
             
             // taking data
-            if let data = results, let photosDictionary = data[Constants.URLResponseKey.Photos] as? [String: AnyObject], let pages = photosDictionary[Constants.URLConstants.totalPage] as? Int ,let photoDicArray = photosDictionary[Constants.URLResponseKey.Photo] as? [[String: AnyObject]] {
+            if let data = results, let photosDictionary = data[Constants.URLResponseKey.Photos] as? [String: AnyObject], let pages = photosDictionary[Constants.URLConstants.totalPage] as? Int ,let photoDicArray = photosDictionary[Constants.URLResponseKey.Photo] as? [Dictionary<String, AnyObject>] {
                 
                 //assign total page
                 totalPage = pages
+                
+                //let twohundred = (photoDicArray.count >= 200) ? [photoDicArray.prefix(upTo: 200)] : photoDicArray
+                
                 for array in photoDicArray {
                     if let image = self.photoFromDataArray(array).0 {
                         dataArray.append(image)
