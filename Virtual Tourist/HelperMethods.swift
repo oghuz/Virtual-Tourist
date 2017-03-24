@@ -93,14 +93,14 @@ class Helper {
         }
         
         // calling get photo with coordination method
-        Networking.shared.getPhotoWithCoordination(coordination: coordination, withPageNumber: page, complitionHandlerForgetPhoto: { (result, urlStrings, totalPage ,error) in
+        Networking.shared.getPhotoWithCoordination(coordination: coordination, withPageNumber: page, complitionHandlerForgetPhoto: { (urlStrings, totalPage ,error) in
             
             guard (error == nil) else {
                 Helper.shared.alert(inView, title: "Error", message: "No data found", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
                 return
             }
             
-            guard ((result?.count)! > 0) else {
+            guard ((urlStrings?.count)! > 0) else {
                 
                 performUpdateOnMain({
                     Helper.shared.alert(inView, title: "No Photo", message: "No Photo Found On This Location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
@@ -108,26 +108,38 @@ class Helper {
                 return
             }
             
-            guard let results = result, let uRls = urlStrings else {
+            guard let uRls = urlStrings else {
                 print("No photo or url fiund")
                 return
             }
             
+            print("total url \(uRls.count)")
             
-            print("total photos \(uRls.count)")
-            
-            for photo in results {
-                //saving photos to core data as NSData
-                for url in uRls {
-                    stack?.performBatchOperation({ (workerContext) in
-                        let photo = Photos(NSData(data: UIImageJPEGRepresentation(photo, 1.0)!), withURL: url, context: self.stackManagedObjectContext())
+            //saving photos to core data as NSData
+            stack?.performBatchOperation({ (workerContext) in
+                
+                for urlString in uRls {
+                    
+                    var photoData = Data()
+                    let url = URL(string: urlString)
+                    do {
+                        if let url = url {
+                            photoData = try Data(contentsOf: url)
+                        }
+                    } catch let e as NSError {
+                        print("can not get image from data, error :\(e)")
+                    }
+                    
+                    let image = UIImage(data: photoData)
+                    if let image = image {
+                        let photo = Photos(NSData(data: UIImageJPEGRepresentation(image, 1.0)!), withURL: urlString, context: self.stackManagedObjectContext())
                         coordinate.addToPhotos(photo)
                         photo.toCoordination?.latitude = coordinate.latitude
                         photo.toCoordination?.longitude = coordinate.longitude
-                        photo.url = url
-                    })
+                        photo.url = urlString
+                    }
                 }
-            }
+            })
         })
     }
     
@@ -171,9 +183,9 @@ class Helper {
         
         do {
             let photoData = try stackManagedObjectContext().fetch(request)
-            print("Number of image data :\(photoData.count)")
+            
             if photoData.count > 0 {
-                print("Number of image data :\(photoData.count)")
+                print("-----photoData count :\(photoData.count)")
                 for item in photoData {
                     if let image = UIImage(data: item.photo as! Data) {
                         imageArray.append(image)
@@ -183,7 +195,7 @@ class Helper {
         } catch {
             throw error
         }
-        
+        print("array of image from core data count :\(imageArray.count)")
         return imageArray
     }
     

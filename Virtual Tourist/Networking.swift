@@ -100,7 +100,7 @@ class Networking {
     
     //#MARK: Get photo method
     
-    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, withPageNumber page: Int? ,complitionHandlerForgetPhoto: @escaping(_ photos: [UIImage]?, _ photoURL: [String]?, _ totalPage: Int? ,_ error: Error? ) -> Void ) {
+    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, withPageNumber page: Int? ,complitionHandlerForgetPhoto: @escaping( _ photoURL: [String]?, _ totalPage: Int? ,_ error: Error? ) -> Void ) {
         
         // lat, lon for photo search
         let latitude = coordination?.latitude
@@ -124,12 +124,11 @@ class Networking {
             // error checking
             guard (error == nil) else {
                 
-                complitionHandlerForgetPhoto(nil, nil, nil, error)
+                complitionHandlerForgetPhoto(nil, nil, error)
                 return
             }
             
             // creating a image array
-            var dataArray: [UIImage] = []
             var urlStringArray: [String] = []
             var totalPage = Int()
             
@@ -139,18 +138,15 @@ class Networking {
                 //assign total page
                 totalPage = pages
                 
-                //let twohundred = (photoDicArray.count >= 200) ? [photoDicArray.prefix(upTo: 200)] : photoDicArray
+                // limiting max number of array to 200
+                let limitedItemArray = (photoDicArray.count >= 200) ? Array([photoDicArray.prefix(upTo: 200)]) : photoDicArray
                 
-                for array in photoDicArray {
-                    if let image = self.photoFromDataArray(array).0 {
-                        dataArray.append(image)
-                    }
-                    
-                    if let photoUrl = self.photoFromDataArray(array).1 {
+                for array in limitedItemArray {
+                   if let photoUrl = self.photoFromDataArray(array as! [String : AnyObject]) {
                         urlStringArray.append(photoUrl)
                     }
                 }
-                complitionHandlerForgetPhoto(dataArray, urlStringArray, totalPage, nil)
+                complitionHandlerForgetPhoto(urlStringArray, totalPage, nil)
             }
         }
     }
@@ -158,31 +154,18 @@ class Networking {
     //#MARK: Get photo url from components
     
     //take dictionary array as parameter, return image as anyobject
-    func photoFromDataArray(_ array: [String: AnyObject]) -> (UIImage?, String?) {
+    func photoFromDataArray(_ array: [String: AnyObject]) -> String? {
         
         var photoURLString = String()
         //unwrapping photo parameters
         guard let farmID = array[Constants.PhotoParameterKeys.farm] as? Int, let serverID = array[Constants.PhotoParameterKeys.server] as? String, let photoID = array[Constants.PhotoParameterKeys.photoID] as? String, let secret = array[Constants.PhotoParameterKeys.secret] as? String else {
             
-            return (nil, nil)
+            return nil
         }
         
         photoURLString =  constructPhotoWithResponse(farmID: farmID, serverID: serverID, PhotoID: photoID, photoSecrete: secret )
         
-        let photoURL = URL(string: photoURLString)
-        
-        var photoData = Data()
-        do {
-            if let url = photoURL {
-                photoData = try Data(contentsOf: url)
-            }
-        } catch let e as NSError {
-            print("can not get image from data, error :\(e)")
-        }
-        
-        let photo = UIImage(data: photoData)
-        
-        return (photo, photoURLString)
+        return photoURLString
     }
     
     //contructs photo from standard photo response

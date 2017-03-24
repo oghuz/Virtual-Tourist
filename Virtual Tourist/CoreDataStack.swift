@@ -99,6 +99,7 @@ extension CoreDataStack {
             
             do {
                 try self.backgroundContext.save()
+                print("--------------performBatchOperation is saving data to file!")
             }
             catch {
                 fatalError("can not save to background context")

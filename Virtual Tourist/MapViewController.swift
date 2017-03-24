@@ -72,7 +72,7 @@ class MapViewController: UIViewController {
         
         
         if let photoCount = (try? Helper.shared.stackManagedObjectContext().fetch(Photos.fetchRequest()))?.count {
-            print("\(photoCount) photos")
+            print("total \(photoCount) photos")
         }
 
     }
