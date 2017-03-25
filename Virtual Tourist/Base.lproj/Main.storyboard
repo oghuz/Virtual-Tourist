@@ -115,7 +115,7 @@
                                             <constraint firstItem="FMS-OH-WIm" firstAttribute="leading" secondItem="H3e-1i-yNI" secondAttribute="leading" id="nvu-HP-QoQ"/>
                                         </constraints>
                                         <connections>
-                                            <outlet property="imageView" destination="FMS-OH-WIm" id="uQS-gh-8d1"/>
+                                            <outlet property="imageView" destination="FMS-OH-WIm" id="8De-6Y-kmb"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

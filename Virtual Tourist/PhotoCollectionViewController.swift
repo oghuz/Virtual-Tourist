@@ -10,12 +10,15 @@ import UIKit
 import CoreData
 import MapKit
 
+private let reuseID = "Cell"
+
 class PhotoCollectionViewController: UIViewController {
     
     var didTapped = Bool()
     
     //coordination for pin also for lat, lon of flickr search string
     var coordination = CLLocationCoordinate2D()
+    var imageArray: [UIImage]? = []
     
     //creating fechedrequestcontroller
     var fetchResultsController: NSFetchedResultsController<Photos>? {
@@ -52,9 +55,11 @@ class PhotoCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let images = try? Helper.shared.getPhotoFromCoreData(withCoordination: coordination)
-        print("number of images :\(images?.count)")
-        
+        let uiImages = try? Helper.shared.getPhotoFromCoreData(withCoordination: coordination)
+        if let images = uiImages {
+            imageArray = images
+            //print("number of images :\(images?.count)")
+        }
     }
     
 }
@@ -115,8 +120,18 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let reuseID = "Cell"
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseID, for: indexPath)
+        
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseID, for: indexPath) as! CollectionViewCell
+        
+        let imageItem = imageArray?[indexPath.item]
+        
+        if let item = imageItem {
+        
+            cell.imageView.image = item
+        }
+        
+            print("number of images :\(imageArray?.count)")
         
         return cell
     }

@@ -78,20 +78,10 @@ class Helper {
     }
     
     //#MARK: Save Photo, ULR, Coordination To CoreData
-    func savePhotoAndURLToDataBase(forCoordination coordination: CLLocationCoordinate2D, withPageNumber page: Int ,inView: UIViewController) {
+    func savePhotoAndURLToDataBase(forCoordination coordination: CLLocationCoordinate2D, atMapview: MKMapView, withPageNumber page: Int ,inView: UIViewController) {
         // core data stack
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let stack = delegate.stack
-        
-        // adding coordinate to data base
-        let coordinate = Coordination(coordination.latitude, coordination.longitude, context: stackManagedObjectContext())
-        stackManagedObjectContext().perform {
-            (UIApplication.shared.delegate as! AppDelegate).stack?.save()
-        }
-        
-        if let coordin = try? stackManagedObjectContext().count(for: Coordination.fetchRequest()) {
-            print("\(coordin) Coordinates are here")
-        }
         
         // calling get photo with coordination method
         Networking.shared.getPhotoWithCoordination(coordination: coordination, withPageNumber: page, complitionHandlerForgetPhoto: { (urlStrings, totalPage ,error) in
@@ -108,6 +98,24 @@ class Helper {
                 })
                 return
             }
+            
+            //adding pin to mapview, if there are photos at that coordination
+            if (urlStrings?.count)! > 0 {
+                self.addPinForCoordination(atMapview, coordination: coordination)
+            } else {
+                Helper.shared.alert(inView, title: "No Photo", message: "There are no Photo at this location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
+                
+            }
+            // adding coordinate to data base
+            let coordinate = Coordination(coordination.latitude, coordination.longitude, context: self.stackManagedObjectContext())
+            self.stackManagedObjectContext().perform {
+                (UIApplication.shared.delegate as! AppDelegate).stack?.save()
+            }
+            
+            if let coordin = try? self.stackManagedObjectContext().count(for: Coordination.fetchRequest()) {
+                print("\(coordin) Coordinates are here")
+            }
+            
             
             guard let uRls = urlStrings else {
                 print("No photo or url fiund")
@@ -225,7 +233,7 @@ class Helper {
             throw error
         }
         
-        return coord        
+        return coord
     }
     
     
