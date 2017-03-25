@@ -52,7 +52,7 @@ class PhotoCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    let images = try? Helper.shared.getPhotoFromCoreData(withCoordination: coordination)
+        let images = try? Helper.shared.getPhotoFromCoreData(withCoordination: coordination)
         print("number of images :\(images?.count)")
         
     }
@@ -120,7 +120,7 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
         
         return cell
     }
-        
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
     }

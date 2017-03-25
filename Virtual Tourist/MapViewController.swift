@@ -12,6 +12,8 @@ import CoreData
 
 class MapViewController: UIViewController {
     
+    //#MARK: Properties and Outlets
+    
     var didTapped = Bool() // set value for this bool by tapping edit button, for toggle editting mode
     var inEditMode: Bool = false
     let longPressGeusture = UILongPressGestureRecognizer()
@@ -52,7 +54,7 @@ class MapViewController: UIViewController {
     }
     
     
-    //app life cycle
+    //#MARK: Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         let coordinations = try? Helper.shared.getCoordinationFromCoreData()
@@ -77,7 +79,7 @@ class MapViewController: UIViewController {
 
     }
     
-    //add pin to map by long press
+    //#MARK: ADD pin to map by long press
     @objc private func addPinByLongPress() {
         
         if longPressGeusture.state == .began {
@@ -95,13 +97,14 @@ class MapViewController: UIViewController {
                 // if there is no internet connection show an alert, can not add pin
             else{
                 performUpdateOnMain({
-                    Helper.shared.alert(self, title: "No Internet Connection", message: "Please check your internet connection, disable airplane mode, activate WIFI", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
-                    
+                    Helper.shared.alert(self, title: "No Internet Connection", message: "Please check your internet connection, disable airplane mode, activate WIFI", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)                    
                 })
             }
         }
     }
 }
+
+//#MARK: MKMapViewDelegate, prepare for segue
 
 extension MapViewController: MKMapViewDelegate {
     
@@ -121,7 +124,6 @@ extension MapViewController: MKMapViewDelegate {
             
             let collectionVC = segue.destination as? PhotoCollectionViewController
             collectionVC?.coordination = self.Selectedcoordination
-            
         }
     }
     

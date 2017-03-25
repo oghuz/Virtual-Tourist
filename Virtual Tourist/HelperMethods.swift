@@ -77,7 +77,7 @@ class Helper {
         
     }
     
-    //#MARK: Save Photo, ULR To CoreData
+    //#MARK: Save Photo, ULR, Coordination To CoreData
     func savePhotoAndURLToDataBase(forCoordination coordination: CLLocationCoordinate2D, withPageNumber page: Int ,inView: UIViewController) {
         // core data stack
         let delegate = UIApplication.shared.delegate as! AppDelegate
@@ -88,6 +88,7 @@ class Helper {
         stackManagedObjectContext().perform {
             (UIApplication.shared.delegate as! AppDelegate).stack?.save()
         }
+        
         if let coordin = try? stackManagedObjectContext().count(for: Coordination.fetchRequest()) {
             print("\(coordin) Coordinates are here")
         }
@@ -168,15 +169,14 @@ class Helper {
     
     //#MARK: loading photos from core data
     
+    //get photo from core data with coordination
     func getPhotoFromCoreData(withCoordination coordination: CLLocationCoordinate2D) throws -> [UIImage] {
         
         //getting coordinates from core data for use predicate in photo
-        let pinRequest: NSFetchRequest<Coordination> = Coordination.fetchRequest()
-        pinRequest.predicate = NSPredicate(format: "latitude = %@ and longitude = %@", argumentArray: [coordination.latitude, coordination.longitude])
-        let coord = try? stackManagedObjectContext().fetch(pinRequest)
-        
+        let coord = try fetchCoordinationWithCoordinate(withCoordinate: coordination)
         let request: NSFetchRequest<Photos> = Photos.fetchRequest()
-        request.predicate = NSPredicate(format: "toCoordination = %@", argumentArray: [coord!.first!])
+        
+        request.predicate = NSPredicate(format: "toCoordination = %@", argumentArray: [coord])
         
         //array will be populate from fetch result
         var imageArray: [UIImage] = []
@@ -195,8 +195,37 @@ class Helper {
         } catch {
             throw error
         }
-        print("array of image from core data count :\(imageArray.count)")
+        
         return imageArray
+    }
+    
+    
+    //fetch coordination from core data for fetching matching photo
+    func fetchCoordinationWithCoordinate(withCoordinate coordinate: CLLocationCoordinate2D) throws -> Coordination {
+        
+        let pinRequest: NSFetchRequest<Coordination> = Coordination.fetchRequest()
+        pinRequest.predicate = NSPredicate(format: "latitude = %@ and longitude = %@", argumentArray: [coordinate.latitude, coordinate.longitude])
+        
+        
+        var coord = Coordination()
+        
+        do {
+            
+            let coordination = try stackManagedObjectContext().fetch(pinRequest)
+            if let coordin = coordination.first {
+                
+                //for faulting purpose
+                _ = coordin.latitude
+                _ = coordin.longitude
+                
+                coord = coordin
+            }
+            
+        } catch {
+            throw error
+        }
+        
+        return coord        
     }
     
     
