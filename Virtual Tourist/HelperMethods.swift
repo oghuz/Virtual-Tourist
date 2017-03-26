@@ -100,22 +100,16 @@ class Helper {
             }
             
             //adding pin to mapview, if there are photos at that coordination
-            if (urlStrings?.count)! > 0 {
+            performUpdateOnMain {
                 self.addPinForCoordination(atMapview, coordination: coordination)
-            } else {
-                Helper.shared.alert(inView, title: "No Photo", message: "There are no Photo at this location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
-                
             }
+            
+            
             // adding coordinate to data base
             let coordinate = Coordination(coordination.latitude, coordination.longitude, context: self.stackManagedObjectContext())
             self.stackManagedObjectContext().perform {
                 (UIApplication.shared.delegate as! AppDelegate).stack?.save()
             }
-            
-            if let coordin = try? self.stackManagedObjectContext().count(for: Coordination.fetchRequest()) {
-                print("\(coordin) Coordinates are here")
-            }
-            
             
             guard let uRls = urlStrings else {
                 print("No photo or url fiund")
@@ -191,6 +185,7 @@ class Helper {
         
         do {
             let photoData = try stackManagedObjectContext().fetch(request)
+            print("-----getPhotoFromCoreData----- photoData :\(photoData)")
             
             if photoData.count > 0 {
                 print("-----photoData count :\(photoData.count)")
@@ -203,7 +198,8 @@ class Helper {
         } catch {
             throw error
         }
-        
+        print("-----getPhotoFromCoreData----- imageArray :\(imageArray.count)")
+        print("-----getPhotoFromCoreData----- coord :\(coord)")
         return imageArray
     }
     
@@ -215,7 +211,7 @@ class Helper {
         pinRequest.predicate = NSPredicate(format: "latitude = %@ and longitude = %@", argumentArray: [coordinate.latitude, coordinate.longitude])
         
         
-        var coord = Coordination()
+        var coord: Coordination?
         
         do {
             
@@ -232,8 +228,8 @@ class Helper {
         } catch {
             throw error
         }
-        
-        return coord
+        print("------fetchCoordinationWithCoordinate---- \(coord!)")
+        return coord!
     }
     
     

@@ -58,7 +58,11 @@ class PhotoCollectionViewController: UIViewController {
         let uiImages = try? Helper.shared.getPhotoFromCoreData(withCoordination: coordination)
         if let images = uiImages {
             imageArray = images
-            //print("number of images :\(images?.count)")
+            print("number of images :\(imageArray?.count)")
+            performUpdateOnMain {
+                self.collectionView.reloadData()
+            }
+            
         }
     }
     
@@ -86,11 +90,11 @@ extension PhotoCollectionViewController {
         super.viewWillLayoutSubviews()
         
         if UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation) {
-            self.flowlayOut(spacee: 10, numberOfItems: 3)
+            self.flowlayOut(spacee: 2, numberOfItems: 3)
         }
         else
         {
-            self.flowlayOut(spacee: 10, numberOfItems: 5)
+            self.flowlayOut(spacee: 2, numberOfItems: 5)
         }
     }
     
@@ -115,7 +119,7 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return (imageArray?.count)!
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -130,9 +134,7 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
         
             cell.imageView.image = item
         }
-        
-            print("number of images :\(imageArray?.count)")
-        
+                
         return cell
     }
     

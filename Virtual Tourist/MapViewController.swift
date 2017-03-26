@@ -72,6 +72,10 @@ class MapViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        if let coordin = try? Helper.shared.stackManagedObjectContext().count(for: Coordination.fetchRequest()) {
+            print("\(coordin) Coordinates are here")
+        }
+
         
         if let photoCount = (try? Helper.shared.stackManagedObjectContext().fetch(Photos.fetchRequest()))?.count {
             print("total \(photoCount) photos")
