@@ -13,6 +13,7 @@
 		D65722891E808E1A001CA499 /* Photos+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65722851E808E1A001CA499 /* Photos+CoreDataProperties.swift */; };
 		D657228A1E808E1A001CA499 /* Coordination+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65722861E808E1A001CA499 /* Coordination+CoreDataClass.swift */; };
 		D657228B1E808E1A001CA499 /* Coordination+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65722871E808E1A001CA499 /* Coordination+CoreDataProperties.swift */; };
+		D698DE0B1E8ADC1D00B156F5 /* DetailPhotoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D698DE0A1E8ADC1D00B156F5 /* DetailPhotoController.swift */; };
 		D69C3F2B1E7F321200CE08F9 /* PhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69C3F2A1E7F321200CE08F9 /* PhotoCollectionViewController.swift */; };
 		D69C3F2D1E7F48AD00CE08F9 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69C3F2C1E7F48AD00CE08F9 /* CollectionViewCell.swift */; };
 		D69C3F2F1E7F4CB000CE08F9 /* UIUpdateOnMainQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69C3F2E1E7F4CB000CE08F9 /* UIUpdateOnMainQueue.swift */; };
@@ -53,6 +54,7 @@
 		D65722851E808E1A001CA499 /* Photos+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photos+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D65722861E808E1A001CA499 /* Coordination+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Coordination+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D65722871E808E1A001CA499 /* Coordination+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Coordination+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D698DE0A1E8ADC1D00B156F5 /* DetailPhotoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailPhotoController.swift; sourceTree = "<group>"; };
 		D69C3F2A1E7F321200CE08F9 /* PhotoCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewController.swift; sourceTree = "<group>"; };
 		D69C3F2C1E7F48AD00CE08F9 /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		D69C3F2E1E7F4CB000CE08F9 /* UIUpdateOnMainQueue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIUpdateOnMainQueue.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				D6DBB35A1E6DE6AB00FB21E1 /* MapViewController.swift */,
 				D69C3F2A1E7F321200CE08F9 /* PhotoCollectionViewController.swift */,
 				D69C3F2C1E7F48AD00CE08F9 /* CollectionViewCell.swift */,
+				D698DE0A1E8ADC1D00B156F5 /* DetailPhotoController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				D657228B1E808E1A001CA499 /* Coordination+CoreDataProperties.swift in Sources */,
 				D6DBB3591E6DE6AB00FB21E1 /* AppDelegate.swift in Sources */,
 				D69C3F2D1E7F48AD00CE08F9 /* CollectionViewCell.swift in Sources */,
+				D698DE0B1E8ADC1D00B156F5 /* DetailPhotoController.swift in Sources */,
 				D657228A1E808E1A001CA499 /* Coordination+CoreDataClass.swift in Sources */,
 				D6D261411E6F1ED50059FD40 /* Reachability.swift in Sources */,
 				D6016E5E1E7617C300D2A8F6 /* CoreDataStack.swift in Sources */,

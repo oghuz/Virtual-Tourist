@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="wLk-As-Kib">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="wLk-As-Kib">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -145,11 +146,55 @@
                         <outlet property="editButton" destination="sLx-RA-BLw" id="VaM-sg-YLl"/>
                         <outlet property="flowLayout" destination="nKy-pF-pqA" id="kFK-fh-8r0"/>
                         <outlet property="mapView" destination="oIL-7s-wH4" id="ARL-5e-met"/>
+                        <segue destination="DQN-jX-HS6" kind="show" identifier="showPhoto" id="vuS-VG-NZ8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ugc-lr-O44" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2392.753623188406" y="729.61956521739137"/>
+            <point key="canvasLocation" x="2362" y="730"/>
+        </scene>
+        <!--Detail Photo Controller-->
+        <scene sceneID="qRd-5B-D8h">
+            <objects>
+                <viewController storyboardIdentifier="DetailViewController" id="DQN-jX-HS6" customClass="DetailPhotoController" customModule="Virtual_Tourist" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Pt8-fQ-5Ol"/>
+                        <viewControllerLayoutGuide type="bottom" id="xxU-vD-myA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4Hg-ip-8K3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nSX-Oe-6V5">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="CaO-yn-3cr" appends="YES" id="9dG-W1-6Rj"/>
+                                </connections>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="nSX-Oe-6V5" firstAttribute="leading" secondItem="4Hg-ip-8K3" secondAttribute="leadingMargin" constant="-20" id="0Dp-Ux-62L"/>
+                            <constraint firstItem="nSX-Oe-6V5" firstAttribute="top" secondItem="4Hg-ip-8K3" secondAttribute="topMargin" id="beW-su-iAl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="nSX-Oe-6V5" secondAttribute="trailing" constant="-20" id="duZ-P4-DSD"/>
+                            <constraint firstItem="xxU-vD-myA" firstAttribute="top" secondItem="nSX-Oe-6V5" secondAttribute="bottom" id="se4-mU-gt1"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="1zd-Bb-Qod"/>
+                    <connections>
+                        <outlet property="imageView" destination="nSX-Oe-6V5" id="YJO-0F-DHd"/>
+                        <outlet property="tapGeusture" destination="CaO-yn-3cr" id="vIj-dL-zmn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ox6-Dl-Qv9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="CaO-yn-3cr">
+                    <connections>
+                        <action selector="tapController:" destination="DQN-jX-HS6" id="vKl-Km-Si4"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="3220" y="730"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="pSu-Mu-mjA">

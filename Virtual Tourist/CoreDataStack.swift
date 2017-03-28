@@ -115,6 +115,7 @@ extension CoreDataStack {
                 
                 do{
                    try self.context.save()
+                    print("try self.context.save() saved")
                 }
                 catch {
                     fatalError("cannot save to context")
@@ -123,6 +124,7 @@ extension CoreDataStack {
                 self.persistingContext.perform {
                     do {
                         try self.persistingContext.save()
+                        print("try self.persistingContext.save() saved")
                     }
                     
                     catch {

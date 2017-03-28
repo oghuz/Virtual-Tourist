@@ -92,10 +92,9 @@ class Helper {
             }
             
             guard ((urlStrings?.count)! > 0) else {
-                
-                performUpdateOnMain({
+                performUpdateOnMain {
                     Helper.shared.alert(inView, title: "No Photo", message: "No Photo Found On This Location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
-                })
+                }
                 return
             }
             
@@ -103,8 +102,7 @@ class Helper {
             performUpdateOnMain {
                 self.addPinForCoordination(atMapview, coordination: coordination)
             }
-            
-            
+                        
             // adding coordinate to data base
             let coordinate = Coordination(coordination.latitude, coordination.longitude, context: self.stackManagedObjectContext())
             self.stackManagedObjectContext().perform {
@@ -190,7 +188,7 @@ class Helper {
             if photoData.count > 0 {
                 print("-----photoData count :\(photoData.count)")
                 for item in photoData {
-                    if let image = UIImage(data: item.photo as! Data) {
+                    if let image = UIImage(data: item.photo! as Data) {
                         imageArray.append(image)
                     }
                 }

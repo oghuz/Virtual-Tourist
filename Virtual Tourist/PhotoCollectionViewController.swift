@@ -19,6 +19,8 @@ class PhotoCollectionViewController: UIViewController {
     //coordination for pin also for lat, lon of flickr search string
     var coordination = CLLocationCoordinate2D()
     var imageArray: [UIImage]? = []
+    //detail image for detail image controller
+    var imageForPass = UIImage()
     
     //creating fechedrequestcontroller
     var fetchResultsController: NSFetchedResultsController<Photos>? {
@@ -58,7 +60,7 @@ class PhotoCollectionViewController: UIViewController {
         let uiImages = try? Helper.shared.getPhotoFromCoreData(withCoordination: coordination)
         if let images = uiImages {
             imageArray = images
-            print("number of images :\(imageArray?.count)")
+            print("number of images : \(images.count)")
             performUpdateOnMain {
                 self.collectionView.reloadData()
             }
@@ -68,6 +70,8 @@ class PhotoCollectionViewController: UIViewController {
     
 }
 
+
+//MARK: Load Data With NSFetchedResultsController
 extension PhotoCollectionViewController {
     
     //execute search
@@ -77,13 +81,15 @@ extension PhotoCollectionViewController {
                 try fc.performFetch()
             }
             catch let error as NSError {
-                print("error while searching\(fetchResultsController), error: \(error)")
+                print("error while searching\(fc), error: \(error)")
             }
         }
     }
     
 }
 
+
+//MARK: Setup UICollectionViewFlowLayout
 extension PhotoCollectionViewController {
     // setting up collection view items spacing and size with different orientation
     override func viewWillLayoutSubviews() {
@@ -112,6 +118,8 @@ extension PhotoCollectionViewController {
     
 }
 
+
+//MARK: UICollectionViewDataSource, UICollectionViewDelegate
 extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -140,10 +148,31 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        if let image = imageArray?[indexPath.item] {
+            imageForPass = image
+        }
+        performSegue(withIdentifier: "showPhoto", sender: collectionView.cellForItem(at: indexPath))
     }
     
 }
 
+//MARK: Prepare for segue
+
+extension PhotoCollectionViewController {
+    
+    // passing image to detail view controller
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showPhoto" {
+            let destination = segue.destination as? DetailPhotoController
+            destination?.detailImage = imageForPass
+        }
+    }
+
+}
+
+
+//MARK: NSFetchedResultsControllerDelegate
 extension PhotoCollectionViewController: NSFetchedResultsControllerDelegate {
     
     // for automatically update collection view if data base changes

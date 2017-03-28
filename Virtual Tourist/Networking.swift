@@ -39,13 +39,18 @@ class Networking {
             
             // checking for error
             guard (error == nil) else {
-                sendError("\(error)")
+                if let error = error {
+                    sendError("\(error)")
+                }
                 return
             }
             
             // checking for status code
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                sendError(" status code not in range \(error)")
+                
+                if let error = error {
+                    sendError(" status code not in range \(error)")
+                }
                 return
             }
             
@@ -54,7 +59,9 @@ class Networking {
                 self.parseJsonDataWithComplitionHandler(data, complitionhandlerForParseData: complitionHandlerForGet)
             }
             else {
-                sendError("No data returned \(error)")
+                if let error = error {
+                    sendError("No data returned \(error)")
+                }
             }
         }
         
@@ -142,7 +149,7 @@ class Networking {
                 let limitedItemArray = (photoDicArray.count >= 200) ? Array([photoDicArray.prefix(upTo: 200)]) : photoDicArray
                 
                 for array in limitedItemArray {
-                   if let photoUrl = self.photoFromDataArray(array as! [String : AnyObject]) {
+                    if let photoUrl = self.photoFromDataArray(array as! [String : AnyObject]) {
                         urlStringArray.append(photoUrl)
                     }
                 }
