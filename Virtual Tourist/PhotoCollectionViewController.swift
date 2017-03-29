@@ -69,7 +69,18 @@ class PhotoCollectionViewController: UIViewController {
         }
     }
     
+    // actions for privious, next and delete button
     
+    @IBAction func priviousPage(_ sender: UIButton) {
+    }
+    
+    @IBAction func nextPage(_ sender: UIButton) {
+    }
+        
+    @IBAction func deleteImage(_ sender: UIButton) {
+    }
+    
+    // edit button for toggle between edit mode
     @IBOutlet weak var editButton: UIBarButtonItem!
     
     @IBAction func editButtonAction(_ sender: UIBarButtonItem) {
