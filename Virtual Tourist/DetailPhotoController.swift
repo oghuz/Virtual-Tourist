@@ -31,7 +31,6 @@ class DetailPhotoController: UIViewController {
     @IBAction func tapController(_ sender: UITapGestureRecognizer) {
         
         didHide = !didHide
-        
         showAndHide(didHide)
     }
     
@@ -43,7 +42,6 @@ class DetailPhotoController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //self.navigationController?.setNavigationBarHidden(didHide, animated: true)
     }
 
  }

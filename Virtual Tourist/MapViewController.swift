@@ -121,6 +121,22 @@ extension MapViewController: MKMapViewDelegate {
         
     }
     
+    // mapview delegate
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        let reuseID = "PinID"
+        var mapPin = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID) as? MKPinAnnotationView
+        if mapPin == nil {
+            mapPin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+            mapPin?.animatesDrop = true
+            mapPin?.pinTintColor = .red
+        }
+        else {
+            mapPin?.annotation = annotation
+        }
+        return mapPin
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         //sending coordination to collection view controller

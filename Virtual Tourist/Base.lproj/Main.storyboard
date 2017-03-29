@@ -121,13 +121,36 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="fCk-fX-cvV">
+                                <rect key="frame" x="16" y="696" width="382" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MCO-Nj-Czx">
+                                        <rect key="frame" x="0.0" y="0.0" width="127.33333333333334" height="30"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Privious"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="44V-5w-O6b">
+                                        <rect key="frame" x="127.33333333333333" y="0.0" width="127.33333333333336" height="30"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Delete"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yyF-yx-Djg">
+                                        <rect key="frame" x="254.66666666666671" y="0.0" width="127.33333333333329" height="30"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Next"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="Bvp-XN-jZj" secondAttribute="bottom" id="0QY-NR-VzN"/>
+                            <constraint firstAttribute="trailing" secondItem="fCk-fX-cvV" secondAttribute="trailing" constant="16" id="6g8-Oe-PXv"/>
                             <constraint firstAttribute="trailing" secondItem="Bvp-XN-jZj" secondAttribute="trailing" id="7R6-ZJ-ayn"/>
                             <constraint firstItem="oIL-7s-wH4" firstAttribute="top" secondItem="eu3-oj-8a9" secondAttribute="bottom" id="E6f-Gz-elE"/>
                             <constraint firstAttribute="trailing" secondItem="oIL-7s-wH4" secondAttribute="trailing" id="Gee-4f-owk"/>
+                            <constraint firstItem="ZlJ-tr-caQ" firstAttribute="top" secondItem="fCk-fX-cvV" secondAttribute="bottom" constant="10" id="bzS-oq-oa4"/>
+                            <constraint firstItem="fCk-fX-cvV" firstAttribute="leading" secondItem="LTw-YT-2SZ" secondAttribute="leading" constant="16" id="esf-5J-Ues"/>
                             <constraint firstItem="Bvp-XN-jZj" firstAttribute="leading" secondItem="LTw-YT-2SZ" secondAttribute="leading" id="f9u-s8-bLb"/>
                             <constraint firstItem="oIL-7s-wH4" firstAttribute="leading" secondItem="LTw-YT-2SZ" secondAttribute="leading" id="rnZ-J8-gh0"/>
                             <constraint firstItem="Bvp-XN-jZj" firstAttribute="top" secondItem="oIL-7s-wH4" secondAttribute="bottom" constant="-4" id="sNu-R3-ojD"/>
@@ -143,9 +166,12 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="Bvp-XN-jZj" id="C7w-Ma-Li8"/>
+                        <outlet property="deleteOutlet" destination="44V-5w-O6b" id="YON-38-1xK"/>
                         <outlet property="editButton" destination="sLx-RA-BLw" id="VaM-sg-YLl"/>
                         <outlet property="flowLayout" destination="nKy-pF-pqA" id="kFK-fh-8r0"/>
                         <outlet property="mapView" destination="oIL-7s-wH4" id="ARL-5e-met"/>
+                        <outlet property="nextOutlet" destination="yyF-yx-Djg" id="FRK-rV-y9Z"/>
+                        <outlet property="priviousOutlet" destination="MCO-Nj-Czx" id="j71-F7-oGU"/>
                         <segue destination="DQN-jX-HS6" kind="show" identifier="showPhoto" id="vuS-VG-NZ8"/>
                     </connections>
                 </viewController>

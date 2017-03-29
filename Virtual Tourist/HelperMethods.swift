@@ -39,7 +39,7 @@ class Helper {
         
         if let coordination = coordination {
             let pin = MKPointAnnotation()
-            let span = MKCoordinateSpanMake(0.2, 0.2)
+            let span = MKCoordinateSpanMake(3.0, 3.0)
             let region = MKCoordinateRegionMake(coordination, span)
             pin.coordinate = coordination
             mapView.setRegion(region, animated: true)
@@ -50,17 +50,17 @@ class Helper {
     
     //#MARK: Edit mode Toggle
     // this method is for left leftBarButtonItem only so far, can be added extra code for both sides
-    func inEditMode(tapped buttonTapped: Bool, view: UIViewController, barButton: UIBarButtonItem, statusLabel: UILabel?) {
+    func inEditMode(tapped buttonTapped: Bool, view: UIViewController, barButton: UIBarButtonItem?, statusLabel: UILabel?) {
         
         if buttonTapped {
-            barButton.tintColor = .red
-            barButton.title = "Done"
+            barButton?.tintColor = .red
+            barButton?.title = "Done"
             view.navigationItem.rightBarButtonItem = barButton
             statusLabel?.alpha = 1.0
         }
         if !buttonTapped {
-            barButton.tintColor = .blue
-            barButton.title = "Edit"
+            barButton?.tintColor = .blue
+            barButton?.title = "Edit"
             view.navigationItem.rightBarButtonItem = barButton
             statusLabel?.alpha = 0.0
         }

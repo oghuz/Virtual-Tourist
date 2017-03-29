@@ -14,7 +14,7 @@ private let reuseID = "Cell"
 
 class PhotoCollectionViewController: UIViewController {
     
-    var didTapped = Bool()
+    var didTapped: Bool = false
     
     //coordination for pin also for lat, lon of flickr search string
     var coordination = CLLocationCoordinate2D()
@@ -46,12 +46,48 @@ class PhotoCollectionViewController: UIViewController {
         }
     }
     
+    //privious, next, delete buttons
+    @IBOutlet weak var priviousOutlet: UIButton! {
+        didSet {
+            priviousOutlet.backgroundColor = .white
+        }
+    }
+    
+    @IBOutlet weak var nextOutlet: UIButton! {
+        didSet {
+            nextOutlet.backgroundColor = .white
+        }
+
+    }
+    
+    
+    @IBOutlet weak var deleteOutlet: UIButton! {
+        didSet {
+            deleteOutlet.backgroundColor = .red
+            deleteOutlet.tintColor = .black
+            deleteOutlet.alpha = 0.0
+        }
+    }
+    
+    
     @IBOutlet weak var editButton: UIBarButtonItem!
     
     @IBAction func editButtonAction(_ sender: UIBarButtonItem) {
         didTapped = !didTapped
         Helper.shared.inEditMode(tapped: didTapped, view: self, barButton: editButton, statusLabel: nil)
         
+        //hide privious and next button, show delete button
+        if didTapped {
+            priviousOutlet.alpha = 0.0
+            nextOutlet.alpha = 0.0
+            deleteOutlet.alpha = 1.0
+        }
+        
+        if !didTapped {
+            priviousOutlet.alpha = 1.0
+            nextOutlet.alpha = 1.0
+            deleteOutlet.alpha = 0.0
+        }
     }
     
     override func viewDidLoad() {
