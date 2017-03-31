@@ -22,19 +22,21 @@ class PhotoCollectionViewController: UIViewController {
     //detail image for detail image controller
     var imageForPass = UIImage()
     
-    //creating fechedrequestcontroller
-    var fetchResultsController: NSFetchedResultsController<Photos>? {
+    //persistentStoreCoordinator
+    var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
         didSet {
-            fetchResultsController?.delegate = self
-            collectionView?.reloadData()
-            executeSearch()
+            //self.startFetching()
         }
     }
+    
+    //creating fechedrequestcontroller
+    var fetchResultsController: NSFetchedResultsController<Photos>?
     
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             collectionView.delegate = self
             collectionView.dataSource = self
+            //self.startFetching()
         }
     }
     
@@ -57,9 +59,8 @@ class PhotoCollectionViewController: UIViewController {
         didSet {
             nextOutlet.backgroundColor = .white
         }
-
+        
     }
-    
     
     @IBOutlet weak var deleteOutlet: UIButton! {
         didSet {
@@ -76,7 +77,7 @@ class PhotoCollectionViewController: UIViewController {
     
     @IBAction func nextPage(_ sender: UIButton) {
     }
-        
+    
     @IBAction func deleteImage(_ sender: UIButton) {
     }
     
@@ -101,18 +102,46 @@ class PhotoCollectionViewController: UIViewController {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    // start fetching if context has change
+    func startFetching() {
+        //getting coordinates from core data for use predicate in photo
+        if let context = container?.viewContext {
+            
+            let request: NSFetchRequest<Photos> = Photos.fetchRequest()
+            request.sortDescriptors = [NSSortDescriptor(key: "photo", ascending: true)]
+            
+            if let coord = Helper.shared.fetchCoordinationWithCoordinate(withCoordinate: coordination) {
+                request.predicate = NSPredicate(format: "toCoordination = %@", argumentArray: [coord])
+            }
+            
+            fetchResultsController = NSFetchedResultsController<Photos>(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultsController?.delegate = self
+            if (container?.viewContext.hasChanges)! {
+                executeSearch()
+            }
+            collectionView.reloadData()
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         let uiImages = try? Helper.shared.getPhotoFromCoreData(withCoordination: coordination)
         if let images = uiImages {
             imageArray = images
-            print("number of images : \(images.count)")
-            performUpdateOnMain {
-                self.collectionView.reloadData()
-            }
             
+            self.collectionView.reloadData()
         }
+        
+        print("there are \(String(describing: imageArray?.count))) photos at coordination: \(coordination) ")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // startFetching()
+        
+        
+        
     }
     
 }
@@ -174,6 +203,14 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        /*
+        if let fc = fetchResultsController {
+            return (fc.sections?[section].numberOfObjects)!
+        }
+        else {
+            return 0
+        }
+ */
         return (imageArray?.count)!
     }
     
@@ -182,14 +219,25 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
         
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseID, for: indexPath) as! CollectionViewCell
-        
-        let imageItem = imageArray?[indexPath.item]
-        
-        if let item = imageItem {
-        
-            cell.imageView.image = item
+       /*
+        if let imageData = fetchResultsController?.object(at: indexPath) {
+            
+            if let image = UIImage(data: (imageData.photo as Data?)!) {
+                cell.imageView.image = image
+                imageArray?.append(image)
+            }
+            
+            
         }
-                
+        */
+        
+         let imageItem = imageArray?[indexPath.item]
+         
+         if let item = imageItem {
+         cell.imageView.image = item
+         }
+         
+ 
         return cell
     }
     
@@ -215,7 +263,7 @@ extension PhotoCollectionViewController {
             destination?.detailImage = imageForPass
         }
     }
-
+    
 }
 
 
@@ -236,8 +284,6 @@ extension PhotoCollectionViewController: NSFetchedResultsControllerDelegate {
             collectionView?.deleteSections(sec)
         case .insert:
             collectionView?.insertSections(sec)
-        case .update:
-            collectionView?.reloadSections(sec)
         default:
             break
         }
@@ -255,6 +301,10 @@ extension PhotoCollectionViewController: NSFetchedResultsControllerDelegate {
             //moving items is not needed
             break
         }
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        collectionView.reloadData()
     }
     
     

@@ -122,7 +122,7 @@ class Networking {
                           Constants.APIparameterKey.format: Constants.APIparameterValue.json as AnyObject,
                           Constants.APIparameterKey.jsonCallBack: Constants.APIparameterValue.noJsonCallBack as AnyObject,
                           Constants.APIparameterKey.page: page as AnyObject,
-                          Constants.APIparameterKey.perPage: 100 as AnyObject,
+                          Constants.APIparameterKey.perPage: 30 as AnyObject,
                           Constants.APIparameterKey.extras: Constants.APIparameterValue.extras as AnyObject] as [String : AnyObject]
         
         //call get method
@@ -140,16 +140,16 @@ class Networking {
             var totalPage = Int()
             
             // taking data
-            if let data = results, let photosDictionary = data[Constants.URLResponseKey.Photos] as? [String: AnyObject], let pages = photosDictionary[Constants.URLConstants.totalPage] as? Int ,let photoDicArray = photosDictionary[Constants.URLResponseKey.Photo] as? [Dictionary<String, AnyObject>] {
+            if let data = results, let photosDictionary = data[Constants.URLResponseKey.Photos] as? [String: AnyObject], let pages = photosDictionary[Constants.URLConstants.totalPage] as? Int ,let photoURLDicArray = photosDictionary[Constants.URLResponseKey.Photo] as? [Dictionary<String, AnyObject>] {
                 
                 //assign total page
                 totalPage = pages
                 
                 // limiting max number of array to 200
-                let limitedItemArray = (photoDicArray.count >= 200) ? Array([photoDicArray.prefix(upTo: 200)]) : photoDicArray
+                // let limitedItemArray = (photoDicArray.count >= 200) ? Array([photoDicArray.prefix(upTo: 200)]) : photoDicArray
                 
-                for array in limitedItemArray {
-                    if let photoUrl = self.photoFromDataArray(array as! [String : AnyObject]) {
+                for urlComponents in photoURLDicArray {
+                    if let photoUrl = self.photoURLFromDataArray(urlComponents) {
                         urlStringArray.append(photoUrl)
                     }
                 }
@@ -161,7 +161,7 @@ class Networking {
     //#MARK: Get photo url from components
     
     //take dictionary array as parameter, return image as anyobject
-    func photoFromDataArray(_ array: [String: AnyObject]) -> String? {
+    func photoURLFromDataArray(_ array: [String: AnyObject]) -> String? {
         
         var photoURLString = String()
         //unwrapping photo parameters

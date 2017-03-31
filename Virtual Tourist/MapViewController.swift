@@ -23,6 +23,9 @@ class MapViewController: UIViewController {
     //selected pin coordination
     var Selectedcoordination = CLLocationCoordinate2D()
     
+    //appdelegate
+    let delegate = UIApplication.shared.delegate as! AppDelegate
+    
     
     @IBOutlet weak var mapView: MKMapView! {
         didSet {
@@ -57,6 +60,8 @@ class MapViewController: UIViewController {
     //#MARK: Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        //set title for viewcontroller
+        self.title = "Virtual Tourist"
         let coordinations = try? Helper.shared.getCoordinationFromCoreData()
         
         if let coordinates = coordinations {
@@ -65,19 +70,22 @@ class MapViewController: UIViewController {
             }
         }
 
-        
+        // printing out data base file location
+        let directory = NSPersistentContainer.defaultDirectoryURL()
+        let url = directory.appendingPathComponent("DataModel.sqlite")
+        print(url)
     }
     
     //view will load
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        if let coordin = try? Helper.shared.stackManagedObjectContext().count(for: Coordination.fetchRequest()) {
+        if let coordin = try? delegate.persistentContainer.viewContext.count(for: Coordination.fetchRequest()) {
             print("\(coordin) Coordinates are here")
         }
 
         
-        if let photoCount = (try? Helper.shared.stackManagedObjectContext().fetch(Photos.fetchRequest() as NSFetchRequest))?.count {
+        if let photoCount = (try? Helper.shared.persistentContainer().viewContext.fetch(Photos.fetchRequest() as NSFetchRequest))?.count {
             print("total \(photoCount) photos")
         }
 
@@ -97,6 +105,7 @@ class MapViewController: UIViewController {
                 
                 //adding photo ad url to data base
                 Helper.shared.savePhotoAndURLToDataBase(forCoordination: coordination, atMapview: self.mapView, withPageNumber:1 ,inView: self)
+                
             }
                 // if there is no internet connection show an alert, can not add pin
             else{
@@ -114,11 +123,21 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
-        // perform segue to collection view controller
+        //delete pin on map when in edit mode
+        
+        if inEditMode {
+            if let annotation = view.annotation {
+                try? Helper.shared.deleteCoordinate(annotation.coordinate)
+                mapView.removeAnnotation(annotation)
+            }
+        
+        } else {
+        
+        // perform segue to collection view controller in non edit mode
         Selectedcoordination = (view.annotation?.coordinate)!
         performSegue(withIdentifier: "goToCollection", sender: MKAnnotationView())
         mapView.deselectAnnotation(view.annotation, animated: true)
-        
+        }
     }
     
     // mapview delegate

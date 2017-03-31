@@ -15,6 +15,10 @@ class Helper {
     
     static let shared = Helper()
     
+    //report for if there is data for this location
+    
+    
+    
     //#MARK: AlertViewController
     //Reusable method for AlertViewController
     func alert(_ view: UIViewController, title: String?, message: String?, preferredStyle: UIAlertControllerStyle, okActionTitle: String?, okActionStyle: UIAlertActionStyle?, okActionHandler: ((UIAlertAction) -> Void)?, cancelActionTitle: String?, cancelActionStyle: UIAlertActionStyle?, cancelActionHandler: ((UIAlertAction) -> Void)?) {
@@ -67,21 +71,20 @@ class Helper {
     }
     
     //#MARK: get NSManagedObjectContext
-    func stackManagedObjectContext() -> NSManagedObjectContext {
+    func persistentContainer() -> NSPersistentContainer {
         
         // core data stack
         let delegate = UIApplication.shared.delegate as! AppDelegate
-        let stack = delegate.stack
+        let container = delegate.persistentContainer
         
-        return (stack?.context)!
+        return container
         
     }
     
+    
     //#MARK: Save Photo, ULR, Coordination To CoreData
-    func savePhotoAndURLToDataBase(forCoordination coordination: CLLocationCoordinate2D, atMapview: MKMapView, withPageNumber page: Int ,inView: UIViewController) {
-        // core data stack
-        let delegate = UIApplication.shared.delegate as! AppDelegate
-        let stack = delegate.stack
+    func savePhotoAndURLToDataBase(forCoordination coordination: CLLocationCoordinate2D, atMapview: MKMapView?, withPageNumber page: Int ,inView: UIViewController) {
+        
         
         // calling get photo with coordination method
         Networking.shared.getPhotoWithCoordination(coordination: coordination, withPageNumber: page, complitionHandlerForgetPhoto: { (urlStrings, totalPage ,error) in
@@ -100,14 +103,14 @@ class Helper {
             
             //adding pin to mapview, if there are photos at that coordination
             performUpdateOnMain {
-                self.addPinForCoordination(atMapview, coordination: coordination)
+                self.addPinForCoordination(atMapview!, coordination: coordination)
             }
-                        
+            
             // adding coordinate to data base
-            let coordinate = Coordination(coordination.latitude, coordination.longitude, context: self.stackManagedObjectContext())
-            self.stackManagedObjectContext().perform {
-                (UIApplication.shared.delegate as! AppDelegate).stack?.save()
-            }
+            let coordinate = Coordination(coordination.latitude, coordination.longitude, context: self.persistentContainer().viewContext)
+            self.persistentContainer().viewContext.perform({
+                (UIApplication.shared.delegate as! AppDelegate).saveContext()
+            })
             
             guard let uRls = urlStrings else {
                 print("No photo or url fiund")
@@ -117,8 +120,8 @@ class Helper {
             print("total url \(uRls.count)")
             
             //saving photos to core data as NSData
-            stack?.performBatchOperation({ (workerContext) in
-                
+            
+            self.persistentContainer().performBackgroundTask{ [weak self] context in
                 for urlString in uRls {
                     
                     var photoData = Data()
@@ -133,14 +136,19 @@ class Helper {
                     
                     let image = UIImage(data: photoData)
                     if let image = image {
-                        let photo = Photos(NSData(data: UIImageJPEGRepresentation(image, 1.0)!), withURL: urlString, context: self.stackManagedObjectContext())
+                        let photo = Photos(NSData(data: UIImageJPEGRepresentation(image, 1.0)!), withURL: urlString, context: (self?.persistentContainer().viewContext)!)
                         coordinate.addToPhotos(photo)
                         photo.toCoordination?.latitude = coordinate.latitude
                         photo.toCoordination?.longitude = coordinate.longitude
                         photo.url = urlString
+                        context.perform {
+                            
+                        }
+                        
                     }
                 }
-            })
+                try? context.save()
+            }
         })
     }
     
@@ -152,7 +160,7 @@ class Helper {
         let request: NSFetchRequest<Coordination> = Coordination.fetchRequest()
         var coordinate: [CLLocationCoordinate2D] = []
         do {
-            let pins = try stackManagedObjectContext().fetch(request)
+            let pins = try persistentContainer().viewContext.fetch(request)
             if pins.count > 0 {
                 for item in pins {
                     let latlon = CLLocationCoordinate2D(latitude: item.latitude, longitude: item.longitude)
@@ -173,16 +181,16 @@ class Helper {
     func getPhotoFromCoreData(withCoordination coordination: CLLocationCoordinate2D) throws -> [UIImage] {
         
         //getting coordinates from core data for use predicate in photo
-        let coord = try fetchCoordinationWithCoordinate(withCoordinate: coordination)
         let request: NSFetchRequest<Photos> = Photos.fetchRequest()
-        
-        request.predicate = NSPredicate(format: "toCoordination = %@", argumentArray: [coord])
-        
+        if let coord = fetchCoordinationWithCoordinate(withCoordinate: coordination) {
+            request.predicate = NSPredicate(format: "toCoordination = %@", argumentArray: [coord])
+            print("-----getPhotoFromCoreData----- coord :\(coord)")
+        }
         //array will be populate from fetch result
         var imageArray: [UIImage] = []
         
         do {
-            let photoData = try stackManagedObjectContext().fetch(request)
+            let photoData = try persistentContainer().viewContext.fetch(request)
             print("-----getPhotoFromCoreData----- photoData :\(photoData)")
             
             if photoData.count > 0 {
@@ -197,13 +205,13 @@ class Helper {
             throw error
         }
         print("-----getPhotoFromCoreData----- imageArray :\(imageArray.count)")
-        print("-----getPhotoFromCoreData----- coord :\(coord)")
+        
         return imageArray
     }
     
     
     //fetch coordination from core data for fetching matching photo
-    func fetchCoordinationWithCoordinate(withCoordinate coordinate: CLLocationCoordinate2D) throws -> Coordination {
+    func fetchCoordinationWithCoordinate(withCoordinate coordinate: CLLocationCoordinate2D) -> Coordination? {
         
         let pinRequest: NSFetchRequest<Coordination> = Coordination.fetchRequest()
         pinRequest.predicate = NSPredicate(format: "latitude = %@ and longitude = %@", argumentArray: [coordinate.latitude, coordinate.longitude])
@@ -213,7 +221,7 @@ class Helper {
         
         do {
             
-            let coordination = try stackManagedObjectContext().fetch(pinRequest)
+            let coordination = try persistentContainer().viewContext.fetch(pinRequest)
             if let coordin = coordination.first {
                 
                 //for faulting purpose
@@ -224,10 +232,23 @@ class Helper {
             }
             
         } catch {
-            throw error
+            print("there is an error :\(error)", NSError(domain: "fetchCoordinationWithCoordinate", code: 0, userInfo: [NSLocalizedDescriptionKey: error]))
         }
         print("------fetchCoordinationWithCoordinate---- \(coord!)")
-        return coord!
+        return coord
+    }
+    
+    
+    //delete coordinate with pin coordinate
+    func deleteCoordinate(_ coordinate: CLLocationCoordinate2D) throws {
+        
+        if let coordinate = fetchCoordinationWithCoordinate(withCoordinate: coordinate) {
+            persistentContainer().viewContext.perform {
+                self.persistentContainer().viewContext.delete(coordinate as NSManagedObject)
+                (UIApplication.shared.delegate as! AppDelegate).saveContext()
+            }
+        }
+        
     }
     
     
