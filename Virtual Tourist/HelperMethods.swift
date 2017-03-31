@@ -142,12 +142,12 @@ class Helper {
                         photo.toCoordination?.longitude = coordinate.longitude
                         photo.url = urlString
                         context.perform {
-                            
+                            try? context.save()
                         }
                         
                     }
                 }
-                try? context.save()
+                
             }
         })
     }
