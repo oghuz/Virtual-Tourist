@@ -140,8 +140,6 @@ class PhotoCollectionViewController: UIViewController {
         
         // startFetching()
         
-        
-        
     }
     
 }
