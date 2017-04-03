@@ -121,11 +121,11 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fCk-fX-cvV">
-                                <rect key="frame" x="5" y="696" width="404" height="30"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="fCk-fX-cvV">
+                                <rect key="frame" x="0.0" y="701" width="414" height="35"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="S89-fd-mCE">
-                                        <rect key="frame" x="0.0" y="0.0" width="134.66666666666666" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S89-fd-mCE">
+                                        <rect key="frame" x="0.0" y="0.0" width="138" height="35"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Privious"/>
                                         <connections>
@@ -134,15 +134,15 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="44V-5w-O6b">
-                                        <rect key="frame" x="134.66666666666669" y="0.0" width="134.66666666666669" height="30"/>
+                                        <rect key="frame" x="138" y="0.0" width="138" height="35"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Delete"/>
                                         <connections>
                                             <action selector="deleteImage:" destination="f2J-iQ-F4G" eventType="touchUpInside" id="EXL-h1-Mov"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="yyF-yx-Djg">
-                                        <rect key="frame" x="269.33333333333326" y="0.0" width="134.66666666666669" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yyF-yx-Djg">
+                                        <rect key="frame" x="276" y="0.0" width="138" height="35"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="Next"/>
                                         <connections>
@@ -150,17 +150,20 @@
                                         </connections>
                                     </button>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="dNS-hj-WmN"/>
+                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="Bvp-XN-jZj" secondAttribute="bottom" id="0QY-NR-VzN"/>
-                            <constraint firstAttribute="trailing" secondItem="fCk-fX-cvV" secondAttribute="trailing" constant="5" id="6g8-Oe-PXv"/>
+                            <constraint firstAttribute="trailing" secondItem="fCk-fX-cvV" secondAttribute="trailing" id="6g8-Oe-PXv"/>
                             <constraint firstAttribute="trailing" secondItem="Bvp-XN-jZj" secondAttribute="trailing" id="7R6-ZJ-ayn"/>
                             <constraint firstItem="oIL-7s-wH4" firstAttribute="top" secondItem="eu3-oj-8a9" secondAttribute="bottom" id="E6f-Gz-elE"/>
                             <constraint firstAttribute="trailing" secondItem="oIL-7s-wH4" secondAttribute="trailing" id="Gee-4f-owk"/>
-                            <constraint firstItem="ZlJ-tr-caQ" firstAttribute="top" secondItem="fCk-fX-cvV" secondAttribute="bottom" constant="10" id="bzS-oq-oa4"/>
-                            <constraint firstItem="fCk-fX-cvV" firstAttribute="leading" secondItem="LTw-YT-2SZ" secondAttribute="leading" constant="5" id="esf-5J-Ues"/>
+                            <constraint firstItem="ZlJ-tr-caQ" firstAttribute="top" secondItem="fCk-fX-cvV" secondAttribute="bottom" id="bzS-oq-oa4"/>
+                            <constraint firstItem="fCk-fX-cvV" firstAttribute="leading" secondItem="LTw-YT-2SZ" secondAttribute="leading" id="esf-5J-Ues"/>
                             <constraint firstItem="Bvp-XN-jZj" firstAttribute="leading" secondItem="LTw-YT-2SZ" secondAttribute="leading" id="f9u-s8-bLb"/>
                             <constraint firstItem="oIL-7s-wH4" firstAttribute="leading" secondItem="LTw-YT-2SZ" secondAttribute="leading" id="rnZ-J8-gh0"/>
                             <constraint firstItem="Bvp-XN-jZj" firstAttribute="top" secondItem="oIL-7s-wH4" secondAttribute="bottom" constant="-4" id="sNu-R3-ojD"/>

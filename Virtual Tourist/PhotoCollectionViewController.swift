@@ -52,6 +52,7 @@ class PhotoCollectionViewController: UIViewController {
     @IBOutlet weak var priviousOutlet: UIButton! {
         didSet {
             priviousOutlet.backgroundColor = .white
+            
         }
     }
     
@@ -64,9 +65,10 @@ class PhotoCollectionViewController: UIViewController {
     
     @IBOutlet weak var deleteOutlet: UIButton! {
         didSet {
+            
             deleteOutlet.backgroundColor = .red
             deleteOutlet.tintColor = .black
-            deleteOutlet.alpha = 0.0
+            //deleteOutlet.alpha = 0.0
         }
     }
     
@@ -89,16 +91,15 @@ class PhotoCollectionViewController: UIViewController {
         Helper.shared.inEditMode(tapped: didTapped, view: self, barButton: editButton, statusLabel: nil)
         
         //hide privious and next button, show delete button
-        if didTapped {
-            priviousOutlet.alpha = 0.0
-            nextOutlet.alpha = 0.0
-            deleteOutlet.alpha = 1.0
-        }
-        
-        if !didTapped {
-            priviousOutlet.alpha = 1.0
-            nextOutlet.alpha = 1.0
-            deleteOutlet.alpha = 0.0
+        if UIDevice.current.orientation.isLandscape || UIDevice.current.orientation.isPortrait {
+            
+            if didTapped {
+                buttonsInEditMode()
+            }
+            
+            if !didTapped {
+                buttonsNotIneditMode()
+            }
         }
     }
     
@@ -129,17 +130,61 @@ class PhotoCollectionViewController: UIViewController {
         if let images = uiImages {
             imageArray = images
             
+        }
+        performUpdateOnMain {
             self.collectionView.reloadData()
+            //setting up button sizes
+            self.setUpButtons()
         }
         
-        print("there are \(String(describing: imageArray?.count))) photos at coordination: \(coordination) ")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // startFetching()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if didTapped == true {
+            buttonsInEditMode()
+        } else {
+            buttonsNotIneditMode()
+        }
+        //setUpButtons()
+    }
+    
+    //MARK: Setup Buttons methods
+    //setup buttons initially
+    private func setUpButtons() {
         
+        if UIDevice.current.orientation.isLandscape || UIDevice.current.orientation.isPortrait {
+            self.deleteOutlet.frame.origin.x = 0
+            self.deleteOutlet.frame.size.width = 0.0
+            self.priviousOutlet.frame.size.width = self.view.frame.size.width/2
+            self.nextOutlet.frame.size.width = self.view.frame.size.width/2
+            self.nextOutlet.frame.origin.x = self.priviousOutlet.frame.size.width
+        }
+    }
+    
+    //setup buttons when in edit mode
+    private func buttonsInEditMode() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.priviousOutlet.frame.size.width = 0.0
+            self.nextOutlet.frame.size.width = 0.0
+            self.deleteOutlet.frame.origin.x = 0
+            self.deleteOutlet.frame.size.width = self.view.frame.size.width
+        })
+    }
+    
+    //setup buttons when Not in edit mode
+    private func buttonsNotIneditMode() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.priviousOutlet.frame.size.width = self.view.frame.size.width/2
+            self.nextOutlet.frame.origin.x = self.priviousOutlet.frame.size.width
+            self.nextOutlet.frame.size.width = self.view.frame.size.width/2
+            self.deleteOutlet.frame.size.width = 0
+        })
     }
     
 }
@@ -202,13 +247,13 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         /*
-        if let fc = fetchResultsController {
-            return (fc.sections?[section].numberOfObjects)!
-        }
-        else {
-            return 0
-        }
- */
+         if let fc = fetchResultsController {
+         return (fc.sections?[section].numberOfObjects)!
+         }
+         else {
+         return 0
+         }
+         */
         return (imageArray?.count)!
     }
     
@@ -217,25 +262,25 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
         
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseID, for: indexPath) as! CollectionViewCell
-       /*
-        if let imageData = fetchResultsController?.object(at: indexPath) {
-            
-            if let image = UIImage(data: (imageData.photo as Data?)!) {
-                cell.imageView.image = image
-                imageArray?.append(image)
-            }
-            
-            
-        }
-        */
-        
-         let imageItem = imageArray?[indexPath.item]
+        /*
+         if let imageData = fetchResultsController?.object(at: indexPath) {
          
-         if let item = imageItem {
-         cell.imageView.image = item
+         if let image = UIImage(data: (imageData.photo as Data?)!) {
+         cell.imageView.image = image
+         imageArray?.append(image)
          }
          
- 
+         
+         }
+         */
+        
+        let imageItem = imageArray?[indexPath.item]
+        
+        if let item = imageItem {
+            cell.imageView.image = item
+        }
+        
+        
         return cell
     }
     
