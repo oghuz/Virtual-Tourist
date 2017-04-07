@@ -78,13 +78,11 @@ class Helper {
         let container = delegate.persistentContainer
         
         return container
-        
     }
     
     
     //#MARK: Save Photo, ULR, Coordination To CoreData
     func savePhotoAndURLToDataBase(forCoordination coordination: CLLocationCoordinate2D, atMapview: MKMapView?, withPageNumber page: Int ,inView: UIViewController) {
-        
         
         // calling get photo with coordination method
         Networking.shared.getPhotoWithCoordination(coordination: coordination, withPageNumber: page, complitionHandlerForgetPhoto: { (urlStrings, totalPage ,error) in
@@ -106,12 +104,6 @@ class Helper {
                 self.addPinForCoordination(atMapview!, coordination: coordination)
             }
             
-            // adding coordinate to data base
-            let coordinate = Coordination(coordination.latitude, coordination.longitude, context: self.persistentContainer().viewContext)
-            self.persistentContainer().viewContext.perform({
-                (UIApplication.shared.delegate as! AppDelegate).saveContext()
-            })
-            
             guard let uRls = urlStrings else {
                 print("No photo or url fiund")
                 return
@@ -120,36 +112,45 @@ class Helper {
             print("total url \(uRls.count)")
             
             //saving photos to core data as NSData
+            self.saveCoordinationWithImages(coordination, uRls)
+        })
+    }
+    
+    //#MARK: Save coordination with Images
+    func saveCoordinationWithImages(_ coordination: CLLocationCoordinate2D, _ urls: [String]) {
+        self.persistentContainer().performBackgroundTask{ [weak self] context in
             
-            self.persistentContainer().performBackgroundTask{ [weak self] context in
-                for urlString in uRls {
-                    
-                    var photoData = Data()
-                    let url = URL(string: urlString)
-                    do {
-                        if let url = url {
-                            photoData = try Data(contentsOf: url)
-                        }
-                    } catch let e as NSError {
-                        print("can not get image from data, error :\(e)")
+            //creating coordination entity
+            let coordinate = Coordination(coordination.latitude, coordination.longitude, context: (self?.persistentContainer().viewContext)!)
+            
+            for urlString in urls {
+                
+                var photoData = Data()
+                let url = URL(string: urlString)
+                do {
+                    if let url = url {
+                        photoData = try Data(contentsOf: url)
                     }
-                    
-                    let image = UIImage(data: photoData)
-                    if let image = image {
-                        let photo = Photos(NSData(data: UIImageJPEGRepresentation(image, 1.0)!), withURL: urlString, context: (self?.persistentContainer().viewContext)!)
-                        coordinate.addToPhotos(photo)
-                        photo.toCoordination?.latitude = coordinate.latitude
-                        photo.toCoordination?.longitude = coordinate.longitude
-                        photo.url = urlString
-                        context.perform {
-                            try? context.save()
-                        }
-                        
-                    }
+                } catch let e as NSError {
+                    print("can not get image from data, error :\(e)")
                 }
                 
+                let image = UIImage(data: photoData)
+                if let image = image {
+                    let photo = Photos(NSData(data: UIImageJPEGRepresentation(image, 1.0)!), withURL: urlString, context: (self?.persistentContainer().viewContext)!)
+                    coordinate.addToPhotos(photo)
+                    photo.toCoordination?.latitude = coordinate.latitude
+                    photo.toCoordination?.longitude = coordinate.longitude
+                    photo.url = urlString
+                    context.perform {
+                        try? context.save()
+                    }
+                    
+                }
             }
-        })
+            
+        }
+
     }
     
     
