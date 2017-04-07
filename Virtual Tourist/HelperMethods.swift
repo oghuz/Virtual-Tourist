@@ -184,17 +184,13 @@ class Helper {
         let request: NSFetchRequest<Photos> = Photos.fetchRequest()
         if let coord = fetchCoordinationWithCoordinate(withCoordinate: coordination) {
             request.predicate = NSPredicate(format: "toCoordination = %@", argumentArray: [coord])
-            print("-----getPhotoFromCoreData----- coord :\(coord)")
         }
         //array will be populate from fetch result
         var imageArray: [UIImage] = []
         
         do {
             let photoData = try persistentContainer().viewContext.fetch(request)
-            print("-----getPhotoFromCoreData----- photoData :\(photoData)")
-            
             if photoData.count > 0 {
-                print("-----photoData count :\(photoData.count)")
                 for item in photoData {
                     if let image = UIImage(data: item.photo! as Data) {
                         imageArray.append(image)
@@ -204,7 +200,6 @@ class Helper {
         } catch {
             throw error
         }
-        print("-----getPhotoFromCoreData----- imageArray :\(imageArray.count)")
         
         return imageArray
     }
@@ -243,8 +238,8 @@ class Helper {
     func deleteCoordinate(_ coordinate: CLLocationCoordinate2D) throws {
         
         if let coordinate = fetchCoordinationWithCoordinate(withCoordinate: coordinate) {
+            self.persistentContainer().viewContext.delete(coordinate as NSManagedObject)
             persistentContainer().viewContext.perform {
-                self.persistentContainer().viewContext.delete(coordinate as NSManagedObject)
                 (UIApplication.shared.delegate as! AppDelegate).saveContext()
             }
         }
