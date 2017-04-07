@@ -126,7 +126,7 @@ class PhotoCollectionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        let uiImages = try? Helper.shared.getPhotoFromCoreData(withCoordination: coordination)
+        let uiImages = try? Helper.shared.getPhotoFromCoreData(withCoordination: coordination, pageNumber: 1)
         if let images = uiImages {
             imageArray = images
             

@@ -112,12 +112,13 @@ class Helper {
             print("total url \(uRls.count)")
             
             //saving photos to core data as NSData
-            self.saveCoordinationWithImages(coordination, uRls)
+            self.saveCoordinationWithImages(coordination, uRls, pageNumber: page)
         })
     }
     
     //#MARK: Save coordination with Images
-    func saveCoordinationWithImages(_ coordination: CLLocationCoordinate2D, _ urls: [String]) {
+    func saveCoordinationWithImages(_ coordination: CLLocationCoordinate2D, _ urls: [String], pageNumber: Int) {
+        
         self.persistentContainer().performBackgroundTask{ [weak self] context in
             
             //creating coordination entity
@@ -142,6 +143,7 @@ class Helper {
                     photo.toCoordination?.latitude = coordinate.latitude
                     photo.toCoordination?.longitude = coordinate.longitude
                     photo.url = urlString
+                    photo.pagenumber = Int16(pageNumber)
                     context.perform {
                         try? context.save()
                     }
@@ -179,13 +181,15 @@ class Helper {
     //#MARK: loading photos from core data
     
     //get photo from core data with coordination
-    func getPhotoFromCoreData(withCoordination coordination: CLLocationCoordinate2D) throws -> [UIImage] {
+    func getPhotoFromCoreData(withCoordination coordination: CLLocationCoordinate2D, pageNumber: Int) throws -> [UIImage] {
         
         //getting coordinates from core data for use predicate in photo
         let request: NSFetchRequest<Photos> = Photos.fetchRequest()
         if let coord = fetchCoordinationWithCoordinate(withCoordinate: coordination) {
             request.predicate = NSPredicate(format: "toCoordination = %@", argumentArray: [coord])
         }
+        
+        request.predicate = NSPredicate(format: "pagenumber = %i", pageNumber)
         //array will be populate from fetch result
         var imageArray: [UIImage] = []
         
@@ -232,6 +236,14 @@ class Helper {
         }
         print("------fetchCoordinationWithCoordinate---- \(coord!)")
         return coord
+    }
+    
+    //#MARK: Fetch or Download Images
+    func fetchOrDownloadImages(withPageNumber pageNumber: Int, atLocation location: CLLocationCoordinate2D) ->[UIImage] {
+        var imageArray: [UIImage] = []
+        
+        
+        return imageArray
     }
     
     
