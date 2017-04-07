@@ -186,10 +186,10 @@ class Helper {
         //getting coordinates from core data for use predicate in photo
         let request: NSFetchRequest<Photos> = Photos.fetchRequest()
         if let coord = fetchCoordinationWithCoordinate(withCoordinate: coordination) {
-            request.predicate = NSPredicate(format: "toCoordination = %@", argumentArray: [coord])
+            request.predicate = NSPredicate(format: "toCoordination = %@ and pagenumber = %i", argumentArray: [coord, pageNumber])
         }
         
-        request.predicate = NSPredicate(format: "pagenumber = %i", pageNumber)
+        //request.predicate = NSPredicate(format: "pagenumber = %i", pageNumber)
         //array will be populate from fetch result
         var imageArray: [UIImage] = []
         
