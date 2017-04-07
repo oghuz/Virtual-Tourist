@@ -45,6 +45,7 @@ struct Constants {
         static let ApplicationJson = "application/json"
         static let format = "format"
         static let jsonCallBack = "nojsoncallback"
+        static let safeSearch = "safe_search"
     }
     
     // PAI parameter value

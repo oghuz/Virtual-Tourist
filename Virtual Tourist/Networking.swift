@@ -123,6 +123,7 @@ class Networking {
                           Constants.APIparameterKey.jsonCallBack: Constants.APIparameterValue.noJsonCallBack as AnyObject,
                           Constants.APIparameterKey.page: page as AnyObject,
                           Constants.APIparameterKey.perPage: 20 as AnyObject,
+                          Constants.APIparameterKey.safeSearch: 1,
                           Constants.APIparameterKey.extras: Constants.APIparameterValue.extras as AnyObject] as [String : AnyObject]
         
         //call get method

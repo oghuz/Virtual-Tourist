@@ -189,7 +189,6 @@ class Helper {
             request.predicate = NSPredicate(format: "toCoordination = %@ and pagenumber = %i", argumentArray: [coord, pageNumber])
         }
         
-        //request.predicate = NSPredicate(format: "pagenumber = %i", pageNumber)
         //array will be populate from fetch result
         var imageArray: [UIImage] = []
         
