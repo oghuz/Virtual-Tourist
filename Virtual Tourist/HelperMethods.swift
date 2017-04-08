@@ -181,7 +181,7 @@ class Helper {
     //#MARK: loading photos from core data
     
     //get photo from core data with coordination
-    func getPhotoFromCoreData(withCoordination coordination: CLLocationCoordinate2D, pageNumber: Int) throws -> [UIImage] {
+    func getPhotoFromCoreData(withCoordination coordination: CLLocationCoordinate2D, pageNumber: Int) throws -> [UIImage]? {
         
         //getting coordinates from core data for use predicate in photo
         let request: NSFetchRequest<Photos> = Photos.fetchRequest()
@@ -240,6 +240,11 @@ class Helper {
     //#MARK: Fetch or Download Images
     func fetchOrDownloadImages(withPageNumber pageNumber: Int, atLocation location: CLLocationCoordinate2D) ->[UIImage] {
         var imageArray: [UIImage] = []
+        if let imageFromDataBase = try? getPhotoFromCoreData(withCoordination: location, pageNumber: pageNumber) {
+            imageArray = imageFromDataBase!
+        } else {
+            
+        }
         
         
         return imageArray

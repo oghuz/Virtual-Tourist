@@ -110,6 +110,7 @@
 				D65722851E808E1A001CA499 /* Photos+CoreDataProperties.swift */,
 				D65722861E808E1A001CA499 /* Coordination+CoreDataClass.swift */,
 				D65722871E808E1A001CA499 /* Coordination+CoreDataProperties.swift */,
+				D6016E4A1E74FAA600D2A8F6 /* DataModel.xcdatamodeld */,
 			);
 			name = DataModels;
 			sourceTree = "<group>";
@@ -124,7 +125,6 @@
 				D6D261421E6F1F9A0059FD40 /* HelperMethods.swift */,
 				D69C3F2E1E7F4CB000CE08F9 /* UIUpdateOnMainQueue.swift */,
 				D6016E5F1E76184000D2A8F6 /* DataModels */,
-				D6016E4A1E74FAA600D2A8F6 /* DataModel.xcdatamodeld */,
 			);
 			name = Models;
 			sourceTree = "<group>";
