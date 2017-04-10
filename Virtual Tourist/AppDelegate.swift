@@ -18,6 +18,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        //register for notification
+        registerNSManagedObjectContextdidChangeNotification()
+        
+        
         return true
     }
 
@@ -42,7 +47,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        saveContext()
+        //saveContext()
+        
+        //remove notification on app termination
+        unRegisterNSManagedObjectContextdidChangeNotification()
+    }
+    
+    //register NSManagedObjectContext did change notification
+    func registerNSManagedObjectContextdidChangeNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(saveContext), name: .NSManagedObjectContextObjectsDidChange, object: nil)
+    }
+    
+    //remove NSManagedObjectContext did change notification
+    func unRegisterNSManagedObjectContextdidChangeNotification() {
+        NotificationCenter.default.removeObserver(self, name: .NSManagedObjectContextObjectsDidChange, object: nil)
     }
     
     // MARK: - Core Data stack
@@ -77,6 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Core Data Saving support
     
     func saveContext () {
+        print("-----------------------------registerNSManagedObjectContextdidChangeNotification is saving...........................")
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
