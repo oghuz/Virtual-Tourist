@@ -36,7 +36,7 @@ class PhotoCollectionViewController: UIViewController {
         didSet {
             collectionView.delegate = self
             collectionView.dataSource = self
-            //self.startFetching()
+            
         }
     }
     
@@ -103,36 +103,28 @@ class PhotoCollectionViewController: UIViewController {
         }
     }
     
-    // start fetching if context has change
-    func startFetching() {
-        //getting coordinates from core data for use predicate in photo
-        if let context = container?.viewContext {
-            
-            let request: NSFetchRequest<Photos> = Photos.fetchRequest()
-            request.sortDescriptors = [NSSortDescriptor(key: "photo", ascending: true)]
-            
-            if let coord = Helper.shared.fetchCoordinationWithCoordinate(withCoordinate: coordination) {
-                request.predicate = NSPredicate(format: "toCoordination = %@", argumentArray: [coord])
+    //get the phtotos
+    private func getNeededDatas () {
+        
+        Helper.shared.fetchOrDownloadImages(withPageNumber: 1, atLocation: coordination, inView: self) { (photos) in
+            if let images = photos {
+                self.imageArray = images
+                
+                //updating UI on main thread
+                performUpdateOnMain {
+                    self.collectionView.reloadData()
+                }
             }
-            
-            fetchResultsController = NSFetchedResultsController<Photos>(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultsController?.delegate = self
-            if (container?.viewContext.hasChanges)! {
-                executeSearch()
-            }
-            collectionView.reloadData()
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        let uiImages = try? Helper.shared.getPhotoFromCoreData(withCoordination: coordination, pageNumber: 1)
-        if let images = uiImages {
-            imageArray = images
-            
-        }
+        
+        getNeededDatas()
+        
         performUpdateOnMain {
-            self.collectionView.reloadData()
+            
             //setting up button sizes
             self.setUpButtons()
         }
@@ -190,24 +182,6 @@ class PhotoCollectionViewController: UIViewController {
 }
 
 
-//MARK: Load Data With NSFetchedResultsController
-extension PhotoCollectionViewController {
-    
-    //execute search
-    func executeSearch() {
-        if let fc = fetchResultsController {
-            do {
-                try fc.performFetch()
-            }
-            catch let error as NSError {
-                print("error while searching\(fc), error: \(error)")
-            }
-        }
-    }
-    
-}
-
-
 //MARK: Setup UICollectionViewFlowLayout
 extension PhotoCollectionViewController {
     // setting up collection view items spacing and size with different orientation
@@ -246,14 +220,6 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        /*
-         if let fc = fetchResultsController {
-         return (fc.sections?[section].numberOfObjects)!
-         }
-         else {
-         return 0
-         }
-         */
         return (imageArray?.count)!
     }
     
@@ -262,17 +228,6 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
         
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseID, for: indexPath) as! CollectionViewCell
-        /*
-         if let imageData = fetchResultsController?.object(at: indexPath) {
-         
-         if let image = UIImage(data: (imageData.photo as Data?)!) {
-         cell.imageView.image = image
-         imageArray?.append(image)
-         }
-         
-         
-         }
-         */
         
         let imageItem = imageArray?[indexPath.item]
         
@@ -309,49 +264,6 @@ extension PhotoCollectionViewController {
     
 }
 
-
-//MARK: NSFetchedResultsControllerDelegate
-extension PhotoCollectionViewController: NSFetchedResultsControllerDelegate {
-    
-    // for automatically update collection view if data base changes
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        collectionView?.reloadData()
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        
-        let sec = IndexSet(integer: sectionIndex)
-        
-        switch type {
-        case .delete:
-            collectionView?.deleteSections(sec)
-        case .insert:
-            collectionView?.insertSections(sec)
-        default:
-            break
-        }
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            collectionView?.insertItems(at: [newIndexPath!])
-        case .delete:
-            collectionView?.deleteItems(at: [indexPath!])
-        case .update:
-            collectionView?.reloadItems(at: [indexPath!])
-        default:
-            //moving items is not needed
-            break
-        }
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        collectionView.reloadData()
-    }
-    
-    
-}
 
 
 

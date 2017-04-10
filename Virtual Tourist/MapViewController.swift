@@ -101,10 +101,10 @@ class MapViewController: UIViewController {
                 coordination = mapView.convert(points, toCoordinateFrom: mapView)
                 
                 //add pin on mapview
-                //Helper.shared.addPinForCoordination(mapView, coordination: coordination)
+                Helper.shared.addPinForCoordination(mapView, coordination: coordination)
                 
-                //adding photo ad url to data base
-                Helper.shared.savePhotoAndURLToDataBase(forCoordination: coordination, atMapview: self.mapView, withPageNumber:1 ,inView: self)
+                //save coordination to core data
+                let _ = Helper.shared.saveCoordinationToDataBase(withCoordination: coordination)
                 
             }
                 // if there is no internet connection show an alert, can not add pin
