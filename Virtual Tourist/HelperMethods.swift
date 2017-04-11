@@ -180,15 +180,14 @@ class Helper {
                         photo.toCoordination?.longitude = coordinate.longitude
                         photo.url = urlString
                         photo.pagenumber = Int16(pageNumber)
+                        context.perform {
+                            try? context.save()
+                            print("------------------saving in saveImagesWithCoordination")
+                            
+                        }
+
                     }
                 }
-                    /*
-                context.perform {
-                    try? context.save()
-                    print("------------------saving in saveImagesWithCoordination")
-
-                }
-                    */
             }
         }
     }

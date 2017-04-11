@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         registerNSManagedObjectContextdidChangeNotification()
-        registerNSManagedObjectContextdidFinishSaveNotification()
+        //registerNSManagedObjectContextdidFinishSaveNotification()
         
         return true
     }
@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //saveContext()
         
         unRegisterNSManagedObjectContextdidChangeNotification()
-        unRegisterNSManagedObjectContextdidFinishSaveNotification()
+        //unRegisterNSManagedObjectContextdidFinishSaveNotification()
         
     }
     

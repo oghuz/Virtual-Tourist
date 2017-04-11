@@ -57,7 +57,6 @@ class PhotoCollectionViewController: UIViewController {
     @IBOutlet weak var priviousOutlet: UIButton! {
         didSet {
             priviousOutlet.backgroundColor = .white
-            
         }
     }
     
@@ -93,34 +92,48 @@ class PhotoCollectionViewController: UIViewController {
     
     @IBAction func editButtonAction(_ sender: UIBarButtonItem) {
         didTapped = !didTapped
-        Helper.shared.inEditMode(tapped: didTapped, view: self, barButton: editButton, statusLabel: nil)
+
+        performUpdateOnMain {
+            Helper.shared.inEditMode(tapped: self.didTapped, view: self, barButton: self.editButton, statusLabel: nil)
+        }
+
         
         //hide privious and next button, show delete button
         if UIDevice.current.orientation.isLandscape || UIDevice.current.orientation.isPortrait {
             
             if didTapped {
-                buttonsInEditMode()
+                performUpdateOnMain {
+                    self.buttonsInEditMode()
+                }
             }
             
             if !didTapped {
-                buttonsNotIneditMode()
+                performUpdateOnMain {
+                    self.buttonsNotIneditMode()
+                }
             }
         }
     }
     
     //get the phtotos
     private func getNeededDatas() {
+        //starting activity indicator
+        activitySpinner.startAnimating()
         
-        Helper.shared.fetchOrDownloadImages(withPageNumber: 1, atLocation: coordination, inView: self) { (photos) in
-            if let images = photos {
-                self.imageArray = images
-                self.reloadDataOnMain()
+        DispatchQueue.global().async {
+            Helper.shared.fetchOrDownloadImages(withPageNumber: 1, atLocation: self.coordination, inView: self) { (photos) in
+                if let images = photos {
+                    self.imageArray = images
+                    self.reloadDataOnMain()
+                }
             }
         }
+        
     }
     
     @objc private func reloadDataOnMain() {
         //updating UI on main thread
+        
         performUpdateOnMain {
             self.collectionView.reloadData()
             self.activitySpinner.stopAnimating()
@@ -130,10 +143,9 @@ class PhotoCollectionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        //start activity indicator
-        activitySpinner.startAnimating()
-        //registerNSManagedObjectContextdidChangeNotification()
-        getNeededDatas()
+        
+        //activitySpinner.startAnimating()
+        //getNeededDatas()
         
         performUpdateOnMain {
             //setting up button sizes
@@ -145,11 +157,7 @@ class PhotoCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        performUpdateOnMain {
-            //setting up button sizes
-            self.setUpButtons()
-        }
-        
+        getNeededDatas()
         
     }
     
@@ -268,7 +276,6 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
             cell.imageView.image = item
         }
         
-        
         return cell
     }
     
@@ -284,9 +291,7 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
             print("indexPathsForSelectedItems : \(String(describing: selectedImages))")
         
         }
-        
     }
-    
 }
 
 //MARK: Prepare for segue
