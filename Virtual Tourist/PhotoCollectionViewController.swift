@@ -115,7 +115,7 @@ class PhotoCollectionViewController: UIViewController {
             if let images = photos {
                 self.imageArray = images
                 self.reloadDataOnMain()
-           }
+            }
         }
     }
     
@@ -144,6 +144,12 @@ class PhotoCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        performUpdateOnMain {
+            //setting up button sizes
+            self.setUpButtons()
+        }
+        
         
     }
     
@@ -268,10 +274,12 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if let image = imageArray?[indexPath.item] {
-            imageForPass = image
+        if !didTapped {
+            if let image = imageArray?[indexPath.item] {
+                imageForPass = image
+            }
+            performSegue(withIdentifier: "showPhoto", sender: collectionView.cellForItem(at: indexPath))
         }
-        performSegue(withIdentifier: "showPhoto", sender: collectionView.cellForItem(at: indexPath))
     }
     
 }

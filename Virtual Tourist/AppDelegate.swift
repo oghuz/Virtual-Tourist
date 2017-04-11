@@ -101,7 +101,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Core Data Saving support
     
     func saveContext() {
-        print("-----------------------------registerNSManagedObjectContextdidChangeNotification is saving...........................")
         let context = persistentContainer.viewContext
         if context.hasChanges {
             context.perform {
@@ -109,8 +108,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     try context.save()
                     print("_____________data saved____________")
                 } catch {
-                    // Replace this implementation with code to handle the error appropriately.
-                    // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                     let nserror = error as NSError
                     //try? context.save()
                     print("Unresolved error \(nserror), \(nserror.userInfo)")
