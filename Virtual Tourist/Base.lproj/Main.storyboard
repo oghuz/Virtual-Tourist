@@ -154,14 +154,22 @@
                                     <constraint firstAttribute="height" constant="35" id="dNS-hj-WmN"/>
                                 </constraints>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="0nA-v9-9wp">
+                                <rect key="frame" x="0.0" y="64" width="414" height="637"/>
+                                <color key="color" red="0.99852250649999996" green="0.32092509260000002" blue="0.057045556839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="Bvp-XN-jZj" secondAttribute="bottom" id="0QY-NR-VzN"/>
+                            <constraint firstItem="0nA-v9-9wp" firstAttribute="top" secondItem="eu3-oj-8a9" secondAttribute="bottom" id="397-0y-Ly7"/>
                             <constraint firstAttribute="trailing" secondItem="fCk-fX-cvV" secondAttribute="trailing" id="6g8-Oe-PXv"/>
+                            <constraint firstItem="fCk-fX-cvV" firstAttribute="top" secondItem="0nA-v9-9wp" secondAttribute="bottom" id="6kc-je-Inq"/>
                             <constraint firstAttribute="trailing" secondItem="Bvp-XN-jZj" secondAttribute="trailing" id="7R6-ZJ-ayn"/>
                             <constraint firstItem="oIL-7s-wH4" firstAttribute="top" secondItem="eu3-oj-8a9" secondAttribute="bottom" id="E6f-Gz-elE"/>
                             <constraint firstAttribute="trailing" secondItem="oIL-7s-wH4" secondAttribute="trailing" id="Gee-4f-owk"/>
+                            <constraint firstAttribute="trailing" secondItem="0nA-v9-9wp" secondAttribute="trailing" id="PEu-4R-8dk"/>
+                            <constraint firstItem="0nA-v9-9wp" firstAttribute="leading" secondItem="LTw-YT-2SZ" secondAttribute="leading" id="Www-wv-qhP"/>
                             <constraint firstItem="ZlJ-tr-caQ" firstAttribute="top" secondItem="fCk-fX-cvV" secondAttribute="bottom" id="bzS-oq-oa4"/>
                             <constraint firstItem="fCk-fX-cvV" firstAttribute="leading" secondItem="LTw-YT-2SZ" secondAttribute="leading" id="esf-5J-Ues"/>
                             <constraint firstItem="Bvp-XN-jZj" firstAttribute="leading" secondItem="LTw-YT-2SZ" secondAttribute="leading" id="f9u-s8-bLb"/>
@@ -178,6 +186,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="activitySpinner" destination="0nA-v9-9wp" id="XjB-Kd-Hsk"/>
                         <outlet property="collectionView" destination="Bvp-XN-jZj" id="C7w-Ma-Li8"/>
                         <outlet property="deleteOutlet" destination="44V-5w-O6b" id="YON-38-1xK"/>
                         <outlet property="editButton" destination="sLx-RA-BLw" id="VaM-sg-YLl"/>

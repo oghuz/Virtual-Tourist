@@ -156,7 +156,7 @@ class Helper {
         //creating coordination entity
         _ = Coordination(coordination.latitude, coordination.longitude, context: (self.persistentContainer().viewContext))
         self.persistentContainer().viewContext.perform {
-            //try? self.persistentContainer().viewContext.save()
+            try? self.persistentContainer().viewContext.save()
         }
         
         
@@ -179,7 +179,7 @@ class Helper {
                         photo.url = urlString
                         photo.pagenumber = Int16(pageNumber)
                         context.perform {
-                            //try? context.save()
+                            try? context.save()
                         }
                     }
                 }
@@ -301,7 +301,7 @@ class Helper {
         if let coordinate = fetchCoordinationWithCoordinate(withCoordinate: coordinate) {
             self.persistentContainer().viewContext.delete(coordinate as NSManagedObject)
             persistentContainer().viewContext.perform {
-                //(UIApplication.shared.delegate as! AppDelegate).saveContext()
+                (UIApplication.shared.delegate as! AppDelegate).saveContext()
             }
         }
         

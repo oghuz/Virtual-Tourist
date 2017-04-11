@@ -29,8 +29,13 @@ class PhotoCollectionViewController: UIViewController {
         }
     }
     
-    //creating fechedrequestcontroller
-    var fetchResultsController: NSFetchedResultsController<Photos>?
+    //activity indicator
+    @IBOutlet weak var activitySpinner: UIActivityIndicatorView! {
+        didSet{
+            activitySpinner.hidesWhenStopped = true
+        }
+    }
+    
     
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
@@ -104,7 +109,7 @@ class PhotoCollectionViewController: UIViewController {
     }
     
     //get the phtotos
-    private func getNeededDatas () {
+    private func getNeededDatas() {
         
         Helper.shared.fetchOrDownloadImages(withPageNumber: 1, atLocation: coordination, inView: self) { (photos) in
             if let images = photos {
@@ -118,13 +123,15 @@ class PhotoCollectionViewController: UIViewController {
         //updating UI on main thread
         performUpdateOnMain {
             self.collectionView.reloadData()
+            self.activitySpinner.stopAnimating()
         }
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
+        //start activity indicator
+        activitySpinner.startAnimating()
         //registerNSManagedObjectContextdidChangeNotification()
         getNeededDatas()
         

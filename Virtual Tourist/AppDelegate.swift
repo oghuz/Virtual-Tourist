@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
         
         //remove notification on app termination
-        unRegisterNSManagedObjectContextdidChangeNotification()
+        //unRegisterNSManagedObjectContextdidChangeNotification()
 
     }
 
@@ -47,13 +47,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         //register for notification
-        registerNSManagedObjectContextdidChangeNotification()
+        //registerNSManagedObjectContextdidChangeNotification()
+        
+        
         
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        //saveContext()
+        saveContext()
         
     }
     
