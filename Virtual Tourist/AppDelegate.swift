@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         registerNSManagedObjectContextdidChangeNotification()
+        registerNSManagedObjectContextdidFinishSaveNotification()
         
         return true
     }
@@ -57,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //saveContext()
         
         unRegisterNSManagedObjectContextdidChangeNotification()
+        unRegisterNSManagedObjectContextdidFinishSaveNotification()
         
     }
     
@@ -68,6 +70,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //remove NSManagedObjectContext did change notification
     func unRegisterNSManagedObjectContextdidChangeNotification() {
         NotificationCenter.default.removeObserver(self, name: .NSManagedObjectContextObjectsDidChange, object: nil)
+    }
+    
+    //NSManagedObjectContext did finish saving notification
+    func registerNSManagedObjectContextdidFinishSaveNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(resetContextAftersaving), name: .NSManagedObjectContextDidSave, object: nil)
+    }
+    
+    //remove registerNSManagedObjectContextdidFinishSaveNotification
+    func unRegisterNSManagedObjectContextdidFinishSaveNotification() {
+        NotificationCenter.default.removeObserver(self, name: .NSManagedObjectContextDidSave, object: nil)
+    }
+    
+
+    //reset context after saving finish
+    func resetContextAftersaving() {
+        let context = persistentContainer.viewContext
+        context.perform {
+            context.reset()
+            print("hhhhhhhhhhhh------reseting persistentContainer.viewContext ---------a---")
+        }
+    
     }
     
     // MARK: - Core Data stack
