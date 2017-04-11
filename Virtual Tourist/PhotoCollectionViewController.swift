@@ -109,22 +109,26 @@ class PhotoCollectionViewController: UIViewController {
         Helper.shared.fetchOrDownloadImages(withPageNumber: 1, atLocation: coordination, inView: self) { (photos) in
             if let images = photos {
                 self.imageArray = images
-                
-                //updating UI on main thread
-                performUpdateOnMain {
-                    self.collectionView.reloadData()
-                }
-            }
+                self.reloadDataOnMain()
+           }
         }
+    }
+    
+    @objc private func reloadDataOnMain() {
+        //updating UI on main thread
+        performUpdateOnMain {
+            self.collectionView.reloadData()
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        //registerNSManagedObjectContextdidChangeNotification()
         getNeededDatas()
         
         performUpdateOnMain {
-            
             //setting up button sizes
             self.setUpButtons()
         }
@@ -136,6 +140,10 @@ class PhotoCollectionViewController: UIViewController {
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        //unRegisterNSManagedObjectContextdidChangeNotification()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if didTapped == true {
@@ -145,6 +153,18 @@ class PhotoCollectionViewController: UIViewController {
         }
         //setUpButtons()
     }
+    
+    //notification center
+    //register NSManagedObjectContext did change notification
+    func registerNSManagedObjectContextdidChangeNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadDataOnMain), name: .NSManagedObjectContextObjectsDidChange, object: nil)
+    }
+    
+    //remove NSManagedObjectContext did change notification
+    func unRegisterNSManagedObjectContextdidChangeNotification() {
+        NotificationCenter.default.removeObserver(self, name: .NSManagedObjectContextObjectsDidChange, object: nil)
+    }
+    
     
     //MARK: Setup Buttons methods
     //setup buttons initially

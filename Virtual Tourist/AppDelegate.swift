@@ -19,8 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        //register for notification
-        registerNSManagedObjectContextdidChangeNotification()
         
         
         return true
@@ -29,6 +27,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        
+        //remove notification on app termination
+        unRegisterNSManagedObjectContextdidChangeNotification()
+
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -43,14 +45,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        //register for notification
+        registerNSManagedObjectContextdidChangeNotification()
+        
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         //saveContext()
         
-        //remove notification on app termination
-        unRegisterNSManagedObjectContextdidChangeNotification()
     }
     
     //register NSManagedObjectContext did change notification
@@ -94,20 +98,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Core Data Saving support
     
-    func saveContext () {
+    func saveContext() {
         print("-----------------------------registerNSManagedObjectContextdidChangeNotification is saving...........................")
         let context = persistentContainer.viewContext
         if context.hasChanges {
-            do {
-                try context.save()
-                print("_____________data saved____________")
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                //try? context.save()
-                print("Unresolved error \(nserror), \(nserror.userInfo)")
+            context.perform {
+                do {
+                    try context.save()
+                    print("_____________data saved____________")
+                } catch {
+                    // Replace this implementation with code to handle the error appropriately.
+                    // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                    let nserror = error as NSError
+                    //try? context.save()
+                    print("Unresolved error \(nserror), \(nserror.userInfo)")
+                }
             }
+            
         }
     }
 }
