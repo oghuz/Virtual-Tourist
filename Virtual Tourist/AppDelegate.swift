@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        
+        registerNSManagedObjectContextdidChangeNotification()
         
         return true
     }
@@ -49,13 +49,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //register for notification
         //registerNSManagedObjectContextdidChangeNotification()
         
-        
-        
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        saveContext()
+        
+        //saveContext()
+        
+        unRegisterNSManagedObjectContextdidChangeNotification()
         
     }
     
@@ -106,7 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             context.perform {
                 do {
                     try context.save()
-                    print("_____________data saved____________")
+                    print("_____________data saved____in______saveContext()__")
                 } catch {
                     let nserror = error as NSError
                     //try? context.save()

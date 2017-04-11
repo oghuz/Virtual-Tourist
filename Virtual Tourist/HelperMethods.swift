@@ -102,16 +102,17 @@ class Helper {
                     
                     imagedTobeSaved(tempImageArray)
                     
+                    //saving total page information to userdefaults
+                    if let totalPage = totalpages {
+                        self.defaults.set(totalPage, forKey: Constants.URLConstants.totalPage)
+                    }
+                    
                     print("++++++++++++++++++ number of urls in fetchOrDownloadImages: \(urls.count)")
                     print("++++++++++++++++++ number of tempImageArray in fetchOrDownloadImages: \(tempImageArray.count)")
                     
                     //saving photos to data base with properties
                     self.saveImagesWithCoordination(location, urls, pageNumber: pageNumber)
                     
-                    //saving total page information to userdefaults
-                    if let totalPage = totalpages {
-                        self.defaults.set(totalPage, forKey: Constants.URLConstants.totalPage)
-                    }
                 }
             })
         }
@@ -155,10 +156,11 @@ class Helper {
     func saveCoordinationToDataBase(withCoordination coordination: CLLocationCoordinate2D) {
         //creating coordination entity
         _ = Coordination(coordination.latitude, coordination.longitude, context: (self.persistentContainer().viewContext))
+            /*
         self.persistentContainer().viewContext.perform {
             try? self.persistentContainer().viewContext.save()
         }
-        
+            */
         
     }
     func saveImagesWithCoordination(_ coordination: CLLocationCoordinate2D, _ urls: [String], pageNumber: Int) {
@@ -178,14 +180,16 @@ class Helper {
                         photo.toCoordination?.longitude = coordinate.longitude
                         photo.url = urlString
                         photo.pagenumber = Int16(pageNumber)
-                        context.perform {
-                            try? context.save()
-                        }
                     }
                 }
+                    /*
+                context.perform {
+                    try? context.save()
+                    print("------------------saving in saveImagesWithCoordination")
+
+                }
+                    */
             }
-        } else {
-         print("????????????????????????? no coordinate for saving the images")
         }
     }
     
@@ -300,9 +304,11 @@ class Helper {
         
         if let coordinate = fetchCoordinationWithCoordinate(withCoordinate: coordinate) {
             self.persistentContainer().viewContext.delete(coordinate as NSManagedObject)
+                /*
             persistentContainer().viewContext.perform {
                 (UIApplication.shared.delegate as! AppDelegate).saveContext()
             }
+                */
         }
         
     }

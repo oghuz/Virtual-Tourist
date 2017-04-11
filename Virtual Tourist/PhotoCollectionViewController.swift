@@ -279,7 +279,12 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
                 imageForPass = image
             }
             performSegue(withIdentifier: "showPhoto", sender: collectionView.cellForItem(at: indexPath))
+        } else {
+            let selectedImages = collectionView.indexPathsForSelectedItems
+            print("indexPathsForSelectedItems : \(String(describing: selectedImages))")
+        
         }
+        
     }
     
 }
