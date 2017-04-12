@@ -22,6 +22,9 @@ class PhotoCollectionViewController: UIViewController {
     //detail image for detail image controller
     var imageForPass = UIImage()
     
+    //get total page number from userdefaults
+    var totalPage: Int = 0
+    
     //persistentStoreCoordinator
     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
         didSet {
@@ -96,7 +99,6 @@ class PhotoCollectionViewController: UIViewController {
         performUpdateOnMain {
             Helper.shared.inEditMode(tapped: self.didTapped, view: self, barButton: self.editButton, statusLabel: nil)
         }
-
         
         //hide privious and next button, show delete button
         if UIDevice.current.orientation.isLandscape || UIDevice.current.orientation.isPortrait {
@@ -158,6 +160,8 @@ class PhotoCollectionViewController: UIViewController {
         super.viewDidLoad()
         
         getNeededDatas()
+        totalPage = UserDefaults.standard.value(forKey: Constants.URLConstants.totalPage) as! Int
+        print("there are total \(String(describing: totalPage)) number of photos)")
         
     }
     
