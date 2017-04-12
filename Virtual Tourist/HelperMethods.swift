@@ -88,11 +88,17 @@ class Helper {
         
         
         if let imageFromDataBase = try? getPhotoFromCoreData(withCoordination: location, pageNumber: pageNumber), (imageFromDataBase?.count)! > 0 {
-            
             imagedTobeSaved(imageFromDataBase)
-            
-        } else {
+        }
+        else {
             downloadPhotoWithCoordination(forCoordination: location, withPageNumber: pageNumber, inView: inView, uRlsAndPages: { (urls, totalpages) in
+                
+                //saving total page information to userdefaults
+                if let totalpage = totalpages {
+                    self.defaults.set(totalpage, forKey: Constants.URLConstants.totalPage)
+                }
+
+                
                 var tempImageArray: [UIImage] = []
                 if let urls = urls {
                     for url in urls {
@@ -102,18 +108,11 @@ class Helper {
                     
                     imagedTobeSaved(tempImageArray)
                     
-                    //saving total page information to userdefaults
-                    if let totalPage = totalpages {
-                        self.defaults.set(totalPage, forKey: Constants.URLConstants.totalPage)
-                    }
-                    
                     //saving photos to data base with properties
                     self.saveImagesWithCoordination(location, urls, pageNumber: pageNumber)
-                    
                 }
             })
         }
-        
     }
     
     

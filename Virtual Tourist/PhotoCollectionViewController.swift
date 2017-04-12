@@ -95,7 +95,7 @@ class PhotoCollectionViewController: UIViewController {
     
     @IBAction func editButtonAction(_ sender: UIBarButtonItem) {
         didTapped = !didTapped
-
+        
         performUpdateOnMain {
             Helper.shared.inEditMode(tapped: self.didTapped, view: self, barButton: self.editButton, statusLabel: nil)
         }
@@ -139,13 +139,18 @@ class PhotoCollectionViewController: UIViewController {
         performUpdateOnMain {
             self.collectionView.reloadData()
             self.activitySpinner.stopAnimating()
+            if let totalpage = UserDefaults.standard.value(forKey: Constants.URLConstants.totalPage) as? Int {
+                self.totalPage = totalpage
+                print("there are total \(String(describing: self.totalPage)) number of photos)")
+            }
+
         }
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-                
+        
         performUpdateOnMain {
             //setting up button sizes
             self.setUpButtons()
@@ -156,9 +161,6 @@ class PhotoCollectionViewController: UIViewController {
         super.viewDidLoad()
         
         getNeededDatas()
-        totalPage = UserDefaults.standard.value(forKey: Constants.URLConstants.totalPage) as! Int
-        print("there are total \(String(describing: totalPage)) number of photos)")
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -289,7 +291,7 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
         } else {
             let selectedImages = collectionView.indexPathsForSelectedItems
             print("indexPathsForSelectedItems : \(String(describing: selectedImages))")
-        
+            
         }
     }
 }
