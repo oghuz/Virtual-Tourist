@@ -82,9 +82,15 @@ class PhotoCollectionViewController: UIViewController {
     // actions for privious, next and delete button
     
     @IBAction func priviousPage(_ sender: UIButton) {
+        for var page in totalPage...0 {
+            page-=1
+        }
     }
     
     @IBAction func nextPage(_ sender: UIButton) {
+        for var page in 1...totalPage {
+            page += 1
+        }
     }
     
     @IBAction func deleteImage(_ sender: UIButton) {

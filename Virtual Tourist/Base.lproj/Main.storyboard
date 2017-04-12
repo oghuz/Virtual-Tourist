@@ -86,7 +86,7 @@
                                     <constraint firstAttribute="height" constant="163" id="cSz-yE-nHA"/>
                                 </constraints>
                             </mapView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="UICollectionView" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Bvp-XN-jZj">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="UICollectionView" pagingEnabled="YES" indicatorStyle="black" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Bvp-XN-jZj">
                                 <rect key="frame" x="0.0" y="223" width="414" height="513"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="nKy-pF-pqA">
