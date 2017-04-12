@@ -145,15 +145,11 @@ class PhotoCollectionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
-        //activitySpinner.startAnimating()
-        //getNeededDatas()
-        
+                
         performUpdateOnMain {
             //setting up button sizes
             self.setUpButtons()
         }
-        
     }
     
     override func viewDidLoad() {
