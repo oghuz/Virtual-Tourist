@@ -107,9 +107,6 @@ class Helper {
                         self.defaults.set(totalPage, forKey: Constants.URLConstants.totalPage)
                     }
                     
-                    print("++++++++++++++++++ number of urls in fetchOrDownloadImages: \(urls.count)")
-                    print("++++++++++++++++++ number of tempImageArray in fetchOrDownloadImages: \(tempImageArray.count)")
-                    
                     //saving photos to data base with properties
                     self.saveImagesWithCoordination(location, urls, pageNumber: pageNumber)
                     
