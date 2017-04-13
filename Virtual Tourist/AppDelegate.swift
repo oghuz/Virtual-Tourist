@@ -80,7 +80,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.removeObserver(self, name: .NSManagedObjectContextDidSave, object: nil)
     }
     
-
     //reset context after saving finish
     func resetContextAftersaving() {
         let context = persistentContainer.viewContext
@@ -89,9 +88,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     
     }
-    
-    //did finish saving
-    typealias didFinishSave = ()-> Bool
     
     // MARK: - Core Data stack
     
@@ -137,7 +133,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
             }
-            
         }
     }
 }

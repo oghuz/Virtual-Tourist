@@ -81,13 +81,13 @@ class PhotoCollectionViewController: UIViewController {
     
     // actions for privious, next and delete button
     
-    @IBAction func priviousPage(_ sender: UIButton) {
+    @IBAction func priviousPage(_ sender: UIButton) {    // this is a wrong implementation, to be fixed
         for var page in totalPage...0 {
             page-=1
         }
     }
     
-    @IBAction func nextPage(_ sender: UIButton) {
+    @IBAction func nextPage(_ sender: UIButton) {       // this is a wrong implementation, to be fixed
         for var page in 1...totalPage {
             page += 1
         }
@@ -136,7 +136,6 @@ class PhotoCollectionViewController: UIViewController {
                 }
             }
         }
-        
     }
     
     @objc private func reloadDataOnMain() {
@@ -147,11 +146,9 @@ class PhotoCollectionViewController: UIViewController {
             self.activitySpinner.stopAnimating()
             if let totalpage = UserDefaults.standard.value(forKey: Constants.URLConstants.totalPage) as? Int {
                 self.totalPage = totalpage
-                print("there are total \(String(describing: self.totalPage)) number of photos)")
+                print("there are total \(String(describing: self.totalPage)) pages)")
             }
-
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -278,8 +275,7 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseID, for: indexPath) as! CollectionViewCell
         
-        let imageItem = imageArray?[indexPath.item]
-        
+        let imageItem = self.imageArray?[indexPath.item]
         if let item = imageItem {
             cell.imageView.image = item
         }
