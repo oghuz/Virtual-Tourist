@@ -25,6 +25,9 @@ class PhotoCollectionViewController: UIViewController {
     //get total page number from userdefaults
     var totalPage: Int = 0
     
+    //current page number
+    var currentPage: Int = 1
+    
     //persistentStoreCoordinator
     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
         didSet {
@@ -81,16 +84,31 @@ class PhotoCollectionViewController: UIViewController {
     
     // actions for privious, next and delete button
     
-    @IBAction func priviousPage(_ sender: UIButton) {    // this is a wrong implementation, to be fixed
-        for var page in totalPage...0 {
-            page-=1
+    @IBAction func priviousPage(_ sender: UIButton) {
+        
+        guard currentPage >= 2 else {
+            Helper.shared.alert(self, title: "", message: "You already reached last collection at this location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
+            
+            return
         }
+
+            currentPage -= 1
+            print("--------------priviousPage-------currentPage---: \(currentPage)")
+            downloadImageForcurrentPage()
+        
     }
     
-    @IBAction func nextPage(_ sender: UIButton) {       // this is a wrong implementation, to be fixed
-        for var page in 1...totalPage {
-            page += 1
+    @IBAction func nextPage(_ sender: UIButton) {
+        
+        guard currentPage < totalPage else {
+            Helper.shared.alert(self, title: "", message: "No more photos in this location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
+            
+            return
         }
+            currentPage += 1
+            print("--------------nextPage-------currentPage---: \(currentPage)")
+            downloadImageForcurrentPage()
+        
     }
     
     @IBAction func deleteImage(_ sender: UIButton) {
@@ -123,16 +141,19 @@ class PhotoCollectionViewController: UIViewController {
         }
     }
     
-    //get the phtotos
-    private func getNeededDatas() {
+    
+    
+    // dwonload data for current page
+    private func downloadImageForcurrentPage() {
         //starting activity indicator
         activitySpinner.startAnimating()
         
         DispatchQueue.global().async {
-            Helper.shared.fetchOrDownloadImages(withPageNumber: 1, atLocation: self.coordination, inView: self) { (photos) in
+            Helper.shared.fetchOrDownloadImages(withPageNumber: self.currentPage, atLocation: self.coordination, inView: self) { (photos) in
                 if let images = photos {
                     self.imageArray = images
                     self.reloadDataOnMain()
+                    
                 }
             }
         }
@@ -163,7 +184,7 @@ class PhotoCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getNeededDatas()
+        downloadImageForcurrentPage()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
