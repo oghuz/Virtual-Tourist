@@ -127,7 +127,7 @@
                                         <fontDescription key="fontDescription" name="TimesNewRomanPS-BoldMT" family="Times New Roman" pointSize="25"/>
                                         <state key="normal" title="Next Page"/>
                                         <connections>
-                                            <action selector="nextPage:" destination="f2J-iQ-F4G" eventType="touchUpInside" id="95x-w0-8Qd"/>
+                                            <action selector="next_DeleteOutlet:" destination="f2J-iQ-F4G" eventType="touchUpInside" id="Uwp-dj-SOQ"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -172,7 +172,7 @@
                         <outlet property="editButton" destination="sLx-RA-BLw" id="VaM-sg-YLl"/>
                         <outlet property="flowLayout" destination="nKy-pF-pqA" id="kFK-fh-8r0"/>
                         <outlet property="mapView" destination="oIL-7s-wH4" id="ARL-5e-met"/>
-                        <outlet property="nextOutlet" destination="yyF-yx-Djg" id="FRK-rV-y9Z"/>
+                        <outlet property="next_DeleteOutlet" destination="yyF-yx-Djg" id="cTP-oM-DPP"/>
                         <segue destination="DQN-jX-HS6" kind="show" identifier="showPhoto" id="vuS-VG-NZ8"/>
                     </connections>
                 </viewController>

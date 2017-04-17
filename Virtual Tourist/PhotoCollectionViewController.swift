@@ -60,9 +60,9 @@ class PhotoCollectionViewController: UIViewController {
     }
     
     
-    @IBOutlet weak var nextOutlet: UIButton! {
+    @IBOutlet weak var next_DeleteOutlet: UIButton! {
         didSet {
-            nextOutlet.backgroundColor = .white
+            next_DeleteOutlet.backgroundColor = .white
         }
         
     }
@@ -71,7 +71,7 @@ class PhotoCollectionViewController: UIViewController {
     // actions for  next and delete button
     
     
-    @IBAction func nextPage(_ sender: UIButton) {
+    @IBAction func next_DeleteOutlet(_ sender: UIButton) {
         
         guard currentPage < totalPage else {
             Helper.shared.alert(self, title: "", message: "No more photos in this location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
@@ -187,25 +187,25 @@ class PhotoCollectionViewController: UIViewController {
     private func setUpButtons() {
         
         if UIDevice.current.orientation.isLandscape || UIDevice.current.orientation.isPortrait {
-            self.nextOutlet.frame.size.width = self.view.frame.size.width
+            self.next_DeleteOutlet.frame.size.width = self.view.frame.size.width
         }
     }
     
     //setup buttons when in edit mode
     private func buttonsInEditMode() {
         UIView.animate(withDuration: 0.5, animations: {
-            self.nextOutlet.titleLabel?.text = "Delete"
-            self.nextOutlet.backgroundColor = .red
-            self.nextOutlet.tintColor = .black
+            self.next_DeleteOutlet.titleLabel?.text = "Delete"
+            self.next_DeleteOutlet.backgroundColor = .red
+            self.next_DeleteOutlet.tintColor = .black
         })
     }
     
     //setup buttons when Not in edit mode
     private func buttonsNotIneditMode() {
         UIView.animate(withDuration: 0.5, animations: {
-            self.nextOutlet.titleLabel?.text = "Next Page"
-            self.nextOutlet.backgroundColor = .white
-            self.nextOutlet.tintColor = .black
+            self.next_DeleteOutlet.titleLabel?.text = "Next Page"
+            self.next_DeleteOutlet.backgroundColor = .white
+            self.next_DeleteOutlet.tintColor = .black
 
         })
     }
