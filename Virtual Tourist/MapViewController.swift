@@ -52,7 +52,9 @@ class MapViewController: UIViewController {
     // action that make window enter editing mode, in editing mode user can delete pins on map
     @IBAction func editPinActionButton(_ sender: UIBarButtonItem) {
         didTapped = !didTapped
-        Helper.shared.inEditMode(tapped: didTapped, view: self, barButton: editButton, statusLabel: tapToDeleteLabel)
+        UIView.animate(withDuration: 0.5) {
+            Helper.shared.inEditMode(tapped: self.didTapped, view: self, barButton: self.editButton, statusLabel: self.tapToDeleteLabel)
+        }
         inEditMode = !inEditMode
     }
     

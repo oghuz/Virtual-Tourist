@@ -67,14 +67,6 @@ class PhotoCollectionViewController: UIViewController {
         
     }
     
-    @IBOutlet weak var deleteOutlet: UIButton! {
-        didSet {
-            
-            deleteOutlet.backgroundColor = .red
-            deleteOutlet.tintColor = .black
-            //deleteOutlet.alpha = 0.0
-        }
-    }
     
     // actions for  next and delete button
     
@@ -92,9 +84,6 @@ class PhotoCollectionViewController: UIViewController {
         
     }
     
-    @IBAction func deleteImage(_ sender: UIButton) {
-        
-    }
     
     // edit button for toggle between edit mode
     @IBOutlet weak var editButton: UIBarButtonItem!
@@ -198,8 +187,6 @@ class PhotoCollectionViewController: UIViewController {
     private func setUpButtons() {
         
         if UIDevice.current.orientation.isLandscape || UIDevice.current.orientation.isPortrait {
-            self.deleteOutlet.frame.origin.x = 0
-            self.deleteOutlet.frame.size.width = 0.0
             self.nextOutlet.frame.size.width = self.view.frame.size.width
         }
     }
@@ -207,17 +194,19 @@ class PhotoCollectionViewController: UIViewController {
     //setup buttons when in edit mode
     private func buttonsInEditMode() {
         UIView.animate(withDuration: 0.5, animations: {
-            self.nextOutlet.frame.size.width = 0.0
-            self.deleteOutlet.frame.origin.x = 0
-            self.deleteOutlet.frame.size.width = self.view.frame.size.width
+            self.nextOutlet.titleLabel?.text = "Delete"
+            self.nextOutlet.backgroundColor = .red
+            self.nextOutlet.tintColor = .black
         })
     }
     
     //setup buttons when Not in edit mode
     private func buttonsNotIneditMode() {
         UIView.animate(withDuration: 0.5, animations: {
-            self.nextOutlet.frame.size.width = self.view.frame.size.width
-            self.deleteOutlet.frame.size.width = 0
+            self.nextOutlet.titleLabel?.text = "Next Page"
+            self.nextOutlet.backgroundColor = .white
+            self.nextOutlet.tintColor = .black
+
         })
     }
     
