@@ -28,6 +28,9 @@ class PhotoCollectionViewController: UIViewController {
     //current page number
     var currentPage: Int = 1
     
+    //index paths for deletion
+    var selectedIndexPaths: [IndexPath]? = []
+    
     //persistentStoreCoordinator
     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
         didSet {
@@ -73,15 +76,27 @@ class PhotoCollectionViewController: UIViewController {
     
     @IBAction func next_DeleteOutlet(_ sender: UIButton) {
         
-        guard currentPage < totalPage else {
-            Helper.shared.alert(self, title: "", message: "No more photos in this location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
+        if sender.titleLabel?.text == "Next Page" {
             
-            return
-        }
+            guard currentPage < totalPage else {
+                Helper.shared.alert(self, title: "", message: "No more photos in this location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
+                
+                return
+            }
             currentPage += 1
             print("--------------nextPage-------currentPage---: \(currentPage)")
             downloadImageForcurrentPage(currentPage: currentPage)
-        
+        }
+        if (sender.titleLabel?.text == "Delete") && (selectedIndexPaths != nil) {
+            print("indexpath befor sorting : \(String(describing: selectedIndexPaths))")
+            //let sortedIndexPath = selectedIndexPaths?.
+            
+            //print("indexpath befor sorting : \(String(describing: sortedIndexPath))")
+            
+            deleteSelectedPhotos(atIndexPathes: selectedIndexPaths)
+            selectedIndexPaths?.removeAll()
+            
+        }
     }
     
     
@@ -112,6 +127,26 @@ class PhotoCollectionViewController: UIViewController {
         }
     }
     
+    //#MARK: Delete Phtots at Index Paths
+    //delete photos at selected index path
+    private func deleteSelectedPhotos(atIndexPathes indexPaths: [IndexPath]?) {
+        if let indexPaths = indexPaths {
+            
+            //self.collectionView.deleteItems(at: indexPaths)
+            deleteImageFromArray(atIndex: indexPaths)
+            self.collectionView.reloadData()
+        }
+    }
+    
+    private func deleteImageFromArray(atIndex indexPath: [IndexPath]) {
+        for index in indexPath {
+            imageArray?.remove(at: index[1])
+            print("the indexes : \(index[1])")
+        }
+    }
+    
+    
+    //MARK: Download Images
     
     // dwonload data for current page
     private func downloadImageForcurrentPage(currentPage page: Int) {
@@ -206,7 +241,7 @@ class PhotoCollectionViewController: UIViewController {
             self.next_DeleteOutlet.titleLabel?.text = "Next Page"
             self.next_DeleteOutlet.backgroundColor = .white
             self.next_DeleteOutlet.tintColor = .black
-
+            
         })
     }
     
@@ -256,8 +291,6 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseID, for: indexPath) as! CollectionViewCell
         
         let imageItem = self.imageArray?[indexPath.item]
@@ -276,9 +309,10 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
             }
             performSegue(withIdentifier: "showPhoto", sender: collectionView.cellForItem(at: indexPath))
         } else {
-            let selectedImages = collectionView.indexPathsForSelectedItems
-            print("indexPathsForSelectedItems : \(String(describing: selectedImages))")
+            selectedIndexPaths?.append((collectionView.indexPathsForSelectedItems?[0])!)
             
+            collectionView.cellForItem(at: indexPath)?.alpha = 0.5
+            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredVertically)
         }
     }
 }
