@@ -124,27 +124,10 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="fCk-fX-cvV">
                                 <rect key="frame" x="0.0" y="701" width="414" height="35"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S89-fd-mCE">
-                                        <rect key="frame" x="0.0" y="0.0" width="138" height="35"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Privious"/>
-                                        <connections>
-                                            <action selector="nextPage:" destination="f2J-iQ-F4G" eventType="touchUpInside" id="6Mi-uf-ZAn"/>
-                                            <action selector="priviousPage:" destination="f2J-iQ-F4G" eventType="touchUpInside" id="9Bw-zn-EZy"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="44V-5w-O6b">
-                                        <rect key="frame" x="138" y="0.0" width="138" height="35"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Delete"/>
-                                        <connections>
-                                            <action selector="deleteImage:" destination="f2J-iQ-F4G" eventType="touchUpInside" id="EXL-h1-Mov"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yyF-yx-Djg">
-                                        <rect key="frame" x="276" y="0.0" width="138" height="35"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="35"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="Next"/>
+                                        <state key="normal" title="Next Page"/>
                                         <connections>
                                             <action selector="nextPage:" destination="f2J-iQ-F4G" eventType="touchUpInside" id="95x-w0-8Qd"/>
                                         </connections>
@@ -158,6 +141,15 @@
                                 <rect key="frame" x="0.0" y="64" width="414" height="637"/>
                                 <color key="color" red="0.99852250649999996" green="0.32092509260000002" blue="0.057045556839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="44V-5w-O6b">
+                                <rect key="frame" x="0.0" y="666" width="414" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Delete"/>
+                                <connections>
+                                    <action selector="deleteImage:" destination="f2J-iQ-F4G" eventType="touchUpInside" id="EXL-h1-Mov"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -193,13 +185,12 @@
                         <outlet property="flowLayout" destination="nKy-pF-pqA" id="kFK-fh-8r0"/>
                         <outlet property="mapView" destination="oIL-7s-wH4" id="ARL-5e-met"/>
                         <outlet property="nextOutlet" destination="yyF-yx-Djg" id="FRK-rV-y9Z"/>
-                        <outlet property="priviousOutlet" destination="S89-fd-mCE" id="CXZ-fh-T7y"/>
                         <segue destination="DQN-jX-HS6" kind="show" identifier="showPhoto" id="vuS-VG-NZ8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ugc-lr-O44" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2362" y="730"/>
+            <point key="canvasLocation" x="2360.8695652173915" y="729.61956521739137"/>
         </scene>
         <!--Detail Photo Controller-->
         <scene sceneID="qRd-5B-D8h">

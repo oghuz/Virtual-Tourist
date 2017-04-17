@@ -59,12 +59,6 @@ class PhotoCollectionViewController: UIViewController {
         }
     }
     
-    //privious, next, delete buttons
-    @IBOutlet weak var priviousOutlet: UIButton! {
-        didSet {
-            priviousOutlet.backgroundColor = .white
-        }
-    }
     
     @IBOutlet weak var nextOutlet: UIButton! {
         didSet {
@@ -82,21 +76,8 @@ class PhotoCollectionViewController: UIViewController {
         }
     }
     
-    // actions for privious, next and delete button
+    // actions for  next and delete button
     
-    @IBAction func priviousPage(_ sender: UIButton) {
-        
-        guard currentPage >= 2 else {
-            Helper.shared.alert(self, title: "", message: "You already reached last collection at this location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
-            
-            return
-        }
-
-            currentPage -= 1
-            print("--------------priviousPage-------currentPage---: \(currentPage)")
-            downloadImageForcurrentPage()
-        
-    }
     
     @IBAction func nextPage(_ sender: UIButton) {
         
@@ -107,11 +88,12 @@ class PhotoCollectionViewController: UIViewController {
         }
             currentPage += 1
             print("--------------nextPage-------currentPage---: \(currentPage)")
-            downloadImageForcurrentPage()
+            downloadImageForcurrentPage(currentPage: currentPage)
         
     }
     
     @IBAction func deleteImage(_ sender: UIButton) {
+        
     }
     
     // edit button for toggle between edit mode
@@ -124,7 +106,7 @@ class PhotoCollectionViewController: UIViewController {
             Helper.shared.inEditMode(tapped: self.didTapped, view: self, barButton: self.editButton, statusLabel: nil)
         }
         
-        //hide privious and next button, show delete button
+        //hide next button, show delete button
         if UIDevice.current.orientation.isLandscape || UIDevice.current.orientation.isPortrait {
             
             if didTapped {
@@ -142,14 +124,12 @@ class PhotoCollectionViewController: UIViewController {
     }
     
     
-    
     // dwonload data for current page
-    private func downloadImageForcurrentPage() {
+    private func downloadImageForcurrentPage(currentPage page: Int) {
         //starting activity indicator
         activitySpinner.startAnimating()
-        
         DispatchQueue.global().async {
-            Helper.shared.fetchOrDownloadImages(withPageNumber: self.currentPage, atLocation: self.coordination, inView: self) { (photos) in
+            Helper.shared.fetchOrDownloadImages(withPageNumber: page, atLocation: self.coordination, inView: self) { (photos) in
                 if let images = photos {
                     self.imageArray = images
                     self.reloadDataOnMain()
@@ -184,7 +164,7 @@ class PhotoCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        downloadImageForcurrentPage()
+        downloadImageForcurrentPage(currentPage: currentPage)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -220,16 +200,13 @@ class PhotoCollectionViewController: UIViewController {
         if UIDevice.current.orientation.isLandscape || UIDevice.current.orientation.isPortrait {
             self.deleteOutlet.frame.origin.x = 0
             self.deleteOutlet.frame.size.width = 0.0
-            self.priviousOutlet.frame.size.width = self.view.frame.size.width/2
-            self.nextOutlet.frame.size.width = self.view.frame.size.width/2
-            self.nextOutlet.frame.origin.x = self.priviousOutlet.frame.size.width
+            self.nextOutlet.frame.size.width = self.view.frame.size.width
         }
     }
     
     //setup buttons when in edit mode
     private func buttonsInEditMode() {
         UIView.animate(withDuration: 0.5, animations: {
-            self.priviousOutlet.frame.size.width = 0.0
             self.nextOutlet.frame.size.width = 0.0
             self.deleteOutlet.frame.origin.x = 0
             self.deleteOutlet.frame.size.width = self.view.frame.size.width
@@ -239,9 +216,7 @@ class PhotoCollectionViewController: UIViewController {
     //setup buttons when Not in edit mode
     private func buttonsNotIneditMode() {
         UIView.animate(withDuration: 0.5, animations: {
-            self.priviousOutlet.frame.size.width = self.view.frame.size.width/2
-            self.nextOutlet.frame.origin.x = self.priviousOutlet.frame.size.width
-            self.nextOutlet.frame.size.width = self.view.frame.size.width/2
+            self.nextOutlet.frame.size.width = self.view.frame.size.width
             self.deleteOutlet.frame.size.width = 0
         })
     }
