@@ -71,33 +71,6 @@ class PhotoCollectionViewController: UIViewController {
     }
     
     
-    // actions for  next and delete button
-    
-    
-    @IBAction func next_DeleteOutlet(_ sender: UIButton) {
-        
-        if sender.titleLabel?.text == "Next Page" {
-            
-            guard currentPage < totalPage else {
-                Helper.shared.alert(self, title: "", message: "No more photos in this location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
-                
-                return
-            }
-            currentPage += 1
-            print("--------------nextPage-------currentPage---: \(currentPage)")
-            downloadImageForcurrentPage(currentPage: currentPage)
-        }
-        if (sender.titleLabel?.text == "Delete") && (selectedIndexPaths != nil) {
-            print("indexpath befor sorting : \(String(describing: selectedIndexPaths))")
-            //let sortedIndexPath = selectedIndexPaths?.
-            
-            //print("indexpath befor sorting : \(String(describing: sortedIndexPath))")
-            
-            deleteSelectedPhotos(atIndexPathes: selectedIndexPaths)
-            selectedIndexPaths?.removeAll()
-            
-        }
-    }
     
     
     // edit button for toggle between edit mode
@@ -127,21 +100,60 @@ class PhotoCollectionViewController: UIViewController {
         }
     }
     
+    // actions for  next and delete button
+    @IBAction func next_DeleteOutlet(_ sender: UIButton) {
+        
+        if sender.titleLabel?.text == "Next Page" {
+            
+            guard currentPage < totalPage else {
+                Helper.shared.alert(self, title: "", message: "No more photos in this location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
+                
+                return
+            }
+            currentPage += 1
+            print("--------------nextPage-------currentPage---: \(currentPage)")
+            downloadImageForcurrentPage(currentPage: currentPage)
+        }
+        if (sender.titleLabel?.text == "Delete") && (selectedIndexPaths != nil) {
+            print("indexpath befor sorting : \(String(describing: selectedIndexPaths))")
+            
+            //deleteSelectedPhotos(atIndexPathes: selectedIndexPaths)
+            deselectAfterDelete(at: selectedIndexPaths!)
+            self.collectionView.reloadData()
+            
+            selectedIndexPaths?.removeAll()
+            
+            
+            performSelector(onMainThread: #selector(editButtonAction(_:)), with: nil, waitUntilDone: true)
+            
+        }
+    }
+
+    
     //#MARK: Delete Phtots at Index Paths
     //delete photos at selected index path
     private func deleteSelectedPhotos(atIndexPathes indexPaths: [IndexPath]?) {
-        if let indexPaths = indexPaths {
+        if let indexPaths = selectedIndexPaths {
+            
+            //collection view batch update
+            self.collectionView.performBatchUpdates({ 
+                self.collectionView.deleteItems(at: indexPaths)
+                self.collectionView.numberOfItems(inSection: 0)
+
+            }, completion: nil)
             
             //self.collectionView.deleteItems(at: indexPaths)
-            deleteImageFromArray(atIndex: indexPaths)
-            self.collectionView.reloadData()
+            //deleteImageFromArray(atIndexPath: indexPaths)
+            
         }
     }
     
-    private func deleteImageFromArray(atIndex indexPath: [IndexPath]) {
-        for index in indexPath {
-            imageArray?.remove(at: index[1])
-            print("the indexes : \(index[1])")
+    private func deleteImageFromArray(atIndexPath indexPath: [IndexPath]?) {
+        if let indexPath = indexPath {
+            for index in indexPath {
+                imageArray?.remove(at: index.item)
+                print("the indexes : \(index)")
+            }
         }
     }
     
@@ -157,7 +169,6 @@ class PhotoCollectionViewController: UIViewController {
                 if let images = photos {
                     self.imageArray = images
                     self.reloadDataOnMain()
-                    
                 }
             }
         }
@@ -169,6 +180,11 @@ class PhotoCollectionViewController: UIViewController {
         performUpdateOnMain {
             self.collectionView.reloadData()
             self.activitySpinner.stopAnimating()
+        }
+    }
+    
+    private func getTotalPages() {
+        performUpdateOnMain {
             if let totalpage = UserDefaults.standard.value(forKey: Constants.URLConstants.totalPage) as? Int {
                 self.totalPage = totalpage
                 print("there are total \(String(describing: self.totalPage)) pages)")
@@ -187,7 +203,7 @@ class PhotoCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        getTotalPages()
         downloadImageForcurrentPage(currentPage: currentPage)
     }
     
@@ -241,6 +257,12 @@ class PhotoCollectionViewController: UIViewController {
             self.next_DeleteOutlet.titleLabel?.text = "Next Page"
             self.next_DeleteOutlet.backgroundColor = .white
             self.next_DeleteOutlet.tintColor = .black
+            
+            if let idexPath = self.selectedIndexPaths {
+                self.deselectAfterDelete(at: idexPath)
+            }
+            
+            self.selectedIndexPaths?.removeAll()
             
         })
     }
@@ -308,11 +330,30 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
                 imageForPass = image
             }
             performSegue(withIdentifier: "showPhoto", sender: collectionView.cellForItem(at: indexPath))
-        } else {
+        }
+        if didTapped {
             selectedIndexPaths?.append((collectionView.indexPathsForSelectedItems?[0])!)
             
-            collectionView.cellForItem(at: indexPath)?.alpha = 0.5
+            if let selectedIndexPaths = selectedIndexPaths {
+                for index in selectedIndexPaths {
+                    changeCollectionItem(at: index)
+                }
+            }
             collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredVertically)
+        }
+    }
+    
+    private func changeCollectionItem (at indexPath: IndexPath) {
+        collectionView.cellForItem(at: indexPath)?.layer.borderWidth = 10.0
+        collectionView.cellForItem(at: indexPath)?.layer.borderColor = UIColor.red.cgColor
+        
+    }
+    
+    //deselect items after deletion
+    func deselectAfterDelete(at indexpaths: [IndexPath]) {
+        for indexPath in indexpaths {
+            collectionView.deselectItem(at: indexPath, animated: true)
+            collectionView.cellForItem(at: indexPath)?.layer.borderWidth = 0.0
         }
     }
 }
