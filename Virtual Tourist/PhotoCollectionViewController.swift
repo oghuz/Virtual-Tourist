@@ -18,7 +18,7 @@ class PhotoCollectionViewController: UIViewController {
     
     //coordination for pin also for lat, lon of flickr search string
     var coordination = CLLocationCoordinate2D()
-    var imageArray: [UIImage]? = []
+    var imageDictArray: [[Int:UIImage]]? = []
     //detail image for detail image controller
     var imageForPass = UIImage()
     
@@ -128,7 +128,7 @@ class PhotoCollectionViewController: UIViewController {
             
         }
     }
-
+    
     
     //#MARK: Delete Phtots at Index Paths
     //delete photos at selected index path
@@ -136,10 +136,10 @@ class PhotoCollectionViewController: UIViewController {
         if let indexPaths = selectedIndexPaths {
             
             //collection view batch update
-            self.collectionView.performBatchUpdates({ 
+            self.collectionView.performBatchUpdates({
                 self.collectionView.deleteItems(at: indexPaths)
                 self.collectionView.numberOfItems(inSection: 0)
-
+                
             }, completion: nil)
             
             //self.collectionView.deleteItems(at: indexPaths)
@@ -151,7 +151,7 @@ class PhotoCollectionViewController: UIViewController {
     private func deleteImageFromArray(atIndexPath indexPath: [IndexPath]?) {
         if let indexPath = indexPath {
             for index in indexPath {
-                imageArray?.remove(at: index.item)
+                imageDictArray?.remove(at: index.item)
                 print("the indexes : \(index)")
             }
         }
@@ -165,9 +165,11 @@ class PhotoCollectionViewController: UIViewController {
         //starting activity indicator
         activitySpinner.startAnimating()
         DispatchQueue.global().async {
-            Helper.shared.fetchOrDownloadImages(withPageNumber: page, atLocation: self.coordination, inView: self) { (photos) in
-                if let images = photos {
-                    self.imageArray = images
+            Helper.shared.fetchOrDownloadImages(withPageNumber: page, atLocation: self.coordination, inView: self) { (id_photos) in
+                if let id_images = id_photos {
+                    
+                    self.imageDictArray = id_images
+                    
                     self.reloadDataOnMain()
                 }
             }
@@ -308,26 +310,29 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (imageArray?.count)!
+        return (imageDictArray?.count)!
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseID, for: indexPath) as! CollectionViewCell
         
-        let imageItem = self.imageArray?[indexPath.item]
-        if let item = imageItem {
-            cell.imageView.image = item
+        if let imageItem = self.imageDictArray?[indexPath.item] {
+            for (id, image) in imageItem {
+                cell.imageView.image = image
+                cell.imageView.tag = id
+            }
         }
-        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if !didTapped {
-            if let image = imageArray?[indexPath.item] {
-                imageForPass = image
+            if let image = imageDictArray?[indexPath.item] {
+                for (_, image) in image {
+                 imageForPass = image
+                }
             }
             performSegue(withIdentifier: "showPhoto", sender: collectionView.cellForItem(at: indexPath))
         }
