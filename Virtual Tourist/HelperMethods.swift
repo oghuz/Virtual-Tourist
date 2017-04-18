@@ -84,32 +84,36 @@ class Helper {
     
     
     //#MARK: Fetch or Download Images
-    func fetchOrDownloadImages(withPageNumber pageNumber: Int, atLocation location: CLLocationCoordinate2D, inView: UIViewController, imagedTobeSaved: @escaping (_ images: [UIImage]?)-> Void) {
+    func fetchOrDownloadImages(withPageNumber pageNumber: Int, atLocation location: CLLocationCoordinate2D, inView: UIViewController, imagedTobeSaved: @escaping (_ images: [[Int:UIImage]]?)-> Void) {
         
         
         if let imageFromDataBase = try? getPhotoFromCoreData(withCoordination: location, pageNumber: pageNumber), (imageFromDataBase?.count)! > 0 {
             imagedTobeSaved(imageFromDataBase)
         }
         else {
-            downloadPhotoWithCoordination(forCoordination: location, withPageNumber: pageNumber, inView: inView, uRlsAndPages: { (urls, totalpages) in
+            downloadPhotoWithCoordination(forCoordination: location, withPageNumber: pageNumber, inView: inView, uRlsAndPages: { (url_IDs, totalpages) in
                 
                 //saving total page information to userdefaults
                 if let totalpage = totalpages {
                     self.defaults.set(totalpage, forKey: Constants.URLConstants.totalPage)
                 }
-
                 
-                var tempImageArray: [UIImage] = []
-                if let urls = urls {
-                    for url in urls {
-                        let image = self.imageFromUrl(url)
-                        tempImageArray.append(image!)
+                
+                var tempImageDict: [[Int:UIImage]] = []
+                if let url_IDs = url_IDs {
+                    for url_id in url_IDs {
+                        for (key, url) in url_id {
+                            let image = self.imageFromUrl(url)
+                            if let image = image {
+                                tempImageDict.append([key: image])
+                            }
+                        }
+                        
+                        imagedTobeSaved(tempImageDict)
+                        
+                        //saving photos to data base with properties
+                        self.saveImagesWithCoordination(location, tempImageDict, pageNumber: pageNumber)
                     }
-                    
-                    imagedTobeSaved(tempImageArray)
-                    
-                    //saving photos to data base with properties
-                    self.saveImagesWithCoordination(location, urls, pageNumber: pageNumber)
                 }
             })
         }
@@ -117,29 +121,29 @@ class Helper {
     
     
     //#MARK: Save Photo, ULR, Coordination To CoreData
-    func downloadPhotoWithCoordination(forCoordination coordination: CLLocationCoordinate2D, withPageNumber page: Int ,inView: UIViewController, uRlsAndPages: @escaping (_ urls: [String]?, _ totalPages: Int?)->Void) {
+    func downloadPhotoWithCoordination(forCoordination coordination: CLLocationCoordinate2D, withPageNumber page: Int ,inView: UIViewController, uRlsAndPages: @escaping (_ url_IDs: [[Int: String]]?, _ totalPages: Int?)->Void) {
         
         // calling get photo with coordination method
-        Networking.shared.getPhotoWithCoordination(coordination: coordination, withPageNumber: page, complitionHandlerForgetPhoto: { (urlStrings, totalPage ,error) in
+        Networking.shared.getPhotoWithCoordination(coordination: coordination, withPageNumber: page, complitionHandlerForgetPhoto: { (url_iDs, totalPage ,error) in
             
             guard (error == nil) else {
                 Helper.shared.alert(inView, title: "Error", message: "No data found", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
                 return
             }
             
-            guard ((urlStrings?.count)! > 0) else {
+            guard ((url_iDs?.count)! > 0) else {
                 performUpdateOnMain {
                     Helper.shared.alert(inView, title: "No Photo", message: "No Photo Found On This Location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
                 }
                 return
             }
             
-            guard let uRls = urlStrings else {
+            guard let uRl_Ids = url_iDs else {
                 print("No photo or url fiund")
                 return
             }
             
-            uRlsAndPages(uRls, totalPage)
+            uRlsAndPages(uRl_Ids, totalPage)
         })
         
     }
@@ -152,36 +156,39 @@ class Helper {
     func saveCoordinationToDataBase(withCoordination coordination: CLLocationCoordinate2D) {
         //creating coordination entity
         _ = Coordination(coordination.latitude, coordination.longitude, context: (self.persistentContainer().viewContext))
-            /*
-        self.persistentContainer().viewContext.perform {
-            try? self.persistentContainer().viewContext.save()
-        }
-            */
+        /*
+         self.persistentContainer().viewContext.perform {
+         try? self.persistentContainer().viewContext.save()
+         }
+         */
         
     }
-    func saveImagesWithCoordination(_ coordination: CLLocationCoordinate2D, _ urls: [String], pageNumber: Int) {
+    func saveImagesWithCoordination(_ coordination: CLLocationCoordinate2D, _ id_images: [[Int:UIImage]]?, pageNumber: Int) {
         
         if let coordinate = fetchCoordinationWithCoordinate(withCoordinate: coordination) {
             print("------------------hey there are saved coordinates here \(coordinate)")
             
             self.persistentContainer().performBackgroundTask{ [weak self] context in
                 
-                
-                for urlString in urls {
-                    let image = self?.imageFromUrl(urlString)
-                    if let image = image {
-                        let photo = Photos(NSData(data: UIImageJPEGRepresentation(image, 1.0)!), withURL: urlString, context: (self?.persistentContainer().viewContext)!)
-                        coordinate.addToPhotos(photo)
-                        photo.toCoordination?.latitude = coordinate.latitude
-                        photo.toCoordination?.longitude = coordinate.longitude
-                        photo.url = urlString
-                        photo.pagenumber = Int16(pageNumber)
-                        context.perform {
-                            try? context.save()
-                            print("------------------saving in saveImagesWithCoordination")
+                if let idImage = id_images {
+                    for id_image in idImage {
+                        for (id, image) in id_image {
+                            
+                            let photo = Photos(NSData(data: UIImageJPEGRepresentation(image, 1.0)!), context: (self?.persistentContainer().viewContext)!)
+                            
+                            coordinate.addToPhotos(photo)
+                            photo.toCoordination?.latitude = coordinate.latitude
+                            photo.toCoordination?.longitude = coordinate.longitude
+                            
+                            photo.pagenumber = Int16(pageNumber)
+                            photo.photoID = Int64(id)
+                            context.perform {
+                                try? context.save()
+                                print("------------------saving in saveImagesWithCoordination")
+                                
+                            }
                             
                         }
-
                     }
                 }
             }
@@ -233,7 +240,7 @@ class Helper {
     //#MARK: loading photos from core data
     
     //get photo from core data with coordination
-    func getPhotoFromCoreData(withCoordination coordination: CLLocationCoordinate2D, pageNumber: Int) throws -> [UIImage]? {
+    func getPhotoFromCoreData(withCoordination coordination: CLLocationCoordinate2D, pageNumber: Int) throws -> [[Int:UIImage]]? {
         
         //getting coordinates from core data for use predicate in photo
         let request: NSFetchRequest<Photos> = Photos.fetchRequest()
@@ -246,14 +253,15 @@ class Helper {
         }
         
         //array will be populate from fetch result
-        var imageArray: [UIImage] = []
+        var imageDict: [[Int:UIImage]] = []
         
         do {
             let photoData = try persistentContainer().viewContext.fetch(request)
             if photoData.count > 0 {
                 for item in photoData {
                     if let image = UIImage(data: item.photo! as Data) {
-                        imageArray.append(image)
+                        let key = item.photoID
+                        imageDict.append([Int(key): image])
                     }
                 }
             }
@@ -261,7 +269,7 @@ class Helper {
             throw error
         }
         
-        return imageArray
+        return imageDict
     }
     
     
@@ -299,11 +307,11 @@ class Helper {
         
         if let coordinate = fetchCoordinationWithCoordinate(withCoordinate: coordinate) {
             self.persistentContainer().viewContext.delete(coordinate as NSManagedObject)
-                /*
-            persistentContainer().viewContext.perform {
-                (UIApplication.shared.delegate as! AppDelegate).saveContext()
-            }
-                */
+            /*
+             persistentContainer().viewContext.perform {
+             (UIApplication.shared.delegate as! AppDelegate).saveContext()
+             }
+             */
         }
         
     }

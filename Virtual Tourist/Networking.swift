@@ -107,7 +107,7 @@ class Networking {
     
     //#MARK: Get photo method
     
-    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, withPageNumber page: Int? ,complitionHandlerForgetPhoto: @escaping( _ photoURL: [String]?, _ totalPage: Int? ,_ error: Error? ) -> Void ) {
+    func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, withPageNumber page: Int? ,complitionHandlerForgetPhoto: @escaping( _ photoURL_ID: [[Int: String]]?, _ totalPage: Int? ,_ error: Error? ) -> Void ) {
         
         // lat, lon for photo search
         let latitude = coordination?.latitude
@@ -137,7 +137,7 @@ class Networking {
             }
             
             // creating a image array
-            var urlStringArray: [String] = []
+            var urlStringArray: [[Int: String]] = []
             var totalPage = Int()
             
             // taking data
@@ -162,18 +162,18 @@ class Networking {
     //#MARK: Get photo url from components
     
     //take dictionary array as parameter, return image as anyobject
-    func photoURLFromDataArray(_ array: [String: AnyObject]) -> String? {
+    func photoURLFromDataArray(_ array: [String: AnyObject]) -> [Int: String]? {
         
         var photoURLString = String()
         //unwrapping photo parameters
-        guard let farmID = array[Constants.PhotoParameterKeys.farm] as? Int, let serverID = array[Constants.PhotoParameterKeys.server] as? String, let photoID = array[Constants.PhotoParameterKeys.photoID] as? String, let secret = array[Constants.PhotoParameterKeys.secret] as? String else {
+        guard let farmID = array[Constants.PhotoParameterKeys.farm] as? Int, let serverID = array[Constants.PhotoParameterKeys.server] as? String, let photoId = array[Constants.PhotoParameterKeys.photoID] as? Int,let photoID = array[Constants.PhotoParameterKeys.photoID] as? String, let secret = array[Constants.PhotoParameterKeys.secret] as? String else {
             
             return nil
         }
         
         photoURLString =  constructPhotoWithResponse(farmID: farmID, serverID: serverID, PhotoID: photoID, photoSecrete: secret )
         
-        return photoURLString
+        return [photoId:photoURLString]
     }
     
     //contructs photo from standard photo response
