@@ -38,6 +38,8 @@ class PhotoCollectionViewController: UIViewController {
         }
     }
     
+    let fetchResultsCOntroller = NSFetchedResultsController<Photos>()
+    
     //activity indicator
     @IBOutlet weak var activitySpinner: UIActivityIndicatorView! {
         didSet{
@@ -325,6 +327,8 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
         }
         return cell
     }
+    
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
