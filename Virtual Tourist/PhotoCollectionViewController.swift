@@ -298,6 +298,7 @@ extension PhotoCollectionViewController {
     
 }
 
+// can not use simulator after apple developer membership is unpaid
 
 
 
