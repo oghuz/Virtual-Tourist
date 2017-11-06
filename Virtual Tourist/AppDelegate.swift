@@ -81,7 +81,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     //reset context after saving finish
-    func resetContextAftersaving() {
+    @objc func resetContextAftersaving() {
         let context = persistentContainer.viewContext
         context.perform {
             context.reset()
@@ -120,7 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: - Core Data Saving support
     
-    func saveContext() {
+    @objc func saveContext() {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             context.perform {
