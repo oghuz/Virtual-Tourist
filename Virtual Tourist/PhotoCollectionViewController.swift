@@ -34,7 +34,7 @@ class PhotoCollectionViewController: UIViewController {
     //persistentStoreCoordinator
     var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
         didSet {
-            //self.startFetching()
+            self.startFetching()
         }
     }
     
@@ -130,7 +130,12 @@ class PhotoCollectionViewController: UIViewController {
             
         }
     }
-    
+	
+	//#MARK: startFetching
+	
+	func startFetching() {
+		
+	}
     
     //#MARK: Delete Phtots at Index Paths
     //delete photos at selected index path
