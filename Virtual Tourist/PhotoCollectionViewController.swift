@@ -212,6 +212,7 @@ class PhotoCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+		registerNSManagedObjectContextdidChangeNotification()
         getTotalPages()
         downloadImageForcurrentPage(currentPage: currentPage)
     }
