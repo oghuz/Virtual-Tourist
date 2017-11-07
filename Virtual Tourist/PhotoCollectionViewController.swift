@@ -217,7 +217,7 @@ class PhotoCollectionViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        //unRegisterNSManagedObjectContextdidChangeNotification()
+        unRegisterNSManagedObjectContextdidChangeNotification()
     }
     
     override func viewDidLayoutSubviews() {
