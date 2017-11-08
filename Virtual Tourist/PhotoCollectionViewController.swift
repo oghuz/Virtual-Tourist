@@ -105,8 +105,7 @@ class PhotoCollectionViewController: UIViewController {
 		if sender.titleLabel?.text == "Next Page" {
 			
 			guard currentPage < totalPage else {
-				Helper.shared.alert(self, title: "", message: "No more photos in this location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)
-				
+				Helper.shared.alert(self, title: "", message: "No more photos in this location", preferredStyle: .alert, okActionTitle: nil, okActionStyle: nil, okActionHandler: nil, cancelActionTitle: "Dismiss", cancelActionStyle: .cancel, cancelActionHandler: nil)				
 				return
 			}
 			currentPage += 1
