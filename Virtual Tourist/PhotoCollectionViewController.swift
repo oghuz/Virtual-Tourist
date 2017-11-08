@@ -120,7 +120,7 @@ class PhotoCollectionViewController: UIViewController {
 			self.collectionView.reloadData()
 			
 			selectedIndexPaths?.removeAll()
-			performSelector(onMainThread: #selector(editButtonAction(_:)), with: nil, waitUntilDone: true)			
+			performSelector(onMainThread: #selector(editButtonAction(_:)), with: nil, waitUntilDone: true)
 		}
 	}
 	
@@ -272,13 +272,10 @@ class PhotoCollectionViewController: UIViewController {
 			
 			if let idexPath = self.selectedIndexPaths {
 				self.deselectAfterDelete(at: idexPath)
-			}
-			
+			}			
 			self.selectedIndexPaths?.removeAll()
-			
 		})
 	}
-	
 }
 
 
