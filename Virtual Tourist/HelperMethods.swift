@@ -297,7 +297,7 @@ class Helper {
         } catch {
             print("there is an error :\(error)", NSError(domain: "fetchCoordinationWithCoordinate", code: 0, userInfo: [NSLocalizedDescriptionKey: error]))
         }
-        print("------fetchCoordinationWithCoordinate---- \(coord!)")
+//        print("------fetchCoordinationWithCoordinate---- \(coord!)")
         return coord
     }
     
