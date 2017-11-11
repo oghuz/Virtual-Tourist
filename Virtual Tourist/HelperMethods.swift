@@ -19,8 +19,6 @@ class Helper {
     //userdefaults for total page
     lazy var defaults = UserDefaults.standard
     
-    
-    
     //#MARK: AlertViewController
     //Reusable method for AlertViewController
     func alert(_ view: UIViewController, title: String?, message: String?, preferredStyle: UIAlertControllerStyle, okActionTitle: String?, okActionStyle: UIAlertActionStyle?, okActionHandler: ((UIAlertAction) -> Void)?, cancelActionTitle: String?, cancelActionStyle: UIAlertActionStyle?, cancelActionHandler: ((UIAlertAction) -> Void)?) {
