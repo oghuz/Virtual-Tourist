@@ -52,8 +52,6 @@ class Helper {
             mapView.addAnnotation(pin)
         }
     }
-    
-    
     //#MARK: Edit mode Toggle
     // this method is for left leftBarButtonItem only so far, can be added extra code for both sides
     func inEditMode(tapped buttonTapped: Bool, view: UIViewController, barButton: UIBarButtonItem?, statusLabel: UILabel?) {
@@ -81,8 +79,7 @@ class Helper {
         
         return container
     }
-    
-    
+	
     //#MARK: Fetch or Download Images
     func fetchOrDownloadImages(withPageNumber pageNumber: Int, atLocation location: CLLocationCoordinate2D, inView: UIViewController, imagedTobeSaved: @escaping (_ images: [[Int:UIImage]]?)-> Void) {
         
@@ -97,8 +94,6 @@ class Helper {
                 if let totalpage = totalpages {
                     self.defaults.set(totalpage, forKey: Constants.URLConstants.totalPage)
                 }
-                
-                
                 var tempImageDict: [[Int:UIImage]] = []
                 if let url_IDs = url_IDs {
                     for url_id in url_IDs {
@@ -185,17 +180,14 @@ class Helper {
                             context.perform {
                                 try? context.save()
 //                                print("------------------saving in saveImagesWithCoordination")
-								
                             }
-                            
                         }
                     }
                 }
             }
         }
     }
-    
-    
+	
     //constructing UIImage from URL
     func imageFromUrl(_ urlString: String) -> UIImage? {
         var photoData = Data()
