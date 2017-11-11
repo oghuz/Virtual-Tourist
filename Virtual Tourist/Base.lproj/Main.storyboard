@@ -207,7 +207,7 @@
                                 </connections>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.57368785590000004" green="0.7006355246" blue="0.55631068559999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="nSX-Oe-6V5" firstAttribute="leading" secondItem="4Hg-ip-8K3" secondAttribute="leadingMargin" constant="-20" id="0Dp-Ux-62L"/>
                             <constraint firstItem="nSX-Oe-6V5" firstAttribute="top" secondItem="4Hg-ip-8K3" secondAttribute="topMargin" id="beW-su-iAl"/>
