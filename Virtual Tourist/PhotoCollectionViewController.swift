@@ -39,14 +39,12 @@ class PhotoCollectionViewController: UIViewController {
 	}
 	
 	let fetchResultsCOntroller = NSFetchedResultsController<Photos>()
-	
 	//activity indicator
 	@IBOutlet weak var activitySpinner: UIActivityIndicatorView! {
 		didSet{
 			activitySpinner.hidesWhenStopped = true
 		}
 	}
-	
 	
 	@IBOutlet weak var collectionView: UICollectionView! {
 		didSet {
@@ -64,7 +62,6 @@ class PhotoCollectionViewController: UIViewController {
 		}
 	}
 	
-	
 	@IBOutlet weak var next_DeleteOutlet: UIButton! {
 		didSet {
 			next_DeleteOutlet.backgroundColor = .white
@@ -76,8 +73,8 @@ class PhotoCollectionViewController: UIViewController {
 	@IBOutlet weak var editButton: UIBarButtonItem!
 	
 	@IBAction func editButtonAction(_ sender: UIBarButtonItem) {
-		didTapped = !didTapped
 		
+		didTapped = !didTapped
 		performUpdateOnMain {
 			Helper.shared.inEditMode(tapped: self.didTapped, view: self, barButton: self.editButton, statusLabel: nil)
 		}
@@ -243,7 +240,7 @@ class PhotoCollectionViewController: UIViewController {
 	func unRegisterNSManagedObjectContextdidChangeNotification() {
 		NotificationCenter.default.removeObserver(self, name: .NSManagedObjectContextObjectsDidChange, object: nil)
 	}
-		
+	
 	//MARK: Setup Buttons methods
 	//setup buttons initially
 	private func setUpButtons() {
