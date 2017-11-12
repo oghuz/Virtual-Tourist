@@ -243,8 +243,7 @@ class PhotoCollectionViewController: UIViewController {
 	func unRegisterNSManagedObjectContextdidChangeNotification() {
 		NotificationCenter.default.removeObserver(self, name: .NSManagedObjectContextObjectsDidChange, object: nil)
 	}
-	
-	
+		
 	//MARK: Setup Buttons methods
 	//setup buttons initially
 	private func setUpButtons() {
@@ -278,7 +277,6 @@ class PhotoCollectionViewController: UIViewController {
 	}
 }
 
-
 //MARK: Setup UICollectionViewFlowLayout
 extension PhotoCollectionViewController {
 	// setting up collection view items spacing and size with different orientation
@@ -307,7 +305,6 @@ extension PhotoCollectionViewController {
 	}
 	
 }
-
 
 //MARK: UICollectionViewDataSource, UICollectionViewDelegate
 extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -371,11 +368,8 @@ extension PhotoCollectionViewController: UICollectionViewDataSource, UICollectio
 }
 
 //MARK: Prepare for segue
-
 extension PhotoCollectionViewController {
-	
 	// passing image to detail view controller
-	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == "showPhoto" {
 			let destination = segue.destination as? DetailPhotoController
