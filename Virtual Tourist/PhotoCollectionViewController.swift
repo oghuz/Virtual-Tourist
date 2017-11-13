@@ -211,6 +211,7 @@ class PhotoCollectionViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		self.view.backgroundColor = .gray
 		registerNSManagedObjectContextdidChangeNotification()
 		getTotalPages()
 		downloadImageForcurrentPage(currentPage: currentPage)
