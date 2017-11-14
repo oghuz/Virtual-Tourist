@@ -16,6 +16,7 @@ extension Photos {
         return NSFetchRequest<Photos>(entityName: "Photos")
     }
 
+	//initializing all the memebers of the Photos entity
     @NSManaged public var pagenumber: Int16
     @NSManaged public var photo: NSData?
     @NSManaged public var url: String?

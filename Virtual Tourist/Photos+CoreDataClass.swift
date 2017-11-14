@@ -23,5 +23,4 @@ public class Photos: NSManagedObject {
             fatalError("can not initialize Photos entity")
         }
     }
-
 }
