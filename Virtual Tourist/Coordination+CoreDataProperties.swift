@@ -25,6 +25,7 @@ extension Coordination {
 // MARK: Generated accessors for toPhotos
 extension Coordination {
 
+	// automatic generted methods and properties
     @objc(addToPhotosObject:)
     @NSManaged public func addToPhotos(_ value: Photos)
 
