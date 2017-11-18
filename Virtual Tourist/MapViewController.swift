@@ -65,7 +65,7 @@ class MapViewController: UIViewController {
         //set title for viewcontroller
         self.title = "Virtual Tourist"
         let coordinations = try? Helper.shared.getCoordinationFromCoreData()
-        self.view.backgroundColor = .gray
+       
         if let coordinates = coordinations {
             for item in coordinates {
                 Helper.shared.addPinForCoordination(mapView, coordination: item)
