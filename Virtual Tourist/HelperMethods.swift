@@ -269,7 +269,6 @@ class Helper {
         let pinRequest: NSFetchRequest<Coordination> = Coordination.fetchRequest()
         pinRequest.predicate = NSPredicate(format: "latitude = %@ and longitude = %@", argumentArray: [coordinate.latitude, coordinate.longitude])
         
-        
         var coord: Coordination?
         
         do {
@@ -287,7 +286,7 @@ class Helper {
         } catch {
             print("there is an error :\(error)", NSError(domain: "fetchCoordinationWithCoordinate", code: 0, userInfo: [NSLocalizedDescriptionKey: error]))
         }
-//        print("------fetchCoordinationWithCoordinate---- \(coord!)")
+        print("------fetchCoordinationWithCoordinate---- \(coord!)")
         return coord
     }
     
