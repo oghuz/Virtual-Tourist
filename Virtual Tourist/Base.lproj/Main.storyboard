@@ -131,7 +131,7 @@
                                         <color key="backgroundColor" red="0.5736878559375459" green="0.70063552461139889" blue="0.55631068561837882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="TimesNewRomanPS-BoldMT" family="Times New Roman" pointSize="25"/>
                                         <state key="normal" title="Next Page">
-                                            <color key="titleColor" red="0.10625555740000001" green="0.25441224089999998" blue="0.2437547689" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                         </state>
                                         <connections>
                                             <action selector="next_DeleteOutlet:" destination="f2J-iQ-F4G" eventType="touchUpInside" id="Uwp-dj-SOQ"/>
