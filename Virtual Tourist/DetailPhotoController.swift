@@ -43,7 +43,6 @@ class DetailPhotoController: UIViewController {
         super.viewDidLoad()
 		self.view.backgroundColor = .white
     }
-
  }
 
 
