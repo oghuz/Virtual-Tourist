@@ -296,11 +296,11 @@ class Helper {
         
         if let coordinate = fetchCoordinationWithCoordinate(withCoordinate: coordinate) {
             self.persistentContainer().viewContext.delete(coordinate as NSManagedObject)
-            /*
+            
              persistentContainer().viewContext.perform {
              (UIApplication.shared.delegate as! AppDelegate).saveContext()
              }
-             */
+             
         }
         
     }
