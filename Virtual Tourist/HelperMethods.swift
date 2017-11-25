@@ -177,7 +177,7 @@ class Helper {
                             photo.photoID = Int64(id)
                             context.perform {
                                 try? context.save()
-//                                print("------------------saving in saveImagesWithCoordination")
+                                print("------------------saving in saveImagesWithCoordination")
                             }
                         }
                     }
