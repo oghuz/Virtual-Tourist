@@ -170,7 +170,6 @@ class Networking {
             
             return nil
         }
-        
         photoURLString =  constructPhotoWithResponse(farmID: farmID, serverID: serverID, PhotoID: photoID, photoSecrete: secret )
         
         return [photoId:photoURLString]
@@ -182,7 +181,5 @@ class Networking {
         let photoURL = "https://farm\(farmID).staticflickr.com/\(serverID)/\(PhotoID)_\(photoSecrete).jpg"
         return photoURL
     }
-    
-    
     
 }
