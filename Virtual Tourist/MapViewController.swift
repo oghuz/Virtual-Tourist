@@ -58,7 +58,6 @@ class MapViewController: UIViewController {
         inEditMode = !inEditMode
     }
     
-    
     //#MARK: Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,12 +84,10 @@ class MapViewController: UIViewController {
         if let coordin = try? delegate.persistentContainer.viewContext.count(for: Coordination.fetchRequest()) {
             print("\(coordin) Coordinates are here")
         }
-
         
         if let photoCount = (try? Helper.shared.persistentContainer().viewContext.fetch(Photos.fetchRequest() as NSFetchRequest))?.count {
             print("total \(photoCount) photos")
         }
-
     }
     
     //#MARK: ADD pin to map by long press
