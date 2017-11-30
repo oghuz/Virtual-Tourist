@@ -124,7 +124,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             context.perform {
                 do {
                     try context.save()
-                    print("_____________data saved____in______saveContext()__")
+                    //print("_____________data saved____in______saveContext()__")
                 } catch {
                     let nserror = error as NSError
                     //try? context.save()
