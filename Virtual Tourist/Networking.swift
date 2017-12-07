@@ -79,7 +79,6 @@ class Networking {
         do {
             parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
         } catch {
-            
             complitionhandlerForParseData(nil, error)
         }
         complitionhandlerForParseData(parsedData, nil)
@@ -103,8 +102,7 @@ class Networking {
         return components.url!
         
     }
-    
-    
+        
     //#MARK: Get photo method
     
     func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, withPageNumber page: Int? ,complitionHandlerForgetPhoto: @escaping( _ photoURL_ID: [[Int: String]]?, _ totalPage: Int? ,_ error: Error? ) -> Void ) {
