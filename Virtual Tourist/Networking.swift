@@ -18,7 +18,7 @@ class Networking {
     //#MARK: Get Request task
     func getRequestTask(parameters: [String: AnyObject], complitionHandlerForGet: @escaping(_ result: AnyObject?, _ error: Error? ) -> Void ) -> URLSessionDataTask {
         
-        let parameters = parameters
+        //let parameters = parameters
         
         let url = urlFromComponents(parameters)
         
