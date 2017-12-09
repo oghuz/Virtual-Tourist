@@ -10,8 +10,7 @@ import UIKit
 
 class DetailPhotoController: UIViewController {
     
-    var detailImage = UIImage()
-    
+    var detailImage = UIImage()    
     var didHide: Bool = false
 
     @IBOutlet weak var imageView: UIImageView! {
