@@ -228,7 +228,7 @@ class PhotoCollectionViewController: UIViewController {
 		} else {
 			buttonsNotIneditMode()
 		}
-		//setUpButtons()
+		setUpButtons()
 	}
 	
 	//notification center
