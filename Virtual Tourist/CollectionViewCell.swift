@@ -12,11 +12,11 @@ class CollectionViewCell: UICollectionViewCell {
     
 	@IBOutlet weak var imageView: UIImageView! {
 		didSet{
-			backGround()
+			setBackGround()
 		}
 	}
 	
-	func backGround() {
+	func setBackGround() {
 		imageView.backgroundColor = .cyan
 		imageView.tintColor = .darkGray
 	}
