@@ -121,9 +121,7 @@ class MapViewController: UIViewController {
 extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
         //delete pin on map when in edit mode
-        
         if inEditMode {
             if let annotation = view.annotation {
                 try? Helper.shared.deleteCoordinate(annotation.coordinate)
