@@ -127,9 +127,7 @@ extension MapViewController: MKMapViewDelegate {
                 try? Helper.shared.deleteCoordinate(annotation.coordinate)
                 mapView.removeAnnotation(annotation)
             }
-        
-        } else {
-        
+        } else {        
         // perform segue to collection view controller in non edit mode
         Selectedcoordination = (view.annotation?.coordinate)!
         performSegue(withIdentifier: "goToCollection", sender: MKAnnotationView())
