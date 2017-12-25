@@ -151,11 +151,9 @@ extension MapViewController: MKMapViewDelegate {
         return mapPin
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {        
         //sending coordination to collection view controller
         if segue.identifier == "goToCollection" {
-            
             let collectionVC = segue.destination as? PhotoCollectionViewController
             collectionVC?.coordination = self.Selectedcoordination
         }
