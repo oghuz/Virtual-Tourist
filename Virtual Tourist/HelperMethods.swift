@@ -261,8 +261,7 @@ class Helper {
         
         return imageDict
     }
-    
-    
+	
     //fetch coordination from core data for fetching matching photo
     func fetchCoordinationWithCoordinate(withCoordinate coordinate: CLLocationCoordinate2D) -> Coordination? {
         
@@ -271,8 +270,7 @@ class Helper {
         
         var coord: Coordination?
         
-        do {
-            
+        do {            
             let coordination = try persistentContainer().viewContext.fetch(pinRequest)
             if let coordin = coordination.first {
                 
@@ -289,9 +287,8 @@ class Helper {
         //print("------fetchCoordinationWithCoordinate---- \(coord!)")
         return coord
     }
-    
-    
-    //delete coordinate with pin coordinate
+
+	//delete coordinate with pin coordinate
     func deleteCoordinate(_ coordinate: CLLocationCoordinate2D) throws {
         
         if let coordinate = fetchCoordinationWithCoordinate(withCoordinate: coordinate) {
@@ -300,11 +297,7 @@ class Helper {
              persistentContainer().viewContext.perform {
              (UIApplication.shared.delegate as! AppDelegate).saveContext()
              }
-            
         }
-        
     }
-    
-    
-    
+	
 }

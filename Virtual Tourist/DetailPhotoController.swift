@@ -27,8 +27,7 @@ class DetailPhotoController: UIViewController {
     }
     
     //tap view controller for hiding and showing navigation bar
-    @IBAction func tapController(_ sender: UITapGestureRecognizer) {
-        
+    @IBAction func tapController(_ sender: UITapGestureRecognizer) {        
         didHide = !didHide
         showAndHide(didHide)
     }
