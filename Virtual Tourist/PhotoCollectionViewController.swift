@@ -266,7 +266,6 @@ class PhotoCollectionViewController: UIViewController {
 			self.next_DeleteOutlet.titleLabel?.text = "Next Page"
 			self.next_DeleteOutlet.backgroundColor = .white
 			self.next_DeleteOutlet.tintColor = .black
-			
 			if let idexPath = self.selectedIndexPaths {
 				self.deselectAfterDelete(at: idexPath)
 			}			
@@ -280,7 +279,6 @@ extension PhotoCollectionViewController {
 	// setting up collection view items spacing and size with different orientation
 	override func viewWillLayoutSubviews() {
 		super.viewWillLayoutSubviews()
-		
 		if UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation) {
 			self.flowlayOut(spacee: 2, numberOfItems: 3)
 		}
@@ -295,8 +293,7 @@ extension PhotoCollectionViewController {
 		
 		let space : CGFloat = spacee
 		let numberOfItem : CGFloat = numberOfItems
-		let itemDimention = (self.view.frame.size.width - ( (numberOfItem - 1) * space )) / numberOfItem
-		
+		let itemDimention = (self.view.frame.size.width - ( (numberOfItem - 1) * space )) / numberOfItem		
 		flowLayout.minimumLineSpacing = space
 		flowLayout.minimumInteritemSpacing = space
 		flowLayout.itemSize = CGSize(width: itemDimention, height: itemDimention)
