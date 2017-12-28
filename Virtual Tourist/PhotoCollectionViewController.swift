@@ -124,17 +124,17 @@ class PhotoCollectionViewController: UIViewController {
 	//#MARK: startFetching
 	
 	// to be tested or changed entirely
-	func startFetching()->[UIImage] {
-		
-		let fetchedImages = fetchResultsCOntroller.fetchedObjects
-		var images: [UIImage] = []
-		if let fetchedImages = fetchedImages {
-			for image in fetchedImages {
-				images.append(UIImage(data: (image.photo as Data?)!)!)
-			}
-		}
-		return images
-	}
+//	func startFetching()->[UIImage] {
+//
+//		let fetchedImages = fetchResultsCOntroller.fetchedObjects
+//		var images: [UIImage] = []
+//		if let fetchedImages = fetchedImages {
+//			for image in fetchedImages {
+//				images.append(UIImage(data: (image.photo as Data?)!)!)
+//			}
+//		}
+//		return images
+//	}
 	
 	//#MARK: Delete Phtots at Index Paths
 	//delete photos at selected index path
