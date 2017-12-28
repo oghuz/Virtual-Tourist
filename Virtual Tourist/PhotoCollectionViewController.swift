@@ -38,7 +38,7 @@ class PhotoCollectionViewController: UIViewController {
 		}
 	}
 	
-	let fetchResultsCOntroller = NSFetchedResultsController<Photos>()
+	//let fetchResultsCOntroller = NSFetchedResultsController<Photos>()
 	//activity indicator
 	@IBOutlet weak var activitySpinner: UIActivityIndicatorView! {
 		didSet{
