@@ -34,7 +34,7 @@ class PhotoCollectionViewController: UIViewController {
 	//persistentStoreCoordinator
 	var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
 		didSet {
-			self.startFetching()
+			//self.startFetching()
 		}
 	}
 	
