@@ -15,7 +15,7 @@ class MapViewController: UIViewController {
     //#MARK: Properties and Outlets
     
     var didTapped = Bool() // set value for this bool by tapping edit button, for toggle editting mode
-    var inEditMode: Bool = false
+    var inEditMode: Bool = false // in edit mode user can delete pins by tapping on it
     let longPressGeusture = UILongPressGestureRecognizer()
     var reachability = Reachability()
     var coordination = CLLocationCoordinate2D()
