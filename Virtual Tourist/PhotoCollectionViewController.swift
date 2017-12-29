@@ -32,11 +32,11 @@ class PhotoCollectionViewController: UIViewController {
 	var selectedIndexPaths: [IndexPath]? = []
 	
 	//persistentStoreCoordinator
-	var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
-		didSet {
-			//self.startFetching()
-		}
-	}
+//	var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
+//		didSet {
+//			//self.startFetching()
+//		}
+//	}
 	
 	//let fetchResultsCOntroller = NSFetchedResultsController<Photos>()
 	//activity indicator
