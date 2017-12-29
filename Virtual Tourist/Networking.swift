@@ -168,6 +168,7 @@ class Networking {
             
             return nil
         }
+		// building complete photo url from network response from flickr
         photoURLString =  constructPhotoWithResponse(farmID: farmID, serverID: serverID, PhotoID: photoID, photoSecrete: secret )
         
         return [photoId:photoURLString]
