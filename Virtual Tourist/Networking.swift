@@ -145,7 +145,7 @@ class Networking {
                 totalPage = pages
                 
                 // limiting max number of array to 200
-                 let limitedItemArray = (photoDicArray.count >= 200) ? Array([photoDicArray.prefix(upTo: 200)]) : photoDicArray
+				let limitedItemArray = (photoURLDicArray.count >= 200) ? Array([photoDicArray.prefix(upTo: 200)]) : photoDicArray
                 
                 for urlComponents in photoURLDicArray {
                     if let photoUrl = self.photoURLFromDataArray(urlComponents) {
