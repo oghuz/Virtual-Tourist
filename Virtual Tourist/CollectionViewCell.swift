@@ -13,7 +13,7 @@ class CollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
 	
 	func backGround() {
-		imageView.backgroundColor = .cyan
+		imageView.backgroundColor = .gray
 	}
     
 }
