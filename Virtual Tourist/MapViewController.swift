@@ -15,7 +15,7 @@ class MapViewController: UIViewController {
     //#MARK: Properties and Outlets
     
     var didTapped = Bool() // set value for this bool by tapping edit button, for toggle editting mode
-    var inEditMode: Bool = false
+    var inEditMode: Bool = false // in edit mode user can delete pins by tapping on it
     let longPressGeusture = UILongPressGestureRecognizer()
     var reachability = Reachability()
     var coordination = CLLocationCoordinate2D()
@@ -121,17 +121,13 @@ class MapViewController: UIViewController {
 extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
         //delete pin on map when in edit mode
-        
         if inEditMode {
             if let annotation = view.annotation {
                 try? Helper.shared.deleteCoordinate(annotation.coordinate)
                 mapView.removeAnnotation(annotation)
             }
-        
-        } else {
-        
+        } else {        
         // perform segue to collection view controller in non edit mode
         Selectedcoordination = (view.annotation?.coordinate)!
         performSegue(withIdentifier: "goToCollection", sender: MKAnnotationView())
@@ -142,7 +138,7 @@ extension MapViewController: MKMapViewDelegate {
     // mapview delegate
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
-        let reuseID = "PinID"
+        let reuseID = "PinID" 
         var mapPin = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID) as? MKPinAnnotationView
         if mapPin == nil {
             mapPin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
@@ -155,11 +151,9 @@ extension MapViewController: MKMapViewDelegate {
         return mapPin
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {        
         //sending coordination to collection view controller
         if segue.identifier == "goToCollection" {
-            
             let collectionVC = segue.destination as? PhotoCollectionViewController
             collectionVC?.coordination = self.Selectedcoordination
         }

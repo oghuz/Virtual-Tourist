@@ -18,7 +18,7 @@ class Networking {
     //#MARK: Get Request task
     func getRequestTask(parameters: [String: AnyObject], complitionHandlerForGet: @escaping(_ result: AnyObject?, _ error: Error? ) -> Void ) -> URLSessionDataTask {
         
-        let parameters = parameters
+        //let parameters = parameters
         
         let url = urlFromComponents(parameters)
         
@@ -79,7 +79,6 @@ class Networking {
         do {
             parsedData = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
         } catch {
-            
             complitionhandlerForParseData(nil, error)
         }
         complitionhandlerForParseData(parsedData, nil)
@@ -103,8 +102,7 @@ class Networking {
         return components.url!
         
     }
-    
-    
+        
     //#MARK: Get photo method
     
     func getPhotoWithCoordination(coordination: CLLocationCoordinate2D?, withPageNumber page: Int? ,complitionHandlerForgetPhoto: @escaping( _ photoURL_ID: [[Int: String]]?, _ totalPage: Int? ,_ error: Error? ) -> Void ) {
@@ -170,6 +168,7 @@ class Networking {
             
             return nil
         }
+		// building complete photo url from network response from flickr
         photoURLString =  constructPhotoWithResponse(farmID: farmID, serverID: serverID, PhotoID: photoID, photoSecrete: secret )
         
         return [photoId:photoURLString]

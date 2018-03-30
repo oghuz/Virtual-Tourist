@@ -32,13 +32,13 @@ class PhotoCollectionViewController: UIViewController {
 	var selectedIndexPaths: [IndexPath]? = []
 	
 	//persistentStoreCoordinator
-	var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
-		didSet {
-			self.startFetching()
-		}
-	}
+//	var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer {
+//		didSet {
+//			//self.startFetching()
+//		}
+//	}
 	
-	let fetchResultsCOntroller = NSFetchedResultsController<Photos>()
+	//let fetchResultsCOntroller = NSFetchedResultsController<Photos>()
 	//activity indicator
 	@IBOutlet weak var activitySpinner: UIActivityIndicatorView! {
 		didSet{
@@ -124,17 +124,17 @@ class PhotoCollectionViewController: UIViewController {
 	//#MARK: startFetching
 	
 	// to be tested or changed entirely
-	func startFetching()->[UIImage] {
-		
-		let fetchedImages = fetchResultsCOntroller.fetchedObjects
-		var images: [UIImage] = []
-		if let fetchedImages = fetchedImages {
-			for image in fetchedImages {
-				images.append(UIImage(data: (image.photo as Data?)!)!)
-			}
-		}
-		return images
-	}
+//	func startFetching()->[UIImage] {
+//
+//		let fetchedImages = fetchResultsCOntroller.fetchedObjects
+//		var images: [UIImage] = []
+//		if let fetchedImages = fetchedImages {
+//			for image in fetchedImages {
+//				images.append(UIImage(data: (image.photo as Data?)!)!)
+//			}
+//		}
+//		return images
+//	}
 	
 	//#MARK: Delete Phtots at Index Paths
 	//delete photos at selected index path
@@ -228,7 +228,7 @@ class PhotoCollectionViewController: UIViewController {
 		} else {
 			buttonsNotIneditMode()
 		}
-		//setUpButtons()
+		setUpButtons()
 	}
 	
 	//notification center
@@ -266,7 +266,6 @@ class PhotoCollectionViewController: UIViewController {
 			self.next_DeleteOutlet.titleLabel?.text = "Next Page"
 			self.next_DeleteOutlet.backgroundColor = .white
 			self.next_DeleteOutlet.tintColor = .black
-			
 			if let idexPath = self.selectedIndexPaths {
 				self.deselectAfterDelete(at: idexPath)
 			}			
@@ -280,7 +279,6 @@ extension PhotoCollectionViewController {
 	// setting up collection view items spacing and size with different orientation
 	override func viewWillLayoutSubviews() {
 		super.viewWillLayoutSubviews()
-		
 		if UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation) {
 			self.flowlayOut(spacee: 2, numberOfItems: 3)
 		}
@@ -295,8 +293,7 @@ extension PhotoCollectionViewController {
 		
 		let space : CGFloat = spacee
 		let numberOfItem : CGFloat = numberOfItems
-		let itemDimention = (self.view.frame.size.width - ( (numberOfItem - 1) * space )) / numberOfItem
-		
+		let itemDimention = (self.view.frame.size.width - ( (numberOfItem - 1) * space )) / numberOfItem		
 		flowLayout.minimumLineSpacing = space
 		flowLayout.minimumInteritemSpacing = space
 		flowLayout.itemSize = CGSize(width: itemDimention, height: itemDimention)

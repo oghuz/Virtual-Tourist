@@ -10,10 +10,18 @@ import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var imageView: UIImageView!
+	@IBOutlet weak var imageView: UIImageView! {
+		didSet{
+			setBackGround()
+		}
+	}
 	
 	func backGround() {
 		imageView.backgroundColor = .gray
+	func setBackGround() {
+		imageView.backgroundColor = .cyan
+		imageView.tintColor = .darkGray
 	}
     
 }
+
